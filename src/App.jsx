@@ -1,8 +1,12 @@
 import './App.css';
 import Button from "./components/Button/Button";
+import Navbar from "./components/Navbar/Navbar";
+import Services from "./sections/Services/Services";
 function App() {
   return (
     <main>
+      <Navbar/>
+
       <section className="hero">
         <div className="hero__content">
           <p className="hero__eyebrow">Premium Custom Apparel</p>
@@ -20,11 +24,10 @@ function App() {
             <span>Heat Transfer Vinyl</span>
           </div>
 
-          <Button>
-  Request a Quote
-</Button>
+          <Button>Request a Quote</Button>
         </div>
       </section>
+      <Services/>
     </main>
   );
 }
