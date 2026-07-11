@@ -1,0 +1,109 @@
+#root {
+  min-height: 100vh;
+}
+
+.hero {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  text-align: center;
+  background:
+    radial-gradient(circle at top, rgba(255, 106, 0, 0.14), transparent 35%),
+    var(--color-background);
+}
+
+.hero__content {
+  width: min(900px, 100%);
+}
+
+.hero__eyebrow {
+  margin: 0 0 1rem;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.hero__title {
+  margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4.5rem, 15vw, 10rem);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+}
+
+.hero__title span {
+  color: var(--color-primary);
+}
+
+.hero__tagline {
+  max-width: 650px;
+  margin: 1.5rem auto 0;
+  color: var(--color-muted);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  line-height: 1.6;
+}
+
+.hero__services {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+
+.hero__services span {
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #d8d8d8;
+  font-size: 0.9rem;
+}
+
+.hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 1.6rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 6px;
+  background: var(--color-primary);
+  color: #111111;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.hero__button:hover {
+  transform: translateY(-2px);
+  background: #ff7a1a;
+  box-shadow: 0 12px 30px rgba(255, 106, 0, 0.25);
+}
+
+.hero__button:focus-visible {
+  outline: 3px solid rgba(255, 106, 0, 0.4);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 1.25rem;
+  }
+
+  .hero__services {
+    gap: 0.5rem;
+  }
+
+  .hero__services span {
+    font-size: 0.8rem;
+  }
+}
