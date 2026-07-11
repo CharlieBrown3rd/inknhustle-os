@@ -13,7 +13,6 @@ const initialFormData = {
 
 function Contact() {
   const [formData, setFormData] = useState(initialFormData);
-  const [status, setStatus] = useState("");
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -27,8 +26,35 @@ function Contact() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    setStatus("Your quote request is ready to be connected to email delivery.");
-    console.log("Quote request:", formData);
+    const recipient = "hustlehrdr75@gmail.com";
+    const subject = `InknHustle Quote Request — ${formData.name}`;
+
+    const body = `
+New quote request from INKNHustle.com
+
+CUSTOMER INFORMATION
+
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone || "Not provided"}
+Company: ${formData.company || "Not provided"}
+
+PROJECT INFORMATION
+
+Service: ${formData.service}
+Estimated Quantity: ${formData.quantity}
+Preferred Completion Date: ${formData.dueDate || "Not provided"}
+
+PROJECT DETAILS
+
+${formData.message}
+    `.trim();
+
+    const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
   }
 
   return (
@@ -42,8 +68,8 @@ function Contact() {
           </h2>
 
           <p className="contact__intro">
-            Tell us about your apparel project and we’ll follow up with the
-            information needed to prepare an accurate quote.
+            Tell us about your apparel project. Your email application will
+            open with the quote details prepared for you to review and send.
           </p>
 
           <div className="contact__details">
@@ -55,6 +81,13 @@ function Contact() {
             <div>
               <strong>Location</strong>
               <span>Philadelphia, Pennsylvania</span>
+            </div>
+
+            <div>
+              <strong>Email</strong>
+              <a href="mailto:hustlehrdr75@gmail.com">
+                hustlehrdr75@gmail.com
+              </a>
             </div>
 
             <div>
@@ -167,21 +200,20 @@ function Contact() {
                 rows="6"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Tell us about garment type, colors, print locations, artwork, and any special requirements."
+                placeholder="Tell us about garment type, colors, print locations, artwork, and special requirements."
                 required
               />
             </div>
           </div>
 
           <button className="contact-form__button" type="submit">
-            Submit Quote Request
+            Prepare Quote Email
           </button>
 
-          {status && (
-            <p className="contact-form__status" role="status">
-              {status}
-            </p>
-          )}
+          <p className="contact-form__notice">
+            Your email application will open. Review the prepared message and
+            press Send to complete your request.
+          </p>
         </form>
       </div>
     </section>

@@ -564,4 +564,19 @@
 #portfolio,
 #contact {
   scroll-margin-top: 100px;
+}.contact-form__notice {
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.contact__details a {
+  color: var(--color-muted);
+  transition: color 180ms ease;
+}
+
+.contact__details a:hover {
+  color: var(--color-primary);
 }
