@@ -1,5 +1,5 @@
 import './App.css';
-
+import Button from "./components/Button/Button";
 function App() {
   return (
     <main>
@@ -11,9 +11,8 @@ function App() {
             INKN<span>HUSTLE</span>
           </h1>
 
-          <p className="hero__tagline">
-            Ink your vision. We print your hustle.
-          </p>
+        <p className="hero__tagline">
+    Philadelphia Built. Precision Printed.</p>
 
           <div className="hero__services" aria-label="Printing services">
             <span>Screen Printing</span>
@@ -21,9 +20,9 @@ function App() {
             <span>Heat Transfer Vinyl</span>
           </div>
 
-          <a className="hero__button" href="#contact">
-            Request a Quote
-          </a>
+          <Button>
+  Request a Quote
+</Button>
         </div>
       </section>
     </main>
