@@ -26,7 +26,7 @@ function App() {
             <span>Heat Transfer Vinyl</span>
           </div>
 
-          <Button>Request a Quote</Button>
+          <Button href="#contact">Request a Quote</Button>
         </div>
       </section>
       <Services/>

@@ -560,4 +560,8 @@
   .form-field--full {
     grid-column: auto;
   }
+}#services,
+#portfolio,
+#contact {
+  scroll-margin-top: 100px;
 }
