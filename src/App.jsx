@@ -3,6 +3,7 @@ import Button from "./components/Button/Button";
 import Navbar from "./components/Navbar/Navbar";
 import Portfolio from './sections/Portfolio/Portfolio';
 import Services from "./sections/Services/Services";
+import Contact from "./sections/Contact/Contact";
 function App() {
   return (
     <main>
@@ -30,6 +31,7 @@ function App() {
       </section>
       <Services/>
       <Portfolio/>
+      <Contact/>
     </main>
   );
 }
