@@ -1,6 +1,7 @@
 import './App.css';
 import Button from "./components/Button/Button";
 import Navbar from "./components/Navbar/Navbar";
+import Portfolio from './sections/Portfolio/Portfolio';
 import Services from "./sections/Services/Services";
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         </div>
       </section>
       <Services/>
+      <Portfolio/>
     </main>
   );
 }

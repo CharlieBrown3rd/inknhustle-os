@@ -255,4 +255,141 @@
   .service-card h3 {
     margin-top: 2.5rem;
   }
+}.portfolio {
+  padding: 7rem 2rem;
+  background: #0f0f0f;
+}
+
+.portfolio__container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.portfolio__eyebrow {
+  margin: 0 0 1rem;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.portfolio__header {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: end;
+  margin-bottom: 3rem;
+}
+
+.portfolio__title {
+  margin: 0;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.portfolio__title span {
+  color: var(--color-primary);
+}
+
+.portfolio__intro {
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.8;
+}
+
+.portfolio__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.portfolio-card {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #181818;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-primary);
+}
+
+.portfolio-card__visual {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background:
+    linear-gradient(145deg, rgba(255, 106, 0, 0.25), transparent 60%),
+    #242424;
+}
+
+.portfolio-card__visual--2 {
+  background:
+    radial-gradient(circle at top right, rgba(255, 106, 0, 0.35), transparent 40%),
+    #202020;
+}
+
+.portfolio-card__visual--3 {
+  background:
+    linear-gradient(35deg, rgba(255, 106, 0, 0.28), transparent 55%),
+    #1f1f1f;
+}
+
+.portfolio-card__visual span {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.portfolio-card__visual strong {
+  max-width: 220px;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.portfolio-card__content {
+  padding: 1.5rem;
+}
+
+.portfolio-card__content p {
+  margin: 0 0 0.75rem;
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.portfolio-card__content h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1.4rem;
+}
+
+.portfolio-card__content small {
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 850px) {
+  .portfolio__header,
+  .portfolio__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-card__visual {
+    min-height: 240px;
+  }
 }
