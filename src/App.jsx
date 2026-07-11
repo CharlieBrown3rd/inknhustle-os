@@ -4,9 +4,10 @@ import Navbar from "./components/Navbar/Navbar";
 import Portfolio from './sections/Portfolio/Portfolio';
 import Services from "./sections/Services/Services";
 import Contact from "./sections/Contact/Contact";
+import Footer from "./components/Footer/Footer";
 function App() {
   return (
-    <main>
+    <main id="top">
       <Navbar/>
 
       <section className="hero">
@@ -32,6 +33,7 @@ function App() {
       <Services/>
       <Portfolio/>
       <Contact/>
+      <Footer/>
     </main>
   );
 }
