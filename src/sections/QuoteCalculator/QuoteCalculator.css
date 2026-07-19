@@ -130,6 +130,30 @@
   color: #888888;
   line-height: 1.6;
 }
+.quote-form select:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.quote-checkbox {
+  display: flex !important;
+  grid-template-columns: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px !important;
+  padding: 15px;
+  background: #101010;
+  border: 1px solid #303030;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.quote-checkbox input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #f47a20;
+}
 
 @media (max-width: 800px) {
   .quote-calculator {
