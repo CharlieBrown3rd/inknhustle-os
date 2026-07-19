@@ -31,6 +31,7 @@ function App() {
         </div>
       </section>
       <Services/>
+      <About/>
       <Portfolio/>
       <Contact/>
       <Footer/>
