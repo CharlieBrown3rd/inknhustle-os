@@ -1,6 +1,7 @@
 import './App.css';
 import Button from "./components/Button/Button";
 import Navbar from "./components/Navbar/Navbar";
+import About from "./sections/About/About";
 import Portfolio from './sections/Portfolio/Portfolio';
 import Services from "./sections/Services/Services";
 import Contact from "./sections/Contact/Contact";

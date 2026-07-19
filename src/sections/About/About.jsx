@@ -1,5 +1,5 @@
 import "./About.css";
-import About from "./sections/About/About";
+
 function About() {
   return (
     <section className="about" id="about">
