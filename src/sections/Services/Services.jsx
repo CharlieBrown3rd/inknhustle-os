@@ -3,7 +3,7 @@ const services = [
     title: "Screen Printing",
     description:
       "Professional bulk apparel printing with bold color, strong durability, and consistent results.",
-    bestFor: "Best for teams, businesses, events, and clothing brands.",
+    bestFor: "Best for teams, businesses, events, and clothing brands. For the moment we only offer two color print jobs",
   },
   {
     title: "DTF Printing",

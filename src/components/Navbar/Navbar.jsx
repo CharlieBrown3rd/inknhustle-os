@@ -28,15 +28,25 @@ function Navbar() {
 
       <nav
         id="primary-navigation"
-        className={`navbar__links ${menuOpen ? "navbar__links--open" : ""}`}
+        className={`navbar__links ${
+          menuOpen ? "navbar__links--open" : ""
+        }`}
         aria-label="Primary navigation"
       >
         <a href="#services" onClick={closeMenu}>
           Services
         </a>
 
+        <a href="#about" onClick={closeMenu}>
+          About
+        </a>
+
         <a href="#portfolio" onClick={closeMenu}>
           Portfolio
+        </a>
+
+        <a href="#quote" onClick={closeMenu}>
+          Quote
         </a>
 
         <a href="#contact" onClick={closeMenu}>

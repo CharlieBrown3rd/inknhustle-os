@@ -207,7 +207,7 @@ ${formData.message}
           </div>
 
           <button className="contact-form__button" type="submit">
-            Prepare Quote Email
+            Send For A Quote Email
           </button>
 
           <p className="contact-form__notice">
