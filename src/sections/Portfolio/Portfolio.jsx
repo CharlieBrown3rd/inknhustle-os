@@ -1,54 +1,43 @@
+import "./Portfolio.css";
+
 const projects = [
   {
-    category: "Screen Printing",
-    title: "Bold brand apparel",
-    description:
-      "Clean, durable multi-color printing for clothing brands, businesses, and events.",
+    title: "Screen Printing",
+    description: "High-quality multi-color apparel printing.",
   },
   {
-    category: "DTF Printing",
-    title: "Full-color detail",
-    description:
-      "Vibrant artwork, gradients, and detailed graphics for short and medium runs.",
+    title: "DTF Printing",
+    description: "Full-color transfers with vibrant detail.",
   },
   {
-    category: "Heat Transfer Vinyl",
-    title: "Precision personalization",
+    title: "Heat Transfer Vinyl",
     description:
-      "Names, numbers, uniforms, and specialty finishes with a sharp professional look.",
+      "Durable custom names, numbers, and specialty graphics.",
   },
 ];
 
 function Portfolio() {
   return (
     <section className="portfolio" id="portfolio">
-      <div className="portfolio__container">
-        <p className="portfolio__eyebrow">Selected Work</p>
+      <div className="portfolio-container">
+        <span className="portfolio-eyebrow">OUR WORK</span>
 
-        <div className="portfolio__header">
-          <h2 className="portfolio__title">
-            Apparel built to <span>stand out.</span>
-          </h2>
+        <h2>Portfolio</h2>
 
-          <p className="portfolio__intro">
-            A growing collection of custom apparel produced with precision,
-            consistency, and attention to detail.
-          </p>
-        </div>
+        <p className="portfolio-intro">
+          Every project represents our commitment to quality,
+          precision, and craftsmanship. More featured work is coming
+          soon.
+        </p>
 
-        <div className="portfolio__grid">
-          {projects.map((project, index) => (
-            <article className="portfolio-card" key={project.category}>
-              <div className={`portfolio-card__visual portfolio-card__visual--${index + 1}`}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{project.category}</strong>
-              </div>
+        <div className="portfolio-grid">
+          {projects.map((project) => (
+            <article className="portfolio-card" key={project.title}>
+              <div className="portfolio-image">Coming Soon</div>
 
-              <div className="portfolio-card__content">
-                <p>{project.category}</p>
-                <h3>{project.title}</h3>
-                <small>{project.description}</small>
-              </div>
+              <h3>{project.title}</h3>
+
+              <p>{project.description}</p>
             </article>
           ))}
         </div>

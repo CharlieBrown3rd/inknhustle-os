@@ -1,0 +1,147 @@
+.quote-calculator {
+  padding: 110px 24px;
+  background: #111111;
+  color: #ffffff;
+}
+
+.quote-calculator-container {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.quote-heading {
+  max-width: 700px;
+  margin-bottom: 50px;
+}
+
+.quote-eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #f47a20;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.quote-heading h2 {
+  margin: 0 0 18px;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.quote-heading p {
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.quote-layout {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: 35px;
+}
+
+.quote-form,
+.quote-result {
+  padding: 35px;
+  background: #191919;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+}
+
+.quote-form {
+  display: grid;
+  gap: 24px;
+}
+
+.quote-form label {
+  display: grid;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.quote-form input,
+.quote-form select {
+  width: 100%;
+  padding: 15px;
+  color: #ffffff;
+  background: #0d0d0d;
+  border: 1px solid #353535;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.quote-form input:focus,
+.quote-form select:focus {
+  outline: 2px solid #f47a20;
+  border-color: transparent;
+}
+
+.quote-result span {
+  color: #bdbdbd;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.quote-result h3 {
+  margin: 14px 0 30px;
+  color: #f47a20;
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
+}
+
+.quote-breakdown {
+  margin-bottom: 30px;
+}
+
+.quote-breakdown p {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 13px;
+  color: #bdbdbd;
+  border-bottom: 1px solid #303030;
+}
+
+.quote-breakdown strong {
+  color: #ffffff;
+}
+
+.quote-button {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  padding: 15px 20px;
+  color: #111111;
+  background: #f47a20;
+  border-radius: 8px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.quote-button:hover {
+  transform: translateY(-2px);
+}
+
+.quote-result small {
+  display: block;
+  margin-top: 20px;
+  color: #888888;
+  line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+  .quote-calculator {
+    padding: 80px 20px;
+  }
+
+  .quote-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-form,
+  .quote-result {
+    padding: 25px;
+  }
+}

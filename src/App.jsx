@@ -3,6 +3,7 @@ import Button from "./components/Button/Button";
 import Navbar from "./components/Navbar/Navbar";
 import About from "./sections/About/About";
 import Portfolio from './sections/Portfolio/Portfolio';
+import QuoteCalculator from "./sections/QuoteCalculator/QuoteCalculator";
 import Services from "./sections/Services/Services";
 import Contact from "./sections/Contact/Contact";
 import Footer from "./components/Footer/Footer";
@@ -34,6 +35,7 @@ function App() {
       <Services/>
       <About/>
       <Portfolio/>
+      <QuoteCalculator />
       <Contact/>
       <Footer/>
     </main>
