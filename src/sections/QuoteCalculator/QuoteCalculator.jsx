@@ -191,24 +191,80 @@ function QuoteCalculator() {
             </label>
 
             <label>
-              Garment Type
+  Quantity
 
-              <select
-                value={garment}
-                disabled={customerSupplied}
-                onChange={(event) =>
-                  setGarment(event.target.value)
-                }
-              >
-                {Object.entries(garmentRates).map(
-                  ([value, item]) => (
-                    <option key={value} value={value}>
-                      {item.label}
-                    </option>
-                  )
-                )}
-              </select>
-            </label>
+  <input
+    type="number"
+    min="1"
+    value={quantity}
+    onChange={(event) =>
+      setQuantity(event.target.value)
+    }
+  />
+</label>
+
+<div className="garment-selector">
+  <h3>Select Your Garment</h3>
+
+  <div className="garment-grid">
+    {Object.entries(garmentRates).map(([value, item]) => {
+      const garmentIcons = {
+        tshirt: "👕",
+        premiumTshirt: "⭐",
+        longSleeve: "👔",
+        hoodie: "🧥",
+        polo: "👕",
+      };
+
+      const isSelected = garment === value;
+
+      return (
+        <button
+          key={value}
+          type="button"
+          disabled={customerSupplied}
+          className={`garment-card ${
+            isSelected ? "active" : ""
+          }`}
+          aria-pressed={isSelected}
+          onClick={() => setGarment(value)}
+        >
+          <span
+            className="garment-icon"
+            aria-hidden="true"
+          >
+            {garmentIcons[value]}
+          </span>
+
+          <h4>{item.label}</h4>
+
+          <span className="garment-card-price">
+            ${item.price.toFixed(2)} per piece
+          </span>
+        </button>
+      );
+    })}
+  </div>
+
+  {customerSupplied && (
+    <p className="garment-supplied-message">
+      Garment pricing has been removed because the customer
+      will provide the apparel.
+    </p>
+  )}
+</div>
+
+<label className="quote-checkbox">
+  <input
+    type="checkbox"
+    checked={customerSupplied}
+    onChange={(event) =>
+      setCustomerSupplied(event.target.checked)
+    }
+  />
+
+  Customer will supply the garments
+</label>
 
             <label className="quote-checkbox">
               <input

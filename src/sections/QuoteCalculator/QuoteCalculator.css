@@ -169,3 +169,81 @@
     padding: 25px;
   }
 }
+.garment-selector{
+    margin:30px 0;
+}
+
+.garment-selector h3{
+    margin-bottom:15px;
+}
+
+.garment-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(170px,1fr));
+
+    gap:20px;
+
+}
+
+.garment-card{
+
+    background:#1b1b1b;
+
+    border:2px solid transparent;
+
+    border-radius:14px;
+
+    padding:25px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    color:white;
+
+    text-align:center;
+
+}
+
+.garment-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#ff6a00;
+
+}
+
+.garment-card.active{
+
+    border-color:#ff6a00;
+
+    background:#252525;
+
+    box-shadow:0 0 20px rgba(255,106,0,.35);
+
+}
+
+.garment-icon{
+
+    font-size:3rem;
+
+    margin-bottom:15px;
+
+}
+
+.garment-card h4{
+
+    margin-bottom:10px;
+
+}
+
+.garment-card span{
+
+    color:#ff6a00;
+
+    font-weight:bold;
+
+}
