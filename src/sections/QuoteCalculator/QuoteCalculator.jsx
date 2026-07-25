@@ -266,18 +266,7 @@ function QuoteCalculator() {
   Customer will supply the garments
 </label>
 
-            <label className="quote-checkbox">
-              <input
-                type="checkbox"
-                checked={customerSupplied}
-                onChange={(event) =>
-                  setCustomerSupplied(event.target.checked)
-                }
-              />
-
-              Customer will supply the garments
-            </label>
-
+            
             <label>
               Print Size
 
