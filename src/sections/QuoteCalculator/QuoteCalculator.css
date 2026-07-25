@@ -169,3 +169,188 @@
     padding: 25px;
   }
 }
+.garment-selector{
+    margin:30px 0;
+}
+
+.garment-selector h3{
+    margin-bottom:15px;
+}
+
+.garment-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(170px,1fr));
+
+    gap:20px;
+
+}
+
+.garment-card{
+
+    background:#1b1b1b;
+
+    border:2px solid transparent;
+
+    border-radius:14px;
+
+    padding:25px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    color:white;
+
+    text-align:center;
+
+}
+
+.garment-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#ff6a00;
+
+}
+
+.garment-card.active{
+
+    border-color:#ff6a00;
+
+    background:#252525;
+
+    box-shadow:0 0 20px rgba(255,106,0,.35);
+
+}
+
+.garment-icon{
+
+    font-size:3rem;
+
+    margin-bottom:15px;
+
+}
+
+.garment-card h4{
+
+    margin-bottom:10px;
+
+}
+
+.garment-card span{
+
+    color:#ff6a00;
+
+    font-weight:bold;
+
+}
+.print-location-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.print-location-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.print-location-heading h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.print-location-heading span {
+  color: #f47c20;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.print-location-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.print-location-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.print-location-group h4 {
+  margin: 0;
+  color: #c9c9c9;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.print-location-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.print-location-card {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 54px;
+  padding: 0.8rem;
+  color: #ffffff;
+  background: #171717;
+  border: 1px solid #383838;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.print-location-card:hover {
+  border-color: #f47c20;
+  transform: translateY(-2px);
+}
+
+.print-location-card.active {
+  background: rgba(244, 124, 32, 0.12);
+  border-color: #f47c20;
+}
+
+.print-location-check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: #f47c20;
+  border: 1px solid #f47c20;
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.print-location-card.active
+  .print-location-check {
+  color: #111111;
+  background: #f47c20;
+}
+
+.print-location-message {
+  margin: 0;
+  color: #a8a8a8;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .print-location-grid {
+    grid-template-columns: 1fr;
+  }
+}
