@@ -42,6 +42,32 @@ const garmentRates = {
   },
 };
 
+const printLocationOptions = [
+  {
+    category: "Front",
+    locations: [
+      "Left Chest",
+      "Full Front",
+      "Right Chest"
+    ]
+  },
+  {
+    category: "Back",
+    locations: [
+      "Full Back",
+      "Upper Back",
+      "Neck Tag"
+    ]
+  },
+  {
+    category: "Sleeves",
+    locations: [
+      "Left Sleeve",
+      "Right Sleeve"
+    ]
+  }
+];
+
 const printSizeRates = {
   small: {
     label: "Small / Left Chest",
@@ -65,28 +91,56 @@ function QuoteCalculator() {
   const [service, setService] = useState("screenPrint");
   const [quantity, setQuantity] = useState(12);
   const [garment, setGarment] = useState("tshirt");
-  const [customerSupplied, setCustomerSupplied] = useState(false);
+  const [customerSupplied, setCustomerSupplied] =
+    useState(false);
   const [printSize, setPrintSize] = useState("standard");
-  const [printLocations, setPrintLocations] = useState(1);
+  const [selectedLocations, setSelectedLocations] =
+    useState([]);
   const [colors, setColors] = useState(1);
   const [rushOrder, setRushOrder] = useState(false);
 
+  const togglePrintLocation = (location) => {
+    setSelectedLocations((previousLocations) => {
+      if (previousLocations.includes(location)) {
+        return previousLocations.filter(
+          (item) => item !== location
+        );
+      }
+
+      return [...previousLocations, location];
+    });
+  };
+
   const estimate = useMemo(() => {
-    const safeQuantity = Math.max(Number(quantity) || 1, 1);
+    const safeQuantity = Math.max(
+      Number(quantity) || 1,
+      1
+    );
+
     const selectedService = serviceRates[service];
     const selectedGarment = garmentRates[garment];
     const selectedPrintSize = printSizeRates[printSize];
 
-    const garmentCost = customerSupplied ? 0 : selectedGarment.price;
+    const garmentCost = customerSupplied
+      ? 0
+      : selectedGarment.price;
 
     let decorationCost =
-      selectedService.decorationRate + selectedPrintSize.price;
+      selectedService.decorationRate +
+      selectedPrintSize.price;
 
     if (service === "screenPrint") {
-      decorationCost += Math.max(colors - 1, 0) * 1.5;
+      decorationCost +=
+        Math.max(colors - 1, 0) * 1.5;
     }
 
-    decorationCost += Math.max(printLocations - 1, 0) * 4;
+    const locationCount = Math.max(
+      selectedLocations.length,
+      1
+    );
+
+    decorationCost +=
+      Math.max(locationCount - 1, 0) * 4;
 
     let quantityDiscount = 1;
 
@@ -113,8 +167,13 @@ function QuoteCalculator() {
         ? selectedService.setupFee * colors
         : selectedService.setupFee;
 
-    const subtotal = safeQuantity * pricePerShirt + setupFee;
-    const rushFee = rushOrder ? subtotal * 0.25 : 0;
+    const subtotal =
+      safeQuantity * pricePerShirt + setupFee;
+
+    const rushFee = rushOrder
+      ? subtotal * 0.25
+      : 0;
+
     const total = subtotal + rushFee;
 
     return {
@@ -131,7 +190,7 @@ function QuoteCalculator() {
     garment,
     customerSupplied,
     printSize,
-    printLocations,
+    selectedLocations,
     colors,
     rushOrder,
   ]);
@@ -189,19 +248,6 @@ function QuoteCalculator() {
                 }
               />
             </label>
-
-            <label>
-  Quantity
-
-  <input
-    type="number"
-    min="1"
-    value={quantity}
-    onChange={(event) =>
-      setQuantity(event.target.value)
-    }
-  />
-</label>
 
 <div className="garment-selector">
   <h3>Select Your Garment</h3>
@@ -286,22 +332,63 @@ function QuoteCalculator() {
               </select>
             </label>
 
-            <label>
-              Print Locations
+            <div className="print-location-selector">
+  <div className="print-location-heading">
+    <h3>Select Print Locations</h3>
 
-              <select
-                value={printLocations}
-                onChange={(event) =>
-                  setPrintLocations(
-                    Number(event.target.value)
-                  )
+    <span>
+      {selectedLocations.length} selected
+    </span>
+  </div>
+
+  <div className="print-location-groups">
+    {printLocationOptions.map((group) => (
+      <div
+        className="print-location-group"
+        key={group.category}
+      >
+        <h4>{group.category}</h4>
+
+        <div className="print-location-grid">
+          {group.locations.map((location) => {
+            const isSelected =
+              selectedLocations.includes(location);
+
+            return (
+              <button
+                key={location}
+                type="button"
+                className={`print-location-card ${
+                  isSelected ? "active" : ""
+                }`}
+                aria-pressed={isSelected}
+                onClick={() =>
+                  togglePrintLocation(location)
                 }
               >
-                <option value="1">One location</option>
-                <option value="2">Two locations</option>
-                <option value="3">Three locations</option>
-              </select>
-            </label>
+                <span
+                  className="print-location-check"
+                  aria-hidden="true"
+                >
+                  {isSelected ? "✓" : "+"}
+                </span>
+
+                <span>{location}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {selectedLocations.length === 0 && (
+    <p className="print-location-message">
+      Select at least one location. Pricing currently
+      assumes one print location.
+    </p>
+  )}
+</div>
 
             {service === "screenPrint" && (
               <label>
