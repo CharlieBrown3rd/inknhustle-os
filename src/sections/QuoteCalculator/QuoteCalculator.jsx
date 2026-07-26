@@ -112,7 +112,7 @@ function QuoteCalculator() {
   };
 
   const estimate = useMemo(() => {
-  const displayQuantity = Math.max(
+  const calculationQuantity = Math.max(
   Number(quantity) || 1,
   1
 );
@@ -144,15 +144,15 @@ function QuoteCalculator() {
 
     let quantityDiscount = 1;
 
-    if (displayQuantity >= 24) {
+    if (calculationQuantity >= 24) {
       quantityDiscount = 0.95;
     }
 
-    if (displayQuantity>= 48) {
+    if (calculationQuantity>= 48) {
       quantityDiscount = 0.9;
     }
 
-    if (displayQuantity >= 100) {
+    if (calculationQuantity >= 100) {
       quantityDiscount = 0.85;
     }
 
@@ -186,7 +186,7 @@ const selectedGarmentLabel = customerSupplied
 const selectedPrintSizeLabel =
   printSizeRates[printSize].label;
 
-const safeQuantity = Math.max(
+const displayQuantity = Math.max(
   Number(quantity) || 1,
   1
 );
@@ -471,7 +471,7 @@ const locationSummary =
 
     <div className="project-summary-row">
       <span>Quantity</span>
-      <strong>{safeQuantity} pieces</strong>
+      <strong>{displayQuantity} pieces</strong>
     </div>
 
     <div className="project-summary-row">
