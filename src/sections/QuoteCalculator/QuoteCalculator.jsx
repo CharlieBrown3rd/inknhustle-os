@@ -112,10 +112,10 @@ function QuoteCalculator() {
   };
 
   const estimate = useMemo(() => {
-    const safeQuantity = Math.max(
-      Number(quantity) || 1,
-      1
-    );
+  const displayQuantity = Math.max(
+  Number(quantity) || 1,
+  1
+);
 
     const selectedService = serviceRates[service];
     const selectedGarment = garmentRates[garment];
@@ -144,15 +144,15 @@ function QuoteCalculator() {
 
     let quantityDiscount = 1;
 
-    if (safeQuantity >= 24) {
+    if (displayQuantity >= 24) {
       quantityDiscount = 0.95;
     }
 
-    if (safeQuantity >= 48) {
+    if (displayQuantity>= 48) {
       quantityDiscount = 0.9;
     }
 
-    if (safeQuantity >= 100) {
+    if (displayQuantity >= 100) {
       quantityDiscount = 0.85;
     }
 
