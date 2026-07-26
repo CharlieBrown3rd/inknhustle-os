@@ -168,7 +168,7 @@ function QuoteCalculator() {
         : selectedService.setupFee;
 
     const subtotal =
-      safeQuantity * pricePerShirt + setupFee;
+      calculationQuantity * pricePerShirt + setupFee;
 
     const rushFee = rushOrder
       ? subtotal * 0.25
@@ -214,6 +214,26 @@ const locationSummary =
     colors,
     rushOrder,
   ]);
+
+  const selectedServiceLabel =
+  serviceRates[service].label;
+
+const selectedGarmentLabel = customerSupplied
+  ? "Customer-Supplied Garments"
+  : garmentRates[garment].label;
+
+const selectedPrintSizeLabel =
+  printSizeRates[printSize].label;
+
+const displayQuantity = Math.max(
+  Number(quantity) || 1,
+  1
+);
+
+const locationSummary =
+  selectedLocations.length > 0
+    ? selectedLocations
+    : ["No location selected"];
 
   return (
     <section className="quote-calculator" id="quote">
