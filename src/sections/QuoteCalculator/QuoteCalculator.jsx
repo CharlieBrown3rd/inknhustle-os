@@ -1,91 +1,14 @@
 import { useMemo, useState } from "react";
+import { calculateEstimate } from "../../utils/pricingEngine";
+import {
+  garmentRates,
+  printLocationOptions,
+  printSizeRates,
+  serviceRates,
+} from "../../data/pricingData";
 import "./QuoteCalculator.css";
 
-const serviceRates = {
-  screenPrint: {
-    label: "Screen Printing",
-    decorationRate: 5,
-    setupFee: 20,
-  },
-  dtf: {
-    label: "DTF Printing",
-    decorationRate: 7,
-    setupFee: 15,
-  },
-  htv: {
-    label: "Heat Transfer Vinyl",
-    decorationRate: 9,
-    setupFee: 15,
-  },
-};
 
-const garmentRates = {
-  tshirt: {
-    label: "Standard T-Shirt",
-    price: 4.5,
-  },
-  premiumTshirt: {
-    label: "Premium Soft T-Shirt",
-    price: 7,
-  },
-  longSleeve: {
-    label: "Long-Sleeve Shirt",
-    price: 8,
-  },
-  hoodie: {
-    label: "Pullover Hoodie",
-    price: 18,
-  },
-  polo: {
-    label: "Polo Shirt",
-    price: 13,
-  },
-};
-
-const printLocationOptions = [
-  {
-    category: "Front",
-    locations: [
-      "Left Chest",
-      "Full Front",
-      "Right Chest"
-    ]
-  },
-  {
-    category: "Back",
-    locations: [
-      "Full Back",
-      "Upper Back",
-      "Neck Tag"
-    ]
-  },
-  {
-    category: "Sleeves",
-    locations: [
-      "Left Sleeve",
-      "Right Sleeve"
-    ]
-  }
-];
-
-const printSizeRates = {
-  small: {
-    label: "Small / Left Chest",
-    price: 0,
-  },
-  standard: {
-    label: "Standard Front",
-    price: 2,
-  },
-  large: {
-    label: "Large Front or Back",
-    price: 4,
-  },
-  oversized: {
-    label: "Oversized Print",
-    price: 6,
-  },
-};
 
 function QuoteCalculator() {
   const [service, setService] = useState("screenPrint");
@@ -110,101 +33,19 @@ function QuoteCalculator() {
       return [...previousLocations, location];
     });
   };
-
-  const estimate = useMemo(() => {
-  const calculationQuantity = Math.max(
-  Number(quantity) || 1,
-  1
-);
-
-    const selectedService = serviceRates[service];
-    const selectedGarment = garmentRates[garment];
-    const selectedPrintSize = printSizeRates[printSize];
-
-    const garmentCost = customerSupplied
-      ? 0
-      : selectedGarment.price;
-
-    let decorationCost =
-      selectedService.decorationRate +
-      selectedPrintSize.price;
-
-    if (service === "screenPrint") {
-      decorationCost +=
-        Math.max(colors - 1, 0) * 1.5;
-    }
-
-    const locationCount = Math.max(
-      selectedLocations.length,
-      1
-    );
-
-    decorationCost +=
-      Math.max(locationCount - 1, 0) * 4;
-
-    let quantityDiscount = 1;
-
-    if (calculationQuantity >= 24) {
-      quantityDiscount = 0.95;
-    }
-
-    if (calculationQuantity>= 48) {
-      quantityDiscount = 0.9;
-    }
-
-    if (calculationQuantity >= 100) {
-      quantityDiscount = 0.85;
-    }
-
-    const discountedDecorationCost =
-      decorationCost * quantityDiscount;
-
-    const pricePerShirt =
-      garmentCost + discountedDecorationCost;
-
-    const setupFee =
-      service === "screenPrint"
-        ? selectedService.setupFee * colors
-        : selectedService.setupFee;
-
-    const subtotal =
-      calculationQuantity * pricePerShirt + setupFee;
-
-    const rushFee = rushOrder
-      ? subtotal * 0.25
-      : 0;
-
-    const total = subtotal + rushFee;
-
-    const selectedServiceLabel =
-  serviceRates[service].label;
-
-const selectedGarmentLabel = customerSupplied
-  ? "Customer-Supplied Garments"
-  : garmentRates[garment].label;
-
-const selectedPrintSizeLabel =
-  printSizeRates[printSize].label;
-
-const displayQuantity = Math.max(
-  Number(quantity) || 1,
-  1
-);
-
-const locationSummary =
-  selectedLocations.length > 0
-    ? selectedLocations
-    : ["No location selected"];
-
-    return {
-      garmentCost,
-      decorationCost: discountedDecorationCost,
-      pricePerShirt,
-      setupFee,
-      rushFee,
-      total,
-    };
-  }, [
+const estimate = useMemo(
+  () =>
+    calculateEstimate({
+      service,
+      quantity,
+      garment,
+      customerSupplied,
+      printSize,
+      selectedLocations,
+      colors,
+      rushOrder,
+    }),
+  [
     service,
     quantity,
     garment,
@@ -213,7 +54,8 @@ const locationSummary =
     selectedLocations,
     colors,
     rushOrder,
-  ]);
+  ]
+);
 
   const selectedServiceLabel =
   serviceRates[service].label;
@@ -225,10 +67,8 @@ const selectedGarmentLabel = customerSupplied
 const selectedPrintSizeLabel =
   printSizeRates[printSize].label;
 
-const displayQuantity = Math.max(
-  Number(quantity) || 1,
-  1
-);
+const displayQuantity =
+  estimate.calculationQuantity;
 
 const locationSummary =
   selectedLocations.length > 0
@@ -294,14 +134,7 @@ const locationSummary =
 
   <div className="garment-grid">
     {Object.entries(garmentRates).map(([value, item]) => {
-      const garmentIcons = {
-        tshirt: "👕",
-        premiumTshirt: "⭐",
-        longSleeve: "👔",
-        hoodie: "🧥",
-        polo: "👕",
-      };
-
+     
       const isSelected = garment === value;
 
       return (
@@ -319,7 +152,7 @@ const locationSummary =
             className="garment-icon"
             aria-hidden="true"
           >
-            {garmentIcons[value]}
+            {item.icon}
           </span>
 
           <h4>{item.label}</h4>
