@@ -86,7 +86,7 @@ ${formData.message}
             <div>
               <strong>Email</strong>
               <a href="mailto:hustlehrdr75@gmail.com">
-                hustlehrdr75@gmail.com
+                inknhustl@gmail.com
               </a>
             </div>
 
