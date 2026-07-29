@@ -1,4 +1,7 @@
 import { useMemo, useState } from "react";
+import GarmentSelector from "../../components/QuoteBuilder/GarmentSelector";
+import PrintLocationSelector from "../../components/QuoteBuilder/PrintLocationSelector";
+import ProjectSummary from "../../components/QuoteBuilder/ProjectSummary";
 import { calculateEstimate } from "../../utils/pricingEngine";
 import {
   garmentRates,
@@ -70,10 +73,7 @@ const selectedPrintSizeLabel =
 const displayQuantity =
   estimate.calculationQuantity;
 
-const locationSummary =
-  selectedLocations.length > 0
-    ? selectedLocations
-    : ["No location selected"];
+
 
   return (
     <section className="quote-calculator" id="quote">
@@ -129,49 +129,12 @@ const locationSummary =
               />
             </label>
 
-<div className="garment-selector">
-  <h3>Select Your Garment</h3>
-
-  <div className="garment-grid">
-    {Object.entries(garmentRates).map(([value, item]) => {
-     
-      const isSelected = garment === value;
-
-      return (
-        <button
-          key={value}
-          type="button"
-          disabled={customerSupplied}
-          className={`garment-card ${
-            isSelected ? "active" : ""
-          }`}
-          aria-pressed={isSelected}
-          onClick={() => setGarment(value)}
-        >
-          <span
-            className="garment-icon"
-            aria-hidden="true"
-          >
-            {item.icon}
-          </span>
-
-          <h4>{item.label}</h4>
-
-          <span className="garment-card-price">
-            ${item.price.toFixed(2)} per piece
-          </span>
-        </button>
-      );
-    })}
-  </div>
-
-  {customerSupplied && (
-    <p className="garment-supplied-message">
-      Garment pricing has been removed because the customer
-      will provide the apparel.
-    </p>
-  )}
-</div>
+<GarmentSelector
+  garmentRates={garmentRates}
+  selectedGarment={garment}
+  customerSupplied={customerSupplied}
+  onGarmentChange={setGarment}
+/>
 
 <label className="quote-checkbox">
   <input
@@ -205,63 +168,12 @@ const locationSummary =
               </select>
             </label>
 
-            <div className="print-location-selector">
-  <div className="print-location-heading">
-    <h3>Select Print Locations</h3>
+            <PrintLocationSelector
+  printLocationOptions={printLocationOptions}
+  selectedLocations={selectedLocations}
+  onToggleLocation={togglePrintLocation}
+/>
 
-    <span>
-      {selectedLocations.length} selected
-    </span>
-  </div>
-
-  <div className="print-location-groups">
-    {printLocationOptions.map((group) => (
-      <div
-        className="print-location-group"
-        key={group.category}
-      >
-        <h4>{group.category}</h4>
-
-        <div className="print-location-grid">
-          {group.locations.map((location) => {
-            const isSelected =
-              selectedLocations.includes(location);
-
-            return (
-              <button
-                key={location}
-                type="button"
-                className={`print-location-card ${
-                  isSelected ? "active" : ""
-                }`}
-                aria-pressed={isSelected}
-                onClick={() =>
-                  togglePrintLocation(location)
-                }
-              >
-                <span
-                  className="print-location-check"
-                  aria-hidden="true"
-                >
-                  {isSelected ? "✓" : "+"}
-                </span>
-
-                <span>{location}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    ))}
-  </div>
-
-  {selectedLocations.length === 0 && (
-    <p className="print-location-message">
-      Select at least one location. Pricing currently
-      assumes one print location.
-    </p>
-  )}
-</div>
 
             {service === "screenPrint" && (
               <label>
@@ -294,177 +206,19 @@ const locationSummary =
             </label>
           </div>
 
-          <div className="quote-result">
-  <div className="project-summary-header">
-    <div>
-      <span className="project-summary-eyebrow">
-        Your Project
-      </span>
-
-      <h3 className="project-summary-title">
-        Order Summary
-      </h3>
-    </div>
-
-    <span className="project-summary-status">
-      Live Estimate
-    </span>
-  </div>
-
-  <div className="project-summary">
-    <div className="project-summary-row">
-      <span>Printing Method</span>
-      <strong>{selectedServiceLabel}</strong>
-    </div>
-
-    <div className="project-summary-row">
-      <span>Garment</span>
-      <strong>{selectedGarmentLabel}</strong>
-    </div>
-
-    <div className="project-summary-row">
-      <span>Quantity</span>
-      <strong>{displayQuantity} pieces</strong>
-    </div>
-
-    <div className="project-summary-row">
-      <span>Print Size</span>
-      <strong>{selectedPrintSizeLabel}</strong>
-    </div>
-
-    {service === "screenPrint" && (
-      <div className="project-summary-row">
-        <span>Ink Colors</span>
-        <strong>
-          {colors} {colors === 1 ? "color" : "colors"}
-        </strong>
-      </div>
-    )}
-
-    <div className="project-summary-row">
-      <span>Turnaround</span>
-      <strong>
-        {rushOrder ? "Rush Order" : "Standard"}
-      </strong>
-    </div>
-  </div>
-
-  <div className="selected-location-summary">
-    <div className="selected-location-header">
-      <span>Print Locations</span>
-
-      <strong>
-        {selectedLocations.length}
-      </strong>
-    </div>
-
-    <div className="selected-location-list">
-      {locationSummary.map((location) => (
-        <span
-          key={location}
-          className={`selected-location-chip ${
-            selectedLocations.length === 0
-              ? "empty"
-              : ""
-          }`}
-        >
-          {selectedLocations.length > 0 && (
-            <span
-              className="selected-location-dot"
-              aria-hidden="true"
-            />
-          )}
-
-          {location}
-        </span>
-      ))}
-    </div>
-  </div>
-
-  {selectedLocations.length === 0 && (
-    <div className="project-summary-warning">
-      Select at least one print location before
-      requesting your final quote.
-    </div>
-  )}
-
-  <div className="estimate-total">
-    <span>Estimated Project Total</span>
-
-    <strong>
-      ${estimate.total.toFixed(2)}
-    </strong>
-
-    <p>
-      Approximately $
-      {estimate.pricePerShirt.toFixed(2)} per piece
-    </p>
-  </div>
-
-  <div className="quote-breakdown">
-    <p>
-      Garment cost per piece
-      <strong>
-        ${estimate.garmentCost.toFixed(2)}
-      </strong>
-    </p>
-
-    <p>
-      Printing cost per piece
-      <strong>
-        ${estimate.decorationCost.toFixed(2)}
-      </strong>
-    </p>
-
-    <p>
-      Setup fee
-      <strong>
-        ${estimate.setupFee.toFixed(2)}
-      </strong>
-    </p>
-
-    {rushOrder && (
-      <p>
-        Rush fee
-        <strong>
-          ${estimate.rushFee.toFixed(2)}
-        </strong>
-      </p>
-    )}
-  </div>
-
-  <a
-    className={`quote-button ${
-      selectedLocations.length === 0
-        ? "disabled"
-        : ""
-    }`}
-    href={
-      selectedLocations.length > 0
-        ? "#contact"
-        : undefined
-    }
-    aria-disabled={
-      selectedLocations.length === 0
-    }
-    onClick={(event) => {
-      if (selectedLocations.length === 0) {
-        event.preventDefault();
-      }
-    }}
-  >
-    Request Final Quote
-  </a>
-
-  <small>
-    This is a preliminary estimate. Final pricing may
-    change based on garment brand, artwork condition,
-    print complexity, specialty materials, taxes,
-    shipping, and turnaround requirements.
-  </small>
-</div>
+         <ProjectSummary
+  selectedServiceLabel={selectedServiceLabel}
+  selectedGarmentLabel={selectedGarmentLabel}
+  displayQuantity={displayQuantity}
+  selectedPrintSizeLabel={selectedPrintSizeLabel}
+  service={service}
+  colors={colors}
+  rushOrder={rushOrder}
+  selectedLocations={selectedLocations}
+  estimate={estimate}
+/>
         </div>
-      </div>
+        </div>
     </section>
   );
 }
