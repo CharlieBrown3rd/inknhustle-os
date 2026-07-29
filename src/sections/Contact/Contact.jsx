@@ -26,7 +26,7 @@ function Contact() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const recipient = "hustlehrdr75@gmail.com";
+    const recipient = "inknhustl@gmail.com";
     const subject = `InknHustle Quote Request — ${formData.name}`;
 
     const body = `
@@ -85,7 +85,7 @@ ${formData.message}
 
             <div>
               <strong>Email</strong>
-              <a href="mailto:hustlehrdr75@gmail.com">
+              <a href="mailto:inknhustl@gmail.com">
                 inknhustl@gmail.com
               </a>
             </div>
