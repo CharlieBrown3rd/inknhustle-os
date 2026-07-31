@@ -219,7 +219,7 @@ const displayQuantity =
   estimate={estimate}
 />
 <QuantityPriceTable
-  quantityOptions={[12, 24, 48, 702, 100]}
+  quantityOptions={[12, 24, 48, 72, 100]}
   service={service}
   garment={garment}
   customerSupplied={customerSupplied}
