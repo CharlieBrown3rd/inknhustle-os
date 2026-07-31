@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import GarmentSelector from "../../components/QuoteBuilder/GarmentSelector";
 import PrintLocationSelector from "../../components/QuoteBuilder/PrintLocationSelector";
 import ProjectSummary from "../../components/QuoteBuilder/ProjectSummary";
+import QuantityPriceTable from "../../components/QuoteBuilder/QuantityPriceTable";
 import { calculateEstimate } from "../../utils/pricingEngine";
 import {
   garmentRates,
@@ -216,6 +217,16 @@ const displayQuantity =
   rushOrder={rushOrder}
   selectedLocations={selectedLocations}
   estimate={estimate}
+/>
+<QuantityPriceTable
+  quantityOptions={[12, 24, 48, 702, 100]}
+  service={service}
+  garment={garment}
+  customerSupplied={customerSupplied}
+  selectedPrintSize={printSize}
+  colors={colors}
+  rushOrder={rushOrder}
+  selectedLocations={selectedLocations}
 />
         </div>
         </div>
