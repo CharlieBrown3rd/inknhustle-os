@@ -61,6 +61,34 @@ const estimate = useMemo(
   ]
 );
 
+const quantityOptions = [12, 24, 48, 72, 100];
+
+const quantityEstimates = useMemo(
+  () =>
+    quantityOptions.map((optionQuantity) => ({
+      quantity: optionQuantity,
+      estimate: calculateEstimate({
+        service,
+        quantity: optionQuantity,
+        garment,
+        customerSupplied,
+        printSize,
+        selectedLocations,
+        colors,
+        rushOrder,
+      }),
+    })),
+  [
+    service,
+    garment,
+    customerSupplied,
+    printSize,
+    selectedLocations,
+    colors,
+    rushOrder,
+  ]
+);
+
   const selectedServiceLabel =
   serviceRates[service].label;
 
@@ -219,14 +247,8 @@ const displayQuantity =
   estimate={estimate}
 />
 <QuantityPriceTable
-  quantityOptions={[12, 24, 48, 72, 100]}
-  service={service}
-  garment={garment}
-  customerSupplied={customerSupplied}
-  selectedPrintSize={printSize}
-  colors={colors}
-  rushOrder={rushOrder}
-  selectedLocations={selectedLocations}
+  quantityEstimates={quantityEstimates}
+  currentQuantity={displayQuantity}
 />
         </div>
         </div>

@@ -1,34 +1,9 @@
-import { calculateEstimate } from "../../utils/pricingEngine";
+
 
 function QuantityPriceTable({
-  quantityOptions = [],
-  service,
-  garment,
-  customerSupplied,
-  selectedPrintSize,
-  colors,
-  rushOrder,
-  selectedLocations,
+  quantityEstimates = [],
+  currentQuantity,
 }) {
-  const hasQuantityOptions =
-    quantityOptions.length > 0;
-
-  const quantityEstimates = quantityOptions.map(
-  (quantity) => ({
-    quantity,
-    estimate: calculateEstimate({
-      service,
-      garment,
-      customerSupplied,
-      quantity,
-      printSize: selectedPrintSize,
-      colors,
-      rushOrder,
-      selectedLocations,
-    }),
-  })
-);
-
   return (
     <div className="quantity-price-table">
       <div className="quantity-price-table-header">
@@ -37,25 +12,37 @@ function QuantityPriceTable({
         <h3>Quantity Pricing</h3>
       </div>
 
-      {hasQuantityOptions && (
-  <div className="quantity-price-table-body">
-   {quantityEstimates.map(({ quantity, estimate }) => (
-  <div
-    className="quantity-price-table-row"
-    key={quantity}
-  >
-    <span>{quantity} shirts</span>
+   {quantityEstimates.length > 0 && (
+  <>
+    <div className="quantity-price-table-columns">
+      <span>Quantity</span>
+      <span>Price Each</span>
+      <span>Total</span>
+    </div>
 
-    <span>
-      ${estimate.pricePerShirt.toFixed(2)} each
-    </span>
+    <div className="quantity-price-table-body">
+      {quantityEstimates.map(({ quantity, estimate }) => (
+        <div
+          className={`quantity-price-table-row ${
+            quantity === currentQuantity
+              ? "active"
+              : ""
+          }`}
+          key={quantity}
+        >
+          <span>{quantity} shirts</span>
 
-    <strong>
-      ${estimate.total.toFixed(2)}
-    </strong>
-  </div>
-))}
-  </div>
+          <span>
+            ${estimate.pricePerShirt.toFixed(2)} each
+          </span>
+
+          <strong>
+            ${estimate.total.toFixed(2)}
+          </strong>
+        </div>
+      ))}
+    </div>
+  </>
 )}
     </div>
   );
