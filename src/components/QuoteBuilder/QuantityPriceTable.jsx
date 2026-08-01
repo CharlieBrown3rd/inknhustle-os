@@ -21,26 +21,39 @@ function QuantityPriceTable({
     </div>
 
     <div className="quantity-price-table-body">
-      {quantityEstimates.map(({ quantity, estimate }) => (
-        <div
-          className={`quantity-price-table-row ${
-            quantity === currentQuantity
-              ? "active"
-              : ""
-          }`}
-          key={quantity}
-        >
+     {quantityEstimates.map(({ quantity, estimate }) => {
+  const isBestValue =
+    quantity === quantityEstimates.at(-1)?.quantity;
+
+  return (
+    <div
+      className={`quantity-price-table-row ${
+        quantity === currentQuantity
+          ? "active"
+          : ""
+      }`}
+      key={quantity}
+    >
           <span>{quantity} shirts</span>
 
           <span>
             ${estimate.pricePerShirt.toFixed(2)} each
           </span>
 
-          <strong>
-            ${estimate.total.toFixed(2)}
-          </strong>
-        </div>
-      ))}
+          <div className="quantity-price-table-total">
+  <strong>
+    ${estimate.total.toFixed(2)}
+  </strong>
+
+  {quantity === currentQuantity && (
+    <span className="current-badge">
+      CURRENT
+    </span>
+  )}
+</div>
+           </div>
+  );
+})}
     </div>
   </>
 )}
