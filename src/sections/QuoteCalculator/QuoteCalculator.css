@@ -752,3 +752,39 @@
   font-weight: 800;
   cursor: pointer;
 }
+.artwork-guidelines {
+  margin-top: 20px;
+  padding: 18px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 10px;
+}
+
+.artwork-guidelines h4 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.artwork-file-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.artwork-file-types span {
+  padding: 7px 10px;
+  color: #f47a20;
+  background: rgba(244, 122, 32, 0.1);
+  border: 1px solid rgba(244, 122, 32, 0.35);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.artwork-guidelines p {
+  margin: 14px 0 0;
+  color: #9a9a9a;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}

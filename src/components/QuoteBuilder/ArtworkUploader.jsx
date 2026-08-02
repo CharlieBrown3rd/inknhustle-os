@@ -92,6 +92,23 @@ const openFilePicker = () => {
     </button>
   </div>
 )}
+<div className="artwork-guidelines">
+  <h4>Accepted File Types</h4>
+
+  <div className="artwork-file-types">
+    <span>AI</span>
+    <span>EPS</span>
+    <span>SVG</span>
+    <span>PDF</span>
+    <span>PSD</span>
+    <span>PNG</span>
+  </div>
+
+  <p>
+    Vector artwork is recommended for the
+    highest print quality.
+  </p>
+</div>
     </section>
     
   );
