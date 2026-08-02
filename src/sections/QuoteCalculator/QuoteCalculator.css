@@ -788,3 +788,36 @@
   font-size: 0.85rem;
   line-height: 1.5;
 }
+.artwork-policy {
+  margin-top: 20px;
+  padding: 18px;
+  background: rgba(244, 122, 32, 0.06);
+  border: 1px solid rgba(244, 122, 32, 0.25);
+  border-radius: 10px;
+}
+
+.artwork-policy h4 {
+  margin: 0 0 12px;
+  color: #f47a20;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.artwork-policy p {
+  margin: 0 0 12px;
+  color: #d0d0d0;
+  line-height: 1.6;
+}
+
+.artwork-policy p:last-child {
+  margin-bottom: 0;
+}
+.artwork-dropzone.dragging {
+  border-color: #f47a20;
+  background: rgba(244, 122, 32, 0.08);
+  box-shadow: 0 0 0 3px rgba(244, 122, 32, 0.12);
+}
+
+.artwork-dropzone.dragging .artwork-dropzone-icon {
+  transform: scale(1.08);
+}

@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 function ArtworkUploader() {
 const fileInputRef = useRef(null);
 const [selectedFile, setSelectedFile] = useState(null);
+const [isDragging, setIsDragging] = useState(false);
 const openFilePicker = () => {
     fileInputRef.current?.click();
   };
@@ -22,9 +23,29 @@ const openFilePicker = () => {
       </div>
 
       <div
-        className="artwork-dropzone"
+        className={`artwork-dropzone ${
+  isDragging ? "dragging" : ""
+}`}
         role="button"
         tabIndex="0"
+        onDragEnter={(event) => {
+  event.preventDefault();
+  setIsDragging(true);
+}}
+
+onDragOver={(event) => {
+  event.preventDefault();
+  setIsDragging(true);
+}}
+
+onDragLeave={() => {
+  setIsDragging(false);
+}}
+
+onDrop={(event) => {
+  event.preventDefault();
+  setIsDragging(false);
+}}
         onClick={openFilePicker}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
@@ -36,7 +57,11 @@ const openFilePicker = () => {
           +
         </span>
 
-        <h4>Drag and drop your artwork here</h4>
+       <h4>
+  {isDragging
+    ? "Release your artwork here"
+    : "Drag and drop your artwork here"}
+</h4>
 
         <p>or click to browse your files</p>
 
