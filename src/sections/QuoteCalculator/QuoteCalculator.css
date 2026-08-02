@@ -681,3 +681,74 @@
   font-weight: 900;
   letter-spacing: 0.08em;
 }
+.artwork-uploader {
+  margin-top: 24px;
+  padding: 24px;
+  background: #191919;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+}
+
+.artwork-uploader-header {
+  margin-bottom: 20px;
+}
+
+.artwork-uploader-header span {
+  color: #f47a20;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.artwork-uploader-header h3 {
+  margin: 8px 0;
+  color: #ffffff;
+}
+
+.artwork-uploader-header p {
+  color: #bdbdbd;
+  line-height: 1.6;
+}
+
+.artwork-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 220px;
+  padding: 32px;
+  background: #111111;
+  border: 2px dashed #404040;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.artwork-dropzone:hover {
+  border-color: #f47a20;
+  background: #151515;
+}
+
+.artwork-dropzone-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(244, 122, 32, 0.12);
+  color: #f47a20;
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.artwork-browse-button {
+  padding: 12px 22px;
+  background: #f47a20;
+  color: #111111;
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+}

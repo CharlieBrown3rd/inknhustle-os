@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 
 function ArtworkUploader() {
-  const fileInputRef = useRef(null);
+const fileInputRef = useRef(null);
 const [selectedFile, setSelectedFile] = useState(null);
-  const openFilePicker = () => {
+const openFilePicker = () => {
     fileInputRef.current?.click();
   };
 
@@ -62,7 +62,38 @@ const [selectedFile, setSelectedFile] = useState(null);
 }}
         />
       </div>
+       {selectedFile && (
+  <div className="artwork-file-preview">
+    <div>
+      <span className="artwork-file-status">
+        File selected
+      </span>
+
+      <strong>{selectedFile.name}</strong>
+
+      <small>
+        {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+      </small>
+    </div>
+
+    <button
+      type="button"
+      className="artwork-remove-button"
+      onClick={(event) => {
+        event.stopPropagation();
+        setSelectedFile(null);
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      }}
+    >
+      Remove
+    </button>
+  </div>
+)}
     </section>
+    
   );
 }
 
