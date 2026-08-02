@@ -824,7 +824,3 @@
 .artwork-uploader {
   grid-column: 1 / -1;
 }
-.quantity-price-table,
-.artwork-uploader {
-  grid-column: 1 / -1;
-}
