@@ -821,6 +821,16 @@
 .artwork-dropzone.dragging .artwork-dropzone-icon {
   transform: scale(1.08);
 }
+
+.artwork-file-input {
+  display: none;
+}
+.quantity-price-table,
 .artwork-uploader {
-  grid-column: 1 / -1;
+  grid-column: 1;
+}
+.artwork-dropzone h4,
+.artwork-dropzone p {
+  margin: 0;
+  text-align: center;
 }
