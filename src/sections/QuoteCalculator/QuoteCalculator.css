@@ -821,3 +821,10 @@
 .artwork-dropzone.dragging .artwork-dropzone-icon {
   transform: scale(1.08);
 }
+.artwork-uploader {
+  grid-column: 1 / -1;
+}
+.quantity-price-table,
+.artwork-uploader {
+  grid-column: 1 / -1;
+}

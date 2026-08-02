@@ -45,6 +45,12 @@ onDragLeave={() => {
 onDrop={(event) => {
   event.preventDefault();
   setIsDragging(false);
+
+  const file = event.dataTransfer.files?.[0] ?? null;
+
+  if (file) {
+    setSelectedFile(file);
+  }
 }}
         onClick={openFilePicker}
         onKeyDown={(event) => {
