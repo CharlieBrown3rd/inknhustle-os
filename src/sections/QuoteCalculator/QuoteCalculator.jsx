@@ -3,6 +3,7 @@ import GarmentSelector from "../../components/QuoteBuilder/GarmentSelector";
 import PrintLocationSelector from "../../components/QuoteBuilder/PrintLocationSelector";
 import ProjectSummary from "../../components/QuoteBuilder/ProjectSummary";
 import QuantityPriceTable from "../../components/QuoteBuilder/QuantityPriceTable";
+import ArtworkUploader from "../../components/QuoteBuilder/ArtworkUploader";
 import { calculateEstimate } from "../../utils/pricingEngine";
 import {
   garmentRates,
@@ -251,6 +252,8 @@ const displayQuantity =
   currentQuantity={displayQuantity}
   onQuantityChange={setQuantity}
 />
+
+<ArtworkUploader />
         </div>
         </div>
     </section>
