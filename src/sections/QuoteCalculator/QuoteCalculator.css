@@ -716,9 +716,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  min-height: 220px;
-  padding: 32px;
+  gap: 8px;
+  min-height: 140px;
+  padding: 24px;
   background: #111111;
   border: 2px dashed #404040;
   border-radius: 14px;
@@ -734,12 +734,12 @@
 .artwork-dropzone-icon {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: rgba(244, 122, 32, 0.12);
   color: #f47a20;
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 300;
 }
 
