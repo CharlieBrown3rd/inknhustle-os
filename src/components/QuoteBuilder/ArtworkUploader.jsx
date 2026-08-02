@@ -108,8 +108,25 @@ const openFilePicker = () => {
     Vector artwork is recommended for the
     highest print quality.
   </p>
+
+  <div className="artwork-policy">
+  <h4>Artwork Policy</h4>
+
+  <p>
+    Customers must provide print-ready artwork.
+    InknHustle does not recreate, redesign,
+    redraw, or modify submitted artwork.
+  </p>
+
+  <p>
+    By uploading artwork, you confirm that you
+    have the rights or permission to reproduce
+    the submitted design.
+  </p>
+</div>
 </div>
     </section>
+    
     
   );
 }
