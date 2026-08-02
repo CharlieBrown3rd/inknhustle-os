@@ -249,6 +249,7 @@ const displayQuantity =
 <QuantityPriceTable
   quantityEstimates={quantityEstimates}
   currentQuantity={displayQuantity}
+  onQuantityChange={setQuantity}
 />
         </div>
         </div>

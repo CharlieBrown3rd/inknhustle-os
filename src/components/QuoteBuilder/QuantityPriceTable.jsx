@@ -3,6 +3,7 @@
 function QuantityPriceTable({
   quantityEstimates = [],
   currentQuantity,
+  onQuantityChange,
 }) {
   return (
     <div className="quantity-price-table">
@@ -26,14 +27,17 @@ function QuantityPriceTable({
     quantity === quantityEstimates.at(-1)?.quantity;
 
   return (
-    <div
-      className={`quantity-price-table-row ${
-        quantity === currentQuantity
-          ? "active"
-          : ""
-      }`}
-      key={quantity}
-    >
+    <button
+  type="button"
+  className={`quantity-price-table-row ${
+    quantity === currentQuantity
+      ? "active"
+      : ""
+  }`}
+  key={quantity}
+  onClick={() => onQuantityChange(quantity)}
+  aria-pressed={quantity === currentQuantity}
+>
           <span>{quantity} shirts</span>
 
           <span>
@@ -50,8 +54,14 @@ function QuantityPriceTable({
       CURRENT
     </span>
   )}
+
+  {isBestValue && (
+    <span className="best-value-badge">
+      BEST VALUE
+    </span>
+  )}
 </div>
-           </div>
+          </button>
   );
 })}
     </div>
