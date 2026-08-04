@@ -834,3 +834,48 @@
   margin: 0;
   text-align: center;
 }
+.project-progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 28px 0 36px;
+  padding: 18px 22px;
+  background: #191919;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+}
+
+.project-progress-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.project-progress-step:not(:last-child)::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  margin-left: 12px;
+  background: #333;
+}
+
+.project-progress-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f47a20;
+  color: #111;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.project-progress-label {
+  color: #d5d5d5;
+  font-size: 0.9rem;
+  font-weight: 600;
+}

@@ -4,6 +4,7 @@ import PrintLocationSelector from "../../components/QuoteBuilder/PrintLocationSe
 import ProjectSummary from "../../components/QuoteBuilder/ProjectSummary";
 import QuantityPriceTable from "../../components/QuoteBuilder/QuantityPriceTable";
 import ArtworkUploader from "../../components/QuoteBuilder/ArtworkUploader";
+import ProjectProgress from "../../components/QuoteBuilder/ProjectProgress";
 import { calculateEstimate } from "../../utils/pricingEngine";
 import {
   garmentRates,
@@ -110,16 +111,18 @@ const displayQuantity =
       <div className="quote-calculator-container">
         <div className="quote-heading">
           <span className="quote-eyebrow">
-            INSTANT ESTIMATE
+            PROJECT BUILDER
           </span>
 
-          <h2>Build Your Quote</h2>
+          <h2>Build Your Project</h2>
 
           <p>
-            Select your apparel and printing options to receive a
-            preliminary project estimate.
-          </p>
+  Configure your apparel, upload your artwork,
+and receive a real-time project estimate.
+</p>
         </div>
+
+<ProjectProgress />
 
         <div className="quote-layout">
           <div className="quote-form">

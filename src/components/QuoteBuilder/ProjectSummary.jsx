@@ -20,39 +20,44 @@ function ProjectSummary({
   return (
     <div className="quote-result">
       <div className="project-summary-header">
-        <div>
-          <span className="project-summary-eyebrow">
-            Your Project
-          </span>
+  <div>
+    <span className="project-summary-eyebrow">
+      Project Review
+    </span>
 
-          <h3 className="project-summary-title">
-            Order Summary
-          </h3>
-        </div>
+    <h3 className="project-summary-title">
+      Your Project Summary
+    </h3>
 
-        <span className="project-summary-status">
-          Live Estimate
-        </span>
-      </div>
+    <p className="project-summary-description">
+      Review your selections before submitting your
+      project request.
+    </p>
+  </div>
+
+  <span className="project-summary-status">
+    Live Estimate
+  </span>
+</div>
 
       <div className="project-summary">
         <div className="project-summary-row">
-          <span>Printing Method</span>
+          <span>Decoration Method</span>
           <strong>{selectedServiceLabel}</strong>
         </div>
 
         <div className="project-summary-row">
-          <span>Garment</span>
+          <span>Garment Style</span>
           <strong>{selectedGarmentLabel}</strong>
         </div>
 
         <div className="project-summary-row">
-          <span>Quantity</span>
+          <span>Order Quantity</span>
           <strong>{displayQuantity} pieces</strong>
         </div>
 
         <div className="project-summary-row">
-          <span>Print Size</span>
+          <span>Decoration Size</span>
           <strong>{selectedPrintSizeLabel}</strong>
         </div>
 
@@ -78,7 +83,7 @@ function ProjectSummary({
 
       <div className="selected-location-summary">
         <div className="selected-location-header">
-          <span>Print Locations</span>
+          <span>Decoration Locations</span>
 
           <strong>{selectedLocations.length}</strong>
         </div>
@@ -106,9 +111,9 @@ function ProjectSummary({
 
       {!locationsSelected && (
         <div className="project-summary-warning">
-          Select at least one print location before
-          requesting your final quote.
-        </div>
+  Complete your decoration locations to unlock
+  project submission.
+</div>
       )}
 
       <div className="estimate-total">
@@ -170,7 +175,7 @@ function ProjectSummary({
           }
         }}
       >
-        Request Final Quote
+        Review & Submit Project →
       </a>
 
       <small>
