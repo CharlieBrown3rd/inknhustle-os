@@ -42,43 +42,59 @@ function ProjectSummary({
 
       <div className="project-summary">
         <div className="project-summary-row">
-          <span>Decoration Method</span>
-          <strong>{selectedServiceLabel}</strong>
-        </div>
+  <div className="summary-label">
+    🎨 Decoration Method
+  </div>
+
+  <strong>{selectedServiceLabel}</strong>
+</div>
 
         <div className="project-summary-row">
-          <span>Garment Style</span>
-          <strong>{selectedGarmentLabel}</strong>
-        </div>
+  <div className="summary-label">
+    👕 Garment Style
+  </div>
+
+  <strong>{selectedGarmentLabel}</strong>
+</div>
 
         <div className="project-summary-row">
-          <span>Order Quantity</span>
-          <strong>{displayQuantity} pieces</strong>
-        </div>
+  <div className="summary-label">
+   📦 Order Quantity
+  </div>
 
+  <strong>
+  {displayQuantity.toLocaleString()} Pieces
+</strong>
+</div>
         <div className="project-summary-row">
-          <span>Decoration Size</span>
-          <strong>{selectedPrintSizeLabel}</strong>
-        </div>
+  <div className="summary-label">
+   📐 Decoration Size
+  </div>
+
+  <strong>{selectedPrintSizeLabel}</strong>
+</div>
 
         {service === "screenPrint" && (
-          <div className="project-summary-row">
-            <span>Ink Colors</span>
+         <div className="project-summary-row">
+  <div className="summary-label">
+    🎨 Ink Colors
+  </div>
 
-            <strong>
-              {colors}{" "}
-              {colors === 1 ? "color" : "colors"}
-            </strong>
-          </div>
+  <strong>
+  {colors} {colors === 1 ? "Color" : "Colors"}
+</strong>
+</div>
         )}
 
         <div className="project-summary-row">
-          <span>Turnaround</span>
+  <div className="summary-label">
+    ⚡ Turnaround
+  </div>
 
-          <strong>
-            {rushOrder ? "Rush Order" : "Standard"}
-          </strong>
-        </div>
+ <strong>
+  {rushOrder ? "Rush Order" : "Standard"}
+</strong>
+</div>
       </div>
 
       <div className="selected-location-summary">
@@ -115,17 +131,15 @@ function ProjectSummary({
   project submission.
 </div>
       )}
+<div className="estimate-total">
+  <span>PROJECT TOTAL</span>
 
-      <div className="estimate-total">
-        <span>Estimated Project Total</span>
+  <strong>${estimate.total.toFixed(2)}</strong>
 
-        <strong>${estimate.total.toFixed(2)}</strong>
-
-        <p>
-          Approximately $
-          {estimate.pricePerShirt.toFixed(2)} per piece
-        </p>
-      </div>
+  <p>
+    ${estimate.pricePerShirt.toFixed(2)} per garment
+  </p>
+</div>
 
       <div className="quote-breakdown">
         <p>
