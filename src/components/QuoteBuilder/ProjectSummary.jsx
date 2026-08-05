@@ -142,40 +142,48 @@ function ProjectSummary({
 </div>
 
       <div className="quote-breakdown">
-        <p>
-          Garment cost per piece
+  <div className="quote-breakdown-row">
+    <span>Garments</span>
 
-          <strong>
-            ${estimate.garmentCost.toFixed(2)}
-          </strong>
-        </p>
+    <strong>
+      ${estimate.garmentCost.toFixed(2)}
+    </strong>
+  </div>
 
-        <p>
-          Printing cost per piece
+  <div className="quote-breakdown-row">
+    <span>Decoration</span>
 
-          <strong>
-            ${estimate.decorationCost.toFixed(2)}
-          </strong>
-        </p>
+    <strong>
+      ${estimate.decorationCost.toFixed(2)}
+    </strong>
+  </div>
 
-        <p>
-          Setup fee
+  <div className="quote-breakdown-row">
+    <span>Setup</span>
 
-          <strong>
-            ${estimate.setupFee.toFixed(2)}
-          </strong>
-        </p>
+    <strong>
+      ${estimate.setupFee.toFixed(2)}
+    </strong>
+  </div>
 
-        {rushOrder && (
-          <p>
-            Rush fee
+  {rushOrder && (
+    <div className="quote-breakdown-row">
+      <span>Rush</span>
 
-            <strong>
-              ${estimate.rushFee.toFixed(2)}
-            </strong>
-          </p>
-        )}
-      </div>
+      <strong>
+        ${estimate.rushFee.toFixed(2)}
+      </strong>
+    </div>
+  )}
+
+  <div className="quote-breakdown-total">
+    <span>Total</span>
+
+    <strong>
+      ${estimate.total.toFixed(2)}
+    </strong>
+  </div>
+</div>
 
       <a
         className={`quote-button ${

@@ -901,3 +901,51 @@
   font-size: 0.9rem;
   font-weight: 600;
 }
+.quote-breakdown {
+  margin-top: 20px;
+  padding: 18px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 12px;
+}
+
+.quote-breakdown-row,
+.quote-breakdown-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+}
+
+.quote-breakdown-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.quote-breakdown-row span {
+  color: #a9a9a9;
+  font-size: 0.9rem;
+}
+
+.quote-breakdown-row strong {
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.quote-breakdown-total {
+  margin-top: 4px;
+  padding-top: 16px;
+}
+
+.quote-breakdown-total span {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.quote-breakdown-total strong {
+  color: #f47a20;
+  font-size: 1.2rem;
+}
