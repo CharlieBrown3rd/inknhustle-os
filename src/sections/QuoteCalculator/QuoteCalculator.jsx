@@ -5,6 +5,7 @@ import ProjectSummary from "../../components/QuoteBuilder/ProjectSummary";
 import QuantityPriceTable from "../../components/QuoteBuilder/QuantityPriceTable";
 import ArtworkUploader from "../../components/QuoteBuilder/ArtworkUploader";
 import ProjectProgress from "../../components/QuoteBuilder/ProjectProgress";
+import CustomerInformation from "../../components/QuoteBuilder/CustomerInformation";
 import { calculateEstimate } from "../../utils/pricingEngine";
 import {
   garmentRates,
@@ -257,6 +258,7 @@ and receive a real-time project estimate.
 />
 
 <ArtworkUploader />
+<CustomerInformation />
         </div>
         </div>
     </section>
