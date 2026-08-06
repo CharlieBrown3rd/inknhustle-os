@@ -1071,3 +1071,8 @@
   font-size: 0.9rem;
   line-height: 1.6;
 }
+.customer-information {
+  grid-column: 1;
+  width: 100%;
+  min-width: 0;
+}
