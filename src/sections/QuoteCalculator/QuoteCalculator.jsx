@@ -6,6 +6,8 @@ import QuantityPriceTable from "../../components/QuoteBuilder/QuantityPriceTable
 import ArtworkUploader from "../../components/QuoteBuilder/ArtworkUploader";
 import ProjectProgress from "../../components/QuoteBuilder/ProjectProgress";
 import CustomerInformation from "../../components/QuoteBuilder/CustomerInformation";
+import FinalProjectReview from "../../components/QuoteBuilder/FinalProjectReview";
+
 import { calculateEstimate } from "../../utils/pricingEngine";
 import {
   garmentRates,
@@ -105,6 +107,24 @@ const selectedPrintSizeLabel =
 const displayQuantity =
   estimate.calculationQuantity;
 
+  const [customerInfo, setCustomerInfo] = useState({
+  fullName: "",
+  businessName: "",
+  email: "",
+  phone: "",
+  dueDate: "",
+  contactMethod: "email",
+  projectNotes: "",
+});
+
+const handleCustomerInfoChange = (event) => {
+  const { name, value } = event.target;
+
+  setCustomerInfo((currentInfo) => ({
+    ...currentInfo,
+    [name]: value,
+  }));
+};
 
 
   return (
@@ -258,7 +278,20 @@ and receive a real-time project estimate.
 />
 
 <ArtworkUploader />
-<CustomerInformation />
+<CustomerInformation
+  customerInfo={customerInfo}
+  onCustomerInfoChange={handleCustomerInfoChange}
+/>
+
+<FinalProjectReview
+  customerInfo={customerInfo}
+  selectedServiceLabel={selectedServiceLabel}
+  selectedGarmentLabel={selectedGarmentLabel}
+  displayQuantity={displayQuantity}
+  selectedPrintSizeLabel={selectedPrintSizeLabel}
+  selectedLocations={selectedLocations}
+  estimate={estimate}
+/>
         </div>
         </div>
     </section>
