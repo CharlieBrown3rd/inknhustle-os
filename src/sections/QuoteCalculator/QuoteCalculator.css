@@ -1242,3 +1242,8 @@
   line-height: 1.5;
   text-align: center;
 }
+.final-project-review {
+  grid-column: 1;
+  width: 100%;
+  min-width: 0;
+}
