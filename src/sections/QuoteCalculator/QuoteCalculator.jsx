@@ -126,6 +126,41 @@ const handleCustomerInfoChange = (event) => {
   }));
 };
 
+const customerInfoComplete =
+  customerInfo.fullName.trim() !== "" &&
+  customerInfo.email.trim() !== "" &&
+  customerInfo.phone.trim() !== "";
+
+const projectReady =
+  customerInfoComplete &&
+  selectedLocations.length > 0;
+
+  const handleProjectSubmit = () => {
+  if (!projectReady) {
+    return;
+  }
+
+  const projectData = {
+    customer: customerInfo,
+    project: {
+      service: selectedServiceLabel,
+      garment: selectedGarmentLabel,
+      quantity: displayQuantity,
+      printSize: selectedPrintSizeLabel,
+      locations: selectedLocations,
+      colors: service === "screenPrint" ? colors : null,
+      rushOrder,
+    },
+
+    pricing: {
+      total: estimate.total,
+      pricePerGarment: estimate.pricePerShirt,
+    },
+  };
+
+  console.log("InknHustle Project Submission:", projectData);
+};
+
 
   return (
     <section className="quote-calculator" id="quote">
@@ -291,6 +326,8 @@ and receive a real-time project estimate.
   selectedPrintSizeLabel={selectedPrintSizeLabel}
   selectedLocations={selectedLocations}
   estimate={estimate}
+  projectReady={projectReady}
+  onSubmit={handleProjectSubmit}
 />
         </div>
         </div>
