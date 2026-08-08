@@ -137,10 +137,15 @@ const projectReady =
   selectedLocations.length > 0;
 
 const handleProjectSubmit = () => {
+  console.log("SUBMIT BUTTON CLICKED");
+  console.log("projectReady:", projectReady);
+
   if (!projectReady) {
     return;
   }
 
+  // rest of your existing code...
+};
   const projectData = {
     customer: customerInfo,
     project: {
@@ -339,6 +344,6 @@ and receive a real-time project estimate.
         </div>
     </section>
   );
-}
+
 
 export default QuoteCalculator;
