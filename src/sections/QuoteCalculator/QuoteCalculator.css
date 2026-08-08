@@ -1301,3 +1301,26 @@
   color: #f47a20;
   font-size: 2rem;
 }
+.submission-reference {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 10px;
+}
+
+.submission-reference span {
+  display: block;
+  margin-bottom: 5px;
+  color: #8f8f8f;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.submission-reference strong {
+  color: #ffffff;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}

@@ -20,6 +20,13 @@ function FinalProjectReview({
       <span className="project-summary-eyebrow">
         Project Received
       </span>
+      <div className="submission-reference">
+  <span>Project Reference</span>
+
+  <strong>
+    {submittedProject.reference}
+  </strong>
+</div>
 
       <h3>
         Your Project Request Has Been Submitted
