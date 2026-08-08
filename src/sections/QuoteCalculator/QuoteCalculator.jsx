@@ -132,21 +132,27 @@ const customerInfoComplete =
   customerInfo.email.trim() !== "" &&
   customerInfo.phone.trim() !== "";
 
+
+  
 const projectReady =
   customerInfoComplete &&
   selectedLocations.length > 0;
 
 const handleProjectSubmit = () => {
-  console.log("SUBMIT BUTTON CLICKED");
-  console.log("projectReady:", projectReady);
-
   if (!projectReady) {
     return;
   }
 
-  // rest of your existing code...
-};
+  const projectReference = `INK-${new Date()
+    .toISOString()
+    .slice(0, 10)
+    .replaceAll("-", "")}-${Date.now()
+    .toString()
+    .slice(-5)}`;
+
   const projectData = {
+    reference: projectReference,
+
     customer: customerInfo,
     project: {
       service: selectedServiceLabel,
@@ -157,6 +163,7 @@ const handleProjectSubmit = () => {
       colors: service === "screenPrint" ? colors : null,
       rushOrder,
     },
+
     pricing: {
       total: estimate.total,
       pricePerGarment: estimate.pricePerShirt,
@@ -345,5 +352,5 @@ and receive a real-time project estimate.
     </section>
   );
 
-
+}
 export default QuoteCalculator;
