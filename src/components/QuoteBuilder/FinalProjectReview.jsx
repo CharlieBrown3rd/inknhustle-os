@@ -8,7 +8,40 @@ function FinalProjectReview({
   estimate,
   projectReady,
   onSubmit,
+  submittedProject,
 }) {
+    if (submittedProject) {
+  return (
+    <section className="final-project-review submission-success">
+      <div className="submission-success-icon">
+        ✓
+      </div>
+
+      <span className="project-summary-eyebrow">
+        Project Received
+      </span>
+
+      <h3>
+        Your Project Request Has Been Submitted
+      </h3>
+
+      <p>
+        Thank you, {submittedProject.customer.fullName}.
+        We received your project request and will review
+        the details before sending your official quote
+        and production schedule.
+      </p>
+
+      <div className="submission-success-summary">
+        <span>Estimated Project Total</span>
+
+        <strong>
+          ${submittedProject.pricing.total.toFixed(2)}
+        </strong>
+      </div>
+    </section>
+  );
+}
   return (
     <section className="final-project-review">
       <div className="final-project-review-header">

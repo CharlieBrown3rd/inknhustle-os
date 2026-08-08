@@ -30,6 +30,7 @@ function QuoteCalculator() {
     useState([]);
   const [colors, setColors] = useState(1);
   const [rushOrder, setRushOrder] = useState(false);
+  const [submittedProject, setSubmittedProject] = useState(null);
 
   const togglePrintLocation = (location) => {
     setSelectedLocations((previousLocations) => {
@@ -156,6 +157,8 @@ const handleProjectSubmit = () => {
       pricePerGarment: estimate.pricePerShirt,
     },
   };
+
+  setSubmittedProject(projectData);
 
   console.log(
     "InknHustle Project Submission:",
@@ -330,6 +333,7 @@ and receive a real-time project estimate.
   estimate={estimate}
   projectReady={projectReady}
   onSubmit={handleProjectSubmit}
+  submittedProject={submittedProject}
 />
         </div>
         </div>
