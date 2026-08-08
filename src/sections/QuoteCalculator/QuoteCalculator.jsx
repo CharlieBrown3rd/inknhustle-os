@@ -135,7 +135,7 @@ const projectReady =
   customerInfoComplete &&
   selectedLocations.length > 0;
 
-  const handleProjectSubmit = () => {
+const handleProjectSubmit = () => {
   if (!projectReady) {
     return;
   }
@@ -151,14 +151,16 @@ const projectReady =
       colors: service === "screenPrint" ? colors : null,
       rushOrder,
     },
-
     pricing: {
       total: estimate.total,
       pricePerGarment: estimate.pricePerShirt,
     },
   };
 
-  console.log("InknHustle Project Submission:", projectData);
+  console.log(
+    "InknHustle Project Submission:",
+    projectData
+  );
 };
 
 
