@@ -8,7 +8,6 @@ function FinalProjectReview({
   estimate,
   projectReady,
   onSubmit,
-
 }) {
   return (
     <section className="final-project-review">
@@ -80,56 +79,57 @@ function FinalProjectReview({
           <div>
             <span>Decoration Size</span>
             <strong>{selectedPrintSizeLabel}</strong>
-
-            <div className="final-review-section">
-  <h4>Decoration Locations</h4>
-
-  <div className="final-review-location-list">
-    {selectedLocations.length > 0 ? (
-      selectedLocations.map((location) => (
-        <span key={location}>
-          {location}
-        </span>
-      ))
-    ) : (
-      <span className="final-review-empty">
-        No decoration locations selected
-      </span>
-    )}
-
-    <div className="final-review-total">
-  <span>Estimated Project Total</span>
-
-  <button
-  type="button"
-  className={`final-submit-button ${
-    projectReady ? "" : "disabled"
-  }`}
-  disabled={!projectReady}
-  onClick={onSubmit}
->
-  Submit Project
-</button>
-{!projectReady && (
-  <p className="final-submit-message">
-    Complete the required customer information and select
-    at least one decoration location to submit your project.
-  </p>
-)}
-
-  <strong>
-    ${estimate.total.toFixed(2)}
-  </strong>
-
-  <p>
-    ${estimate.pricePerShirt.toFixed(2)} per garment
-  </p>
-</div>
-  </div>
-</div>
           </div>
         </div>
       </div>
+
+      <div className="final-review-section">
+        <h4>Decoration Locations</h4>
+
+        <div className="final-review-location-list">
+          {selectedLocations.length > 0 ? (
+            selectedLocations.map((location) => (
+              <span key={location}>
+                {location}
+              </span>
+            ))
+          ) : (
+            <span className="final-review-empty">
+              No decoration locations selected
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="final-review-total">
+        <span>Estimated Project Total</span>
+
+        <strong>
+          ${estimate.total.toFixed(2)}
+        </strong>
+
+        <p>
+          ${estimate.pricePerShirt.toFixed(2)} per garment
+        </p>
+      </div>
+
+      <button
+        type="button"
+        className={`final-submit-button ${
+          projectReady ? "" : "disabled"
+        }`}
+        disabled={!projectReady}
+        onClick={onSubmit}
+      >
+        Submit Project
+      </button>
+
+      {!projectReady && (
+        <p className="final-submit-message">
+          Complete the required customer information and select
+          at least one decoration location to submit your project.
+        </p>
+      )}
     </section>
   );
 }
