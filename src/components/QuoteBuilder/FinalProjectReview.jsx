@@ -42,6 +42,46 @@ function FinalProjectReview({
       <div className="submission-success-summary">
         <span>Estimated Project Total</span>
 
+<div className="submission-next-steps">
+  <h4>What Happens Next?</h4>
+
+  <div className="submission-step">
+    <span>1</span>
+
+    <div>
+      <strong>Project Review</strong>
+      <p>
+        We'll review your project specifications and artwork
+        to make sure everything is production ready.
+      </p>
+    </div>
+  </div>
+
+  <div className="submission-step">
+    <span>2</span>
+
+    <div>
+      <strong>Official Quote</strong>
+      <p>
+        We'll confirm final pricing, garment availability,
+        and any production requirements.
+      </p>
+    </div>
+  </div>
+
+  <div className="submission-step">
+    <span>3</span>
+
+    <div>
+      <strong>Production Schedule</strong>
+      <p>
+        Once your project is approved, we'll provide your
+        expected production timeline.
+      </p>
+    </div>
+  </div>
+</div>
+
         <strong>
           ${submittedProject.pricing.total.toFixed(2)}
         </strong>
