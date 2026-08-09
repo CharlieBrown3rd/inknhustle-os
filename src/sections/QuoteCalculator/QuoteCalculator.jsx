@@ -7,6 +7,7 @@ import ArtworkUploader from "../../components/QuoteBuilder/ArtworkUploader";
 import ProjectProgress from "../../components/QuoteBuilder/ProjectProgress";
 import CustomerInformation from "../../components/QuoteBuilder/CustomerInformation";
 import FinalProjectReview from "../../components/QuoteBuilder/FinalProjectReview";
+import { supabase } from "../../lib/supabase";
 
 import { calculateEstimate } from "../../utils/pricingEngine";
 import {
@@ -138,7 +139,7 @@ const projectReady =
   customerInfoComplete &&
   selectedLocations.length > 0;
 
-const handleProjectSubmit = () => {
+const handleProjectSubmit = async () => {
   if (!projectReady) {
     return;
   }
@@ -169,6 +170,25 @@ const handleProjectSubmit = () => {
       pricePerGarment: estimate.pricePerShirt,
     },
   };
+
+  const { error } = await supabase
+  .from("projects")
+  .insert({
+    reference: projectData.reference,
+    customer_name: projectData.customer.fullName,
+    customer_email: projectData.customer.email,
+    customer_phone: projectData.customer.phone,
+    status: "new",
+  });
+
+if (error) {
+  console.error(
+    "Supabase project submission failed:",
+    error
+  );
+
+  return;
+}
 
   setSubmittedProject(projectData);
 
