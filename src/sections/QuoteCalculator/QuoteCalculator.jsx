@@ -24,6 +24,7 @@ function QuoteCalculator() {
   const [service, setService] = useState("screenPrint");
   const [quantity, setQuantity] = useState(12);
   const [garment, setGarment] = useState("tshirt");
+  const [artworkFile, setArtworkFile] = useState(null);
   const [customerSupplied, setCustomerSupplied] =
     useState(false);
   const [printSize, setPrintSize] = useState("standard");
@@ -170,7 +171,27 @@ const handleProjectSubmit = async () => {
       pricePerGarment: estimate.pricePerShirt,
     },
   };
+let artworkPath = null;
 
+if (artworkFile) {
+  const fileExtension =
+    artworkFile.name.split(".").pop();
+
+  artworkPath = `${projectData.reference}/${Date.now()}.${fileExtension}`;
+
+  const { error: artworkError } = await supabase.storage
+    .from("project-artwork")
+    .upload(artworkPath, artworkFile);
+
+  if (artworkError) {
+    console.error(
+      "Artwork upload failed:",
+      artworkError
+    );
+
+    return;
+  }
+}
   const { error } = await supabase
   .from("projects")
   .insert({
@@ -178,6 +199,24 @@ const handleProjectSubmit = async () => {
     customer_name: projectData.customer.fullName,
     customer_email: projectData.customer.email,
     customer_phone: projectData.customer.phone,
+    business_name: projectData.customer.businessName || null,
+    due_date: projectData.customer.dueDate || null,
+    contact_method: projectData.customer.contactMethod,
+    project_notes: projectData.customer.projectNotes || null,
+
+    decoration_method: projectData.project.service,
+    garment_style: projectData.project.garment,
+    quantity: projectData.project.quantity,
+    decoration_size: projectData.project.printSize,
+    decoration_locations: projectData.project.locations,
+    ink_colors: projectData.project.colors,
+    rush_order: projectData.project.rushOrder,
+
+    estimated_total: projectData.pricing.total,
+    price_per_garment: projectData.pricing.pricePerGarment,
+
+    artwork_path: artworkPath,
+
     status: "new",
   });
 
@@ -349,7 +388,10 @@ and receive a real-time project estimate.
   onQuantityChange={setQuantity}
 />
 
-<ArtworkUploader />
+<ArtworkUploader
+  selectedFile={artworkFile}
+  onFileChange={setArtworkFile}
+/>
 <CustomerInformation
   customerInfo={customerInfo}
   onCustomerInfoChange={handleCustomerInfoChange}

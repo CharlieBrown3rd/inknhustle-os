@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 
-function ArtworkUploader() {
+function ArtworkUploader({
+  selectedFile,
+  onFileChange,
+}) {
 const fileInputRef = useRef(null);
-const [selectedFile, setSelectedFile] = useState(null);
 const [isDragging, setIsDragging] = useState(false);
 const openFilePicker = () => {
     fileInputRef.current?.click();
@@ -49,7 +51,7 @@ onDrop={(event) => {
   const file = event.dataTransfer.files?.[0] ?? null;
 
   if (file) {
-    setSelectedFile(file);
+    onFileChange(file);
   }
 }}
         onClick={openFilePicker}
@@ -89,7 +91,7 @@ onDrop={(event) => {
           accept=".ai,.eps,.svg,.pdf,.psd,.png"
           onChange={(event) => {
   const file = event.target.files?.[0] ?? null;
-  setSelectedFile(file);
+  onFileChange(file);
 }}
         />
       </div>
@@ -112,7 +114,7 @@ onDrop={(event) => {
       className="artwork-remove-button"
       onClick={(event) => {
         event.stopPropagation();
-        setSelectedFile(null);
+        onFileChange(null);
 
         if (fileInputRef.current) {
           fileInputRef.current.value = "";

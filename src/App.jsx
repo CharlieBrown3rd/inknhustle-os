@@ -7,7 +7,14 @@ import QuoteCalculator from "./sections/QuoteCalculator/QuoteCalculator";
 import Services from "./sections/Services/Services";
 import Contact from "./sections/Contact/Contact";
 import Footer from "./components/Footer/Footer";
+import AdminDashboard from "./components/Admin/AdminDashboard";
 function App() {
+  const isAdminRoute =
+  window.location.pathname === "/admin";
+
+if (isAdminRoute) {
+  return <AdminDashboard />;
+}
   return (
     <main id="top">
       <Navbar/>

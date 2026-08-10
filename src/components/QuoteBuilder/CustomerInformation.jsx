@@ -93,14 +93,15 @@ function CustomerInformation({
           Project Notes
 
           <textarea
-            name="projectNotes"
-            rows="5"
-            placeholder={`Example:
+  name="projectNotes"
+  value={customerInfo.projectNotes}
+  onChange={onCustomerInfoChange}
+  placeholder={`Example:
 • Black Gildan 64000
 • Front: White logo
 • Back: Two-color design
 • Need completed before October 15`}
-          />
+/>
         </label>
       </div>
 
