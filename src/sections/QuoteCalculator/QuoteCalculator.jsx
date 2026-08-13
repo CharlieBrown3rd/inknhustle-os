@@ -223,10 +223,11 @@ if (artworkFile) {
   });
 
 if (error) {
-  console.error(
-    "Supabase project submission failed:",
-    error
-  );
+  console.error("Supabase project submission failed:");
+  console.error("message:", error.message);
+  console.error("code:", error.code);
+  console.error("details:", error.details);
+  console.error("hint:", error.hint);
 
   return;
 }
