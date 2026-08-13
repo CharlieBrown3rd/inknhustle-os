@@ -26,6 +26,16 @@ function ProjectList() {
   production: "In Production",
   completed: "Completed",
 };
+
+const nextProjectStatus = {
+  new: "reviewing",
+  reviewing: "quoted",
+  quoted: "approved",
+  approved: "production",
+  production: "completed",
+};
+
+
   const openArtwork = async (artworkPath) => {
   if (!artworkPath) {
     return;
@@ -55,6 +65,10 @@ function ProjectList() {
     (project) => project.status === "reviewing"
   ).length,
 
+  quoted: projects.filter(
+  (project) => project.status === "quoted"
+  ).length,
+
   approved: projects.filter(
     (project) => project.status === "approved"
   ).length,
@@ -67,6 +81,25 @@ function ProjectList() {
     (project) => project.status === "completed"
   ).length,
 };
+
+const moveProjectToNextStage = async (project) => {
+  if (!project) {
+    return;
+  }
+
+  const nextStatus = nextProjectStatus[project.status];
+
+  if (!nextStatus) {
+    return;
+  }
+
+  await updateProjectStatus(
+    project.id,
+    nextStatus
+  );
+};
+
+
 const filteredProjects = projects.filter((project) => {
   const searchValue = searchTerm.toLowerCase();
 
@@ -167,6 +200,11 @@ const filteredProjects = projects.filter((project) => {
     <span>In Review</span>
     <strong>{statusCounts.reviewing}</strong>
   </div>
+
+<div className="admin-stat-card">
+  <span>Quoted</span>
+  <strong>{statusCounts.quoted}</strong>
+</div>
 
   <div className="admin-stat-card">
     <span>Approved</span>
@@ -390,7 +428,22 @@ const filteredProjects = projects.filter((project) => {
     ))}
   </select>
 </div>
-          <div className="admin-project-detail-grid">
+
+
+{nextProjectStatus[selectedProject.status] && (
+  <button
+    type="button"
+    className="admin-project-next-stage"
+    onClick={() =>
+      moveProjectToNextStage(selectedProject)
+    }
+  >
+    Move to{" "}
+    {projectStatusLabels[
+      nextProjectStatus[selectedProject.status]
+    ]}
+  </button>
+)}          <div className="admin-project-detail-grid">
             <div>
               <span>Email</span>
               <strong>
@@ -517,7 +570,7 @@ const filteredProjects = projects.filter((project) => {
             </p>
           </div>
         </div>
-      )}
+            )}
     </section>
   );
 }
