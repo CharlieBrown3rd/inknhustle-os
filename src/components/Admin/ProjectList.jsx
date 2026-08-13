@@ -17,6 +17,15 @@ function ProjectList() {
     "production",
     "completed",
   ];
+
+  const projectStatusLabels = {
+  new: "New",
+  reviewing: "Reviewing",
+  quoted: "Quoted",
+  approved: "Approved",
+  production: "In Production",
+  completed: "Completed",
+};
   const openArtwork = async (artworkPath) => {
   if (!artworkPath) {
     return;
@@ -258,9 +267,19 @@ const filteredProjects = projects.filter((project) => {
                     <h3>{project.customer_name}</h3>
                   </div>
 
-                  <span className="admin-project-status">
-                    {project.status}
-                  </span>
+                  <div className="admin-project-badges">
+                     {project.rush_order && (
+                      <span className="admin-project-rush">
+                        RUSH
+                      </span>
+                     )}
+
+                  <span
+                   className={`admin-project-status status-${project.status}`}
+                    >
+                    {projectStatusLabels[project.status] || project.status}
+                   </span>
+                   </div>
                 </div>
 
                 <div className="admin-project-details">
@@ -366,7 +385,7 @@ const filteredProjects = projects.filter((project) => {
         key={status}
         value={status}
       >
-        {status}
+        {projectStatusLabels[status]}
       </option>
     ))}
   </select>

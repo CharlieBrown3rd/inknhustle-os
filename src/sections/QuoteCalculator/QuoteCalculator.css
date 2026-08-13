@@ -1738,3 +1738,59 @@
   color: #ff8a8a;
   font-size: 0.85rem;
 }
+/* Project workflow status colors */
+
+.admin-project-status.status-new {
+  color: #f47a20;
+  border-color: rgba(244, 122, 32, 0.45);
+  background: rgba(244, 122, 32, 0.12);
+}
+
+.admin-project-status.status-reviewing {
+  color: #f0c75e;
+  border-color: rgba(240, 199, 94, 0.45);
+  background: rgba(240, 199, 94, 0.12);
+}
+
+.admin-project-status.status-quoted {
+  color: #72b7ff;
+  border-color: rgba(114, 183, 255, 0.45);
+  background: rgba(114, 183, 255, 0.12);
+}
+
+.admin-project-status.status-approved {
+  color: #63d69a;
+  border-color: rgba(99, 214, 154, 0.45);
+  background: rgba(99, 214, 154, 0.12);
+}
+
+.admin-project-status.status-production {
+  color: #c99cff;
+  border-color: rgba(201, 156, 255, 0.45);
+  background: rgba(201, 156, 255, 0.12);
+}
+
+.admin-project-status.status-completed {
+  color: #a5a5a5;
+  border-color: rgba(165, 165, 165, 0.4);
+  background: rgba(165, 165, 165, 0.1);
+}
+.admin-project-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-project-rush {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #d93025;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

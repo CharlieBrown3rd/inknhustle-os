@@ -152,6 +152,8 @@ const handleProjectSubmit = async () => {
     .toString()
     .slice(-5)}`;
 
+console.log("rushOrder before submit:", rushOrder);
+
   const projectData = {
     reference: projectReference,
 
