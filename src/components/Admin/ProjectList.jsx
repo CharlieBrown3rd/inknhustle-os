@@ -35,6 +35,38 @@ const nextProjectStatus = {
   production: "completed",
 };
 
+const getDueDateMessage = (project) => {
+  if (!project.due_date || project.status === "completed") {
+    return null;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const dueDate = new Date(`${project.due_date}T00:00:00`);
+
+  const differenceInDays = Math.round(
+    (dueDate - today) / (1000 * 60 * 60 * 24)
+  );
+
+  if (differenceInDays < 0) {
+    const daysOverdue = Math.abs(differenceInDays);
+
+    return `${daysOverdue} ${
+      daysOverdue === 1 ? "day" : "days"
+    } overdue`;
+  }
+
+  if (differenceInDays === 0) {
+    return "Due today";
+  }
+
+  if (differenceInDays === 1) {
+    return "1 day left";
+  }
+
+  return `${differenceInDays} days left`;
+};
 
   const openArtwork = async (artworkPath) => {
   if (!artworkPath) {
@@ -121,7 +153,35 @@ const filteredProjects = projects.filter((project) => {
   return matchesSearch && matchesStatus;
 });
 
+const sortedProjects = [...filteredProjects].sort((a, b) => {
+  // Completed projects always go to the bottom.
+  if (a.status === "completed" && b.status !== "completed") {
+    return 1;
+  }
 
+  if (a.status !== "completed" && b.status === "completed") {
+    return -1;
+  }
+
+  // Among active projects, RUSH projects come first.
+  if (a.rush_order && !b.rush_order) {
+    return -1;
+  }
+
+  if (!a.rush_order && b.rush_order) {
+    return 1;
+  }
+
+  const aDue = a.due_date
+  ? new Date(a.due_date).getTime()
+  : Infinity;
+
+const bDue = b.due_date
+  ? new Date(b.due_date).getTime()
+  : Infinity;
+
+return aDue - bDue;
+});
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -176,6 +236,64 @@ const filteredProjects = projects.filter((project) => {
 
     setSelectedProject(data);
   };
+
+  const getDueDateStatus = (project) => {
+  if (!project.due_date || project.status === "completed") {
+    return null;
+  }
+
+  const getDueDateMessage = (project) => {
+  if (!project.due_date || project.status === "completed") {
+    return null;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const dueDate = new Date(`${project.due_date}T00:00:00`);
+
+  const differenceInDays = Math.round(
+    (dueDate - today) / (1000 * 60 * 60 * 24)
+  );
+
+  if (differenceInDays < 0) {
+    const daysOverdue = Math.abs(differenceInDays);
+
+    return `${daysOverdue} ${
+      daysOverdue === 1 ? "day" : "days"
+    } overdue`;
+  }
+
+  if (differenceInDays === 0) {
+    return "Due today";
+  }
+
+  if (differenceInDays === 1) {
+    return "1 day left";
+  }
+
+  return `${differenceInDays} days left`;
+};
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const dueDate = new Date(`${project.due_date}T00:00:00`);
+
+  const differenceInDays = Math.ceil(
+    (dueDate - today) / (1000 * 60 * 60 * 24)
+  );
+
+  if (differenceInDays < 0) {
+    return "overdue";
+  }
+
+  if (differenceInDays <= 3) {
+    return "due-soon";
+  }
+
+  return null;
+};
 
   return (
     
@@ -277,7 +395,7 @@ const filteredProjects = projects.filter((project) => {
 </div>
 
           <div className="admin-project-grid">
-           {filteredProjects.map((project) => (
+           {sortedProjects.map((project) => (
               <article
                 className="admin-project-card"
                 key={project.id}
@@ -304,6 +422,18 @@ const filteredProjects = projects.filter((project) => {
 
                     <h3>{project.customer_name}</h3>
                   </div>
+
+                  {getDueDateStatus(project) === "overdue" && (
+  <span className="admin-project-overdue">
+    OVERDUE
+  </span>
+)}
+
+{getDueDateStatus(project) === "due-soon" && (
+  <span className="admin-project-due-soon">
+    DUE SOON
+  </span>
+)}
 
                   <div className="admin-project-badges">
                      {project.rush_order && (
@@ -356,12 +486,19 @@ const filteredProjects = projects.filter((project) => {
                   </div>
 
                   <div>
-                    <span>Due Date</span>
-                    <strong>
-                      {project.due_date ||
-                        "Not specified"}
-                    </strong>
-                  </div>
+  <span>Due Date</span>
+
+  <strong>
+    {project.due_date ||
+      "Not specified"}
+  </strong>
+
+  {getDueDateMessage(project) && (
+    <small className="admin-project-due-message">
+      {getDueDateMessage(project)}
+    </small>
+  )}
+</div>
 
                   <div>
                     <span>Submitted</span>
