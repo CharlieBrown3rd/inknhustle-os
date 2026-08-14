@@ -5,6 +5,7 @@ function ProjectList() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [adminNotes, setAdminNotes] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedProject, setSelectedProject] =
     useState(null);
@@ -35,6 +36,39 @@ const nextProjectStatus = {
   production: "completed",
 };
 
+const saveAdminNotes = async () => {
+  if (!selectedProject) {
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("projects")
+    .update({
+      admin_notes: adminNotes.trim() || null,
+    })
+    .eq("id", selectedProject.id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(
+      "Failed to save admin notes:",
+      error
+    );
+    return;
+  }
+
+  setProjects((currentProjects) =>
+    currentProjects.map((project) =>
+      project.id === selectedProject.id
+        ? data
+        : project
+    )
+  );
+
+  setSelectedProject(data);
+  setAdminNotes(data.admin_notes || "");
+};
 const getDueDateMessage = (project) => {
   if (!project.due_date || project.status === "completed") {
     return null;
@@ -401,9 +435,10 @@ return aDue - bDue;
                 key={project.id}
                 role="button"
                 tabIndex="0"
-                onClick={() =>
-                  setSelectedProject(project)
-                }
+                onClick={() => {
+  setSelectedProject(project);
+  setAdminNotes(project.admin_notes || "");
+}}
                 onKeyDown={(event) => {
                   if (
                     event.key === "Enter" ||
@@ -524,7 +559,25 @@ return aDue - bDue;
               <span className="admin-project-reference">
                 {selectedProject.reference}
               </span>
+              <div className="admin-project-admin-notes">
+  <span>Internal Production Notes</span>
 
+  <textarea
+    value={adminNotes}
+    onChange={(event) =>
+      setAdminNotes(event.target.value)
+    }
+    placeholder="Add internal production notes..."
+    rows="5"
+  />
+</div>
+     <button
+  type="button"
+  className="admin-project-save-notes"
+  onClick={saveAdminNotes}
+>
+  Save Notes
+</button>
               <h3>
                 {selectedProject.customer_name}
               </h3>
