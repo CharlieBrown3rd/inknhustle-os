@@ -1822,3 +1822,12 @@
   font-size: 0.8rem;
   font-weight: 700;
 }
+.admin-project-notes-saved {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  color: #22c55e;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
