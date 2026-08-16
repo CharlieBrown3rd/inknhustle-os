@@ -15,12 +15,71 @@ function ProjectList() {
 const [quoteNotes, setQuoteNotes] =
   useState("");
 
+// ======================================================
+// OFFICIAL QUOTE WORKFLOW
+// ======================================================
+
+// 1. SAVE QUOTE AS A DRAFT
 const saveOfficialQuote = async () => {
-  console.log("SAVE QUOTE CLICKED", {
-  selectedProject,
-  officialQuoteTotal,
-  quoteNotes,
-});
+  if (!selectedProject) {
+    return;
+  }
+
+  const quoteTotal = Number(officialQuoteTotal);
+
+  if (!Number.isFinite(quoteTotal) || quoteTotal <= 0) {
+    console.error(
+      "Enter a valid official quote total before saving."
+    );
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("projects")
+    .update({
+      official_quote_total: quoteTotal,
+      quote_notes: quoteNotes.trim() || null,
+    })
+    .eq("id", selectedProject.id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(
+      "Failed to save official quote:",
+      error
+    );
+    return;
+  }
+
+  setProjects((currentProjects) =>
+    currentProjects.map((project) =>
+      project.id === selectedProject.id
+        ? data
+        : project
+    )
+  );
+
+  setSelectedProject(data);
+
+  setOfficialQuoteTotal(
+    data.official_quote_total ?? ""
+  );
+
+  setQuoteNotes(
+    data.quote_notes || ""
+  );
+};
+
+
+// ======================================================
+// 2. ISSUE THE OFFICIAL QUOTE
+// ======================================================
+
+const issueOfficialQuote = async () => {
+  if (!selectedProject) {
+    return;
+  }
 
   const quoteTotal = Number(officialQuoteTotal);
 
@@ -28,6 +87,15 @@ const saveOfficialQuote = async () => {
     console.error(
       "Enter a valid official quote total before issuing the quote."
     );
+    return;
+  }
+
+  const confirmed = window.confirm(
+    `Issue official quote for $${quoteTotal.toFixed(2)}?\n\n` +
+      "This will mark the project as Quoted."
+  );
+
+  if (!confirmed) {
     return;
   }
 
@@ -67,38 +135,35 @@ const saveOfficialQuote = async () => {
     data.official_quote_total ?? ""
   );
 
-  setQuoteNotes(data.quote_notes || "");
+  setQuoteNotes(
+    data.quote_notes || ""
+  );
 };
-const issueOfficialQuote = async () => {
-  if (!selectedProject) {
-    return;
-  }
-  if (!selectedProject) {
+
+
+// ======================================================
+// 3. REVISE AN ISSUED QUOTE
+// ======================================================
+
+const reviseOfficialQuote = async () => {
+  if (!selectedProject?.quoted_at) {
     return;
   }
 
-  
-  const quoteTotal = Number(officialQuoteTotal);
-
-  if (!Number.isFinite(quoteTotal) || quoteTotal <= 0) {
-    console.error("Enter a valid official quote total.");
-    return;
-  }
   const confirmed = window.confirm(
-  `Issue official quote for $${quoteTotal.toFixed(2)}?\n\n` +
-  `This will mark the project as Quoted.`
-);
+    "Revise this issued quote?\n\n" +
+      "The project will return to Reviewing so you can prepare a revised quote."
+  );
 
-if (!confirmed) {
-  return;
-}
+  if (!confirmed) {
+    return;
+  }
 
   const { data, error } = await supabase
     .from("projects")
     .update({
-      official_quote_total: quoteTotal,
-      quote_notes: quoteNotes.trim() || null,
-      quoted_at: selectedProject.quoted_at || null,
+      status: "reviewing",
+      quoted_at: null,
     })
     .eq("id", selectedProject.id)
     .select()
@@ -106,7 +171,7 @@ if (!confirmed) {
 
   if (error) {
     console.error(
-      "Failed to save official quote:",
+      "Failed to reopen quote:",
       error
     );
     return;
@@ -121,11 +186,17 @@ if (!confirmed) {
   );
 
   setSelectedProject(data);
+
+  // Preserve the existing quote while revising it
   setOfficialQuoteTotal(
     data.official_quote_total ?? ""
   );
-  setQuoteNotes(data.quote_notes || "");
+
+  setQuoteNotes(
+    data.quote_notes || ""
+  );
 };
+
 
   const projectStatuses = [
     "new",
@@ -818,8 +889,11 @@ return aDue - bDue;
   type="button"
   className="admin-project-issue-quote"
   onClick={issueOfficialQuote}
+  disabled={Boolean(selectedProject.quoted_at)}
 >
-  Issue Official Quote
+  {selectedProject.quoted_at
+    ? "Quote Issued"
+    : "Issue Official Quote"}
 </button>
 </div>
 {selectedProject.quoted_at && (
@@ -857,6 +931,13 @@ return aDue - bDue;
     </div>
   </div>
 )}
+<button
+  type="button"
+  className="admin-project-revise-quote"
+  onClick={reviseOfficialQuote}
+>
+  Revise Quote
+</button>
  <div className="admin-project-detail-grid">
             <div>
               <span>Email</span>
