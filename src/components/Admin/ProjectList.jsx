@@ -800,7 +800,7 @@ return aDue - bDue;
     type="button"
     className="admin-project-save-quote"
     onClick={() => {
-  alert("Calling saveOfficialQuote now");
+  alert("issueOfficialQuote");
   saveOfficialQuote();
 }}
   >
