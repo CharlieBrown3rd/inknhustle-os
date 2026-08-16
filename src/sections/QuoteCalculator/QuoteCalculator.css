@@ -1987,3 +1987,69 @@
 .admin-project-next-stage:active {
   transform: translateY(0);
 }
+/* ========================================
+   ISSUED QUOTE SUMMARY
+======================================== */
+
+.admin-project-issued-quote {
+  margin: 28px 0;
+  padding: 22px;
+  background: #121212;
+  border: 1px solid rgba(244, 122, 32, 0.35);
+  border-radius: 14px;
+}
+
+.admin-project-issued-quote > span {
+  display: block;
+  margin-bottom: 18px;
+  color: #f47a20;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-project-issued-quote-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-project-issued-quote-grid > div,
+.admin-project-issued-quote-notes {
+  padding: 16px;
+  background: #0d0d0d;
+  border: 1px solid #2f2f2f;
+  border-radius: 10px;
+}
+
+.admin-project-issued-quote small {
+  display: block;
+  margin-bottom: 6px;
+  color: #8f8f8f;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-project-issued-quote strong {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.admin-project-issued-quote-notes {
+  margin-top: 14px;
+}
+
+.admin-project-issued-quote-notes p {
+  margin: 0;
+  color: #d1d1d1;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .admin-project-issued-quote-grid {
+    grid-template-columns: 1fr;
+  }
+}

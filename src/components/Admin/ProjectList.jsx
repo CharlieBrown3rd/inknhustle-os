@@ -84,6 +84,14 @@ const issueOfficialQuote = async () => {
     console.error("Enter a valid official quote total.");
     return;
   }
+  const confirmed = window.confirm(
+  `Issue official quote for $${quoteTotal.toFixed(2)}?\n\n` +
+  `This will mark the project as Quoted.`
+);
+
+if (!confirmed) {
+  return;
+}
 
   const { data, error } = await supabase
     .from("projects")
@@ -814,6 +822,41 @@ return aDue - bDue;
   Issue Official Quote
 </button>
 </div>
+{selectedProject.quoted_at && (
+  <div className="admin-project-issued-quote">
+    <span>Issued Quote</span>
+
+    <div className="admin-project-issued-quote-grid">
+      <div>
+        <small>Official Total</small>
+        <strong>
+          {selectedProject.official_quote_total != null
+            ? `$${Number(
+                selectedProject.official_quote_total
+              ).toFixed(2)}`
+            : "—"}
+        </strong>
+      </div>
+
+      <div>
+        <small>Issued</small>
+        <strong>
+          {new Date(
+            selectedProject.quoted_at
+          ).toLocaleDateString()}
+        </strong>
+      </div>
+    </div>
+
+    <div className="admin-project-issued-quote-notes">
+      <small>Quote Notes</small>
+      <p>
+        {selectedProject.quote_notes ||
+          "No quote notes provided."}
+      </p>
+    </div>
+  </div>
+)}
  <div className="admin-project-detail-grid">
             <div>
               <span>Email</span>
