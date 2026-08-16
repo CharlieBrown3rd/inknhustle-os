@@ -9,6 +9,115 @@ function ProjectList() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedProject, setSelectedProject] =
     useState(null);
+    const [officialQuoteTotal, setOfficialQuoteTotal] =
+  useState("");
+
+const [quoteNotes, setQuoteNotes] =
+  useState("");
+
+const saveOfficialQuote = async () => {
+  console.log("SAVE QUOTE CLICKED", {
+  selectedProject,
+  officialQuoteTotal,
+  quoteNotes,
+});
+
+  const quoteTotal = Number(officialQuoteTotal);
+
+  if (!Number.isFinite(quoteTotal) || quoteTotal <= 0) {
+    console.error(
+      "Enter a valid official quote total before issuing the quote."
+    );
+    return;
+  }
+
+  const issuedAt = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from("projects")
+    .update({
+      official_quote_total: quoteTotal,
+      quote_notes: quoteNotes.trim() || null,
+      quoted_at: issuedAt,
+      status: "quoted",
+    })
+    .eq("id", selectedProject.id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(
+      "Failed to issue official quote:",
+      error
+    );
+    return;
+  }
+
+  setProjects((currentProjects) =>
+    currentProjects.map((project) =>
+      project.id === selectedProject.id
+        ? data
+        : project
+    )
+  );
+
+  setSelectedProject(data);
+
+  setOfficialQuoteTotal(
+    data.official_quote_total ?? ""
+  );
+
+  setQuoteNotes(data.quote_notes || "");
+};
+const issueOfficialQuote = async () => {
+  if (!selectedProject) {
+    return;
+  }
+  if (!selectedProject) {
+    return;
+  }
+
+  
+  const quoteTotal = Number(officialQuoteTotal);
+
+  if (!Number.isFinite(quoteTotal) || quoteTotal <= 0) {
+    console.error("Enter a valid official quote total.");
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("projects")
+    .update({
+      official_quote_total: quoteTotal,
+      quote_notes: quoteNotes.trim() || null,
+      quoted_at: selectedProject.quoted_at || null,
+    })
+    .eq("id", selectedProject.id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(
+      "Failed to save official quote:",
+      error
+    );
+    return;
+  }
+
+  setProjects((currentProjects) =>
+    currentProjects.map((project) =>
+      project.id === selectedProject.id
+        ? data
+        : project
+    )
+  );
+
+  setSelectedProject(data);
+  setOfficialQuoteTotal(
+    data.official_quote_total ?? ""
+  );
+  setQuoteNotes(data.quote_notes || "");
+};
 
   const projectStatuses = [
     "new",
@@ -438,12 +547,31 @@ return aDue - bDue;
                 onClick={() => {
   setSelectedProject(project);
   setAdminNotes(project.admin_notes || "");
+
+  setOfficialQuoteTotal(
+    project.official_quote_total ?? ""
+  );
+
+  setQuoteNotes(
+    project.quote_notes || ""
+  );
 }}
                 onKeyDown={(event) => {
                   if (
                     event.key === "Enter" ||
                     event.key === " "
                   ) {
+                     setSelectedProject(project);
+  setAdminNotes(project.admin_notes || "");
+
+  setOfficialQuoteTotal(
+    project.official_quote_total ?? ""
+  );
+
+  setQuoteNotes(
+    project.quote_notes || ""
+  );
+                    
                     setSelectedProject(project);
                   }
                 }}
@@ -633,7 +761,60 @@ return aDue - bDue;
       nextProjectStatus[selectedProject.status]
     ]}
   </button>
-)}          <div className="admin-project-detail-grid">
+  
+)}         
+<div className="admin-project-official-quote">
+  <span>Official Quote</span>
+
+  <div className="admin-project-quote-grid">
+    <label>
+      Official Quote Total
+
+      <input
+        type="number"
+        min="0"
+        step="0.01"
+        value={officialQuoteTotal}
+        onChange={(event) =>
+          setOfficialQuoteTotal(event.target.value)
+        }
+        placeholder="0.00"
+      />
+    </label>
+
+    <label>
+      Quote Notes
+
+      <textarea
+        rows="4"
+        value={quoteNotes}
+        onChange={(event) =>
+          setQuoteNotes(event.target.value)
+        }
+        placeholder="Add customer-facing quote details..."
+      />
+    </label>
+  </div>
+
+   <button
+    type="button"
+    className="admin-project-save-quote"
+    onClick={() => {
+  alert("Calling saveOfficialQuote now");
+  saveOfficialQuote();
+}}
+  >
+    Save Official Quote
+  </button>
+  <button
+  type="button"
+  className="admin-project-issue-quote"
+  onClick={issueOfficialQuote}
+>
+  Issue Official Quote
+</button>
+</div>
+ <div className="admin-project-detail-grid">
             <div>
               <span>Email</span>
               <strong>

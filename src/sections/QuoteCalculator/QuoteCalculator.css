@@ -1831,3 +1831,159 @@
   font-weight: 700;
   letter-spacing: 0.02em;
 }
+/* ========================================
+   ADMIN PROJECT CONTROL PANEL
+======================================== */
+
+.admin-project-admin-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.admin-project-admin-notes > span {
+  color: #a3a3a3;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-project-admin-notes textarea {
+  width: 100%;
+  min-height: 130px;
+  padding: 16px;
+  box-sizing: border-box;
+
+  color: #ffffff;
+  background: #101010;
+  border: 1px solid #333333;
+  border-radius: 12px;
+
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+
+  resize: vertical;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-project-admin-notes textarea:focus {
+  border-color: #f47a20;
+  box-shadow: 0 0 0 3px rgba(244, 122, 32, 0.12);
+}
+
+.admin-project-admin-notes textarea::placeholder {
+  color: #666666;
+}
+
+.admin-project-save-notes {
+  align-self: flex-start;
+  padding: 10px 18px;
+
+  color: #ffffff;
+  background: #f47a20;
+  border: 1px solid #f47a20;
+  border-radius: 9px;
+
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.admin-project-save-notes:hover {
+  transform: translateY(-1px);
+}
+
+.admin-project-save-notes:active {
+  transform: translateY(0);
+}
+
+.admin-project-notes-saved {
+  display: inline-block;
+  margin-left: 12px;
+
+  color: #22c55e;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+/* ========================================
+   ADMIN PROJECT STATUS CONTROLS
+======================================== */
+
+.admin-project-status-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.admin-project-status-control label {
+  color: #a3a3a3;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-project-status-control select {
+  min-width: 190px;
+  padding: 10px 38px 10px 14px;
+
+  color: #ffffff;
+  background: #101010;
+  border: 1px solid #333333;
+  border-radius: 10px;
+
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  outline: none;
+}
+
+.admin-project-status-control select:focus {
+  border-color: #f47a20;
+  box-shadow: 0 0 0 3px rgba(244, 122, 32, 0.12);
+}
+
+.admin-project-next-stage {
+  margin-bottom: 24px;
+  padding: 11px 18px;
+
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid #f47a20;
+  border-radius: 9px;
+
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.admin-project-next-stage:hover {
+  color: #111111;
+  background: #f47a20;
+  transform: translateY(-1px);
+}
+
+.admin-project-next-stage:active {
+  transform: translateY(0);
+}
