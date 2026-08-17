@@ -11,6 +11,10 @@ function ProjectList() {
     useState(null);
     const [officialQuoteTotal, setOfficialQuoteTotal] =
   useState("");
+const [
+  customerApprovalStatus,
+  setCustomerApprovalStatus,
+] = useState("pending");
 
 const [quoteNotes, setQuoteNotes] =
   useState("");
@@ -68,6 +72,56 @@ const saveOfficialQuote = async () => {
 
   setQuoteNotes(
     data.quote_notes || ""
+  );
+};
+const saveCustomerApprovalStatus = async () => {
+  if (!selectedProject) {
+    return;
+  }
+
+  const approvalStatus = customerApprovalStatus;
+
+  const approvedAt =
+    approvalStatus === "approved"
+      ? new Date().toISOString()
+      : null;
+
+  const { data, error } = await supabase
+    .from("projects")
+    .update({
+      customer_approval_status: approvalStatus,
+      approved_at: approvedAt,
+      status:
+  approvalStatus === "approved"
+    ? "approved"
+    : approvalStatus === "changes_requested"
+    ? "reviewing"
+    : selectedProject.status,
+    })
+    .eq("id", selectedProject.id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(
+      "Failed to save customer approval status:",
+      error
+    );
+    return;
+  }
+
+  setProjects((currentProjects) =>
+    currentProjects.map((project) =>
+      project.id === selectedProject.id
+        ? data
+        : project
+    )
+  );
+
+  setSelectedProject(data);
+
+  setCustomerApprovalStatus(
+    data.customer_approval_status || "pending"
   );
 };
 
@@ -634,26 +688,31 @@ return aDue - bDue;
   setQuoteNotes(
     project.quote_notes || ""
   );
+setCustomerApprovalStatus(
+    project.customer_approval_status || "pending"
+  );
 }}
                 onKeyDown={(event) => {
-                  if (
-                    event.key === "Enter" ||
-                    event.key === " "
-                  ) {
-                     setSelectedProject(project);
-  setAdminNotes(project.admin_notes || "");
+  if (
+    event.key === "Enter" ||
+    event.key === " "
+  ) {
+    setSelectedProject(project);
+    setAdminNotes(project.admin_notes || "");
 
-  setOfficialQuoteTotal(
-    project.official_quote_total ?? ""
-  );
+    setOfficialQuoteTotal(
+      project.official_quote_total ?? ""
+    );
 
-  setQuoteNotes(
-    project.quote_notes || ""
-  );
-                    
-                    setSelectedProject(project);
-                  }
-                }}
+    setQuoteNotes(
+      project.quote_notes || ""
+    );
+
+    setCustomerApprovalStatus(
+      project.customer_approval_status || "pending"
+    );
+  }
+}}
               >
                 
                 <div className="admin-project-card-header">
@@ -876,15 +935,13 @@ return aDue - bDue;
   </div>
 
    <button
-    type="button"
-    className="admin-project-save-quote"
-    onClick={() => {
-  alert("issueOfficialQuote");
-  saveOfficialQuote();
-}}
-  >
-    Save Official Quote
-  </button>
+  type="button"
+  className="admin-project-save-quote"
+  onClick={saveOfficialQuote}
+>
+  Save Official Quote
+</button>
+
   <button
   type="button"
   className="admin-project-issue-quote"
@@ -928,6 +985,23 @@ return aDue - bDue;
         {selectedProject.quote_notes ||
           "No quote notes provided."}
       </p>
+      {selectedProject.quoted_at && (
+  <div className="admin-project-issued-quote">
+    <span>Issued Quote</span>
+
+    <div className="admin-project-issued-quote-grid">
+      {/* Official Total + Issued Date */}
+    </div>
+
+    <div className="admin-project-issued-quote-notes">
+      <small>Quote Notes</small>
+      <p>
+        {selectedProject.quote_notes ||
+          "No quote notes provided."}
+      </p>
+    </div>
+  </div>
+)}
     </div>
   </div>
 )}
@@ -938,6 +1012,37 @@ return aDue - bDue;
 >
   Revise Quote
 </button>
+<div className="admin-project-customer-approval">
+  <span>Customer Approval</span>
+
+  <label htmlFor="customer-approval-status">
+    Approval Status
+  </label>
+
+  <select
+    id="customer-approval-status"
+    value={customerApprovalStatus}
+    onChange={(event) =>
+      setCustomerApprovalStatus(event.target.value)
+    }
+  >
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="changes_requested">
+      Changes Requested
+    </option>
+    <option value="declined">Declined</option>
+  </select>
+
+  <button
+  type="button"
+  className="admin-project-save-approval"
+  onClick={saveCustomerApprovalStatus}
+>
+  Save Approval Status
+</button>
+</div>
+
  <div className="admin-project-detail-grid">
             <div>
               <span>Email</span>
