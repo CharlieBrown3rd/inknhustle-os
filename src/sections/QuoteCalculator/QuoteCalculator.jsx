@@ -7,6 +7,7 @@ import ArtworkUploader from "../../components/QuoteBuilder/ArtworkUploader";
 import ProjectProgress from "../../components/QuoteBuilder/ProjectProgress";
 import CustomerInformation from "../../components/QuoteBuilder/CustomerInformation";
 import FinalProjectReview from "../../components/QuoteBuilder/FinalProjectReview";
+import SubmissionConfirmation from "../../components/QuoteBuilder/SubmissionConfirmation";
 import { supabase } from "../../lib/supabase";
 
 import { calculateEstimate } from "../../utils/pricingEngine";
@@ -33,7 +34,7 @@ function QuoteCalculator() {
   const [colors, setColors] = useState(1);
   const [rushOrder, setRushOrder] = useState(false);
   const [submittedProject, setSubmittedProject] = useState(null);
-
+  
   const togglePrintLocation = (location) => {
     setSelectedLocations((previousLocations) => {
       if (previousLocations.includes(location)) {
@@ -241,7 +242,16 @@ if (error) {
 };
 
 
-  return (
+  return submittedProject ? (
+  <SubmissionConfirmation
+  projectReference={submittedProject.reference}
+  estimatedTotal={submittedProject.pricing.total}
+  customerName={submittedProject.customer.fullName}
+  customerEmail={submittedProject.customer.email}
+  artworkUploaded={Boolean(submittedProject.artwork?.path)}
+  onStartAnotherProject={() => setSubmittedProject(null)}
+/>
+) : (
     <section className="quote-calculator" id="quote">
       <div className="quote-calculator-container">
         <div className="quote-heading">
