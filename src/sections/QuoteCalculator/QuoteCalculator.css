@@ -2053,6 +2053,243 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ======================================================
+   SUBMISSION CONFIRMATION - BASE / DESKTOP
+====================================================== */
+
+.submission-confirmation {
+  width: 100%;
+  padding: 80px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.submission-confirmation-card {
+  width: 100%;
+  max-width: 1050px;
+  background: #171717;
+  border: 1px solid #303030;
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.submission-confirmation-header {
+  text-align: center;
+  margin-bottom: 42px;
+}
+
+.submission-confirmation-eyebrow {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #f47a20;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.submission-confirmation-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(244, 122, 32, 0.12);
+  border: 1px solid rgba(244, 122, 32, 0.45);
+  border-radius: 50%;
+  color: #f47a20;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.submission-confirmation-header h2 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.submission-confirmation-header p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: #bdbdbd;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   PROJECT SUMMARY
+====================================================== */
+
+.submission-confirmation-summary {
+  padding: 30px;
+  background: #111111;
+  border: 1px solid #2c2c2c;
+  border-radius: 18px;
+  margin-bottom: 32px;
+}
+
+.submission-confirmation-summary h3 {
+  margin: 0 0 24px;
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+.submission-confirmation-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.submission-confirmation-summary-item {
+  padding: 20px;
+  background: #191919;
+  border: 1px solid #303030;
+  border-radius: 14px;
+}
+
+.submission-confirmation-summary-item span {
+  display: block;
+  margin-bottom: 8px;
+  color: #8d8d8d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.submission-confirmation-summary-item strong {
+  color: #ffffff;
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.submission-confirmation-status.success {
+  color: #f47a20;
+}
+
+.submission-confirmation-status.pending {
+  color: #bdbdbd;
+}
+
+
+/* ======================================================
+   WHAT HAPPENS NEXT
+====================================================== */
+
+.submission-confirmation-next-steps {
+  padding: 32px;
+  border: 1px solid rgba(244, 122, 32, 0.25);
+  border-radius: 18px;
+  background: rgba(244, 122, 32, 0.04);
+  margin-bottom: 32px;
+}
+
+.submission-confirmation-next-heading {
+  margin-bottom: 28px;
+}
+
+.submission-confirmation-next-heading span {
+  display: block;
+  margin-bottom: 8px;
+  color: #f47a20;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.submission-confirmation-next-heading h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.submission-confirmation-step {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 20px;
+  padding: 22px 0;
+  border-top: 1px solid #303030;
+}
+
+.submission-confirmation-step:first-of-type {
+  border-top: 0;
+}
+
+.submission-confirmation-step-number {
+  color: #f47a20;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.submission-confirmation-step strong {
+  display: block;
+  margin-bottom: 7px;
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.submission-confirmation-step p {
+  margin: 0;
+  color: #aaaaaa;
+  line-height: 1.65;
+}
+
+
+/* ======================================================
+   FOOTER / BUTTON
+====================================================== */
+
+.submission-confirmation-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.submission-confirmation-footer p {
+  max-width: 580px;
+  margin: 0;
+  color: #8f8f8f;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.submission-confirmation-new-project {
+  flex-shrink: 0;
+  padding: 14px 24px;
+  background: transparent;
+  border: 1px solid #f47a20;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.submission-confirmation-new-project:hover {
+  background: #f47a20;
+  color: #111111;
+  transform: translateY(-2px);
+}
+
+.submission-confirmation-new-project:focus-visible {
+  outline: 2px solid #f47a20;
+  outline-offset: 4px;
+}
 /* ======================================================
    RESPONSIVE REFINEMENTS
 ====================================================== */

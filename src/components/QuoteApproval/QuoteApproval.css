@@ -1,0 +1,232 @@
+/* ======================================================
+   QUOTE APPROVAL
+====================================================== */
+
+.quote-approval {
+  min-height: 100vh;
+  padding: 80px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #0f0f0f;
+  color: #ffffff;
+}
+
+.quote-approval-card {
+  width: 100%;
+  max-width: 900px;
+  padding: 48px;
+  background: #171717;
+  border: 1px solid #303030;
+  border-radius: 24px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.quote-approval-header {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.quote-approval-eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #f47a20;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.quote-approval-header h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.quote-approval-header p {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #bdbdbd;
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   PROJECT SUMMARY
+====================================================== */
+
+.quote-approval-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.quote-approval-summary > div {
+  padding: 22px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 14px;
+}
+
+.quote-approval-summary span {
+  display: block;
+  margin-bottom: 8px;
+  color: #8f8f8f;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quote-approval-summary strong {
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.quote-approval-summary > div:last-child strong {
+  color: #f47a20;
+  font-size: 1.5rem;
+}
+
+
+/* ======================================================
+   QUOTE NOTES
+====================================================== */
+
+.quote-approval-notes {
+  margin-bottom: 28px;
+  padding: 24px;
+  background: rgba(244, 122, 32, 0.04);
+  border: 1px solid rgba(244, 122, 32, 0.25);
+  border-radius: 14px;
+}
+
+.quote-approval-notes span {
+  display: block;
+  margin-bottom: 10px;
+  color: #f47a20;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quote-approval-notes p {
+  margin: 0;
+  color: #d0d0d0;
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   APPROVAL ACTIONS
+====================================================== */
+
+.quote-approval-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.quote-approval-actions button {
+  min-height: 52px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.quote-approval-approve {
+  background: #f47a20;
+  color: #111111;
+  border: 1px solid #f47a20;
+}
+
+.quote-approval-approve:hover {
+  transform: translateY(-2px);
+}
+
+.quote-approval-request-changes {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #f47a20;
+}
+
+.quote-approval-request-changes:hover {
+  background: rgba(244, 122, 32, 0.08);
+  transform: translateY(-2px);
+}
+
+.quote-approval-actions button:focus-visible {
+  outline: 2px solid #f47a20;
+  outline-offset: 4px;
+}
+
+
+/* ======================================================
+   STATUS
+====================================================== */
+
+.quote-approval-status {
+  padding: 16px 18px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 12px;
+  color: #a8a8a8;
+  text-align: center;
+}
+
+.quote-approval-status strong {
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 700px) {
+  .quote-approval {
+    padding: 48px 16px;
+  }
+
+  .quote-approval-card {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+  .quote-approval-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-approval-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .quote-approval {
+    padding: 28px 10px;
+  }
+
+  .quote-approval-card {
+    padding: 22px 14px;
+  }
+
+  .quote-approval-header h1 {
+    font-size: 1.8rem;
+  }
+}

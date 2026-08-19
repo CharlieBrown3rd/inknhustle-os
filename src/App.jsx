@@ -8,9 +8,18 @@ import Services from "./sections/Services/Services";
 import Contact from "./sections/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import AdminDashboard from "./components/Admin/AdminDashboard";
+import QuoteApprovalPage from "./components/QuoteApproval/QuoteApprovalPage";
+
 function App() {
   const isAdminRoute =
   window.location.pathname === "/admin";
+  
+  const isQuoteApprovalRoute =
+  window.location.pathname === "/quote-approval";
+
+  if (isQuoteApprovalRoute) {
+  return <QuoteApprovalPage />;
+}
 
 if (isAdminRoute) {
   return <AdminDashboard />;
