@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
-
+import ProductionTimeline from "./ProductionTimeline";
 function ProjectList() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -496,16 +496,31 @@ return aDue - bDue;
     loadProjects();
   }, []);
 
+
   const updateProjectStatus = async (
-    projectId,
-    newStatus
-  ) => {
-    const { data, error } = await supabase
-      .from("projects")
-      .update({ status: newStatus })
-      .eq("id", projectId)
-      .select()
-      .single();
+  projectId,
+  newStatus
+) => {
+  const statusUpdates = {
+    status: newStatus,
+  };
+
+  if (newStatus === "production") {
+    statusUpdates.production_started_at =
+      new Date().toISOString();
+  }
+
+  if (newStatus === "completed") {
+    statusUpdates.completed_at =
+      new Date().toISOString();
+  }
+
+  const { data, error } = await supabase
+    .from("projects")
+    .update(statusUpdates)
+    .eq("id", projectId)
+    .select()
+    .single();
 
     if (error) {
       console.error(
@@ -875,13 +890,28 @@ setCustomerApprovalStatus(
       moveProjectToNextStage(selectedProject)
     }
   >
-    Move to{" "}
-    {projectStatusLabels[
-      nextProjectStatus[selectedProject.status]
-    ]}
+   Move to{" "}
+    {
+      projectStatusLabels[
+        nextProjectStatus[selectedProject.status]
+      ]
+    }
   </button>
-  
-)}         
+)}
+
+{(selectedProject.production_started_at ||
+  selectedProject.completed_at) && (
+  <ProductionTimeline
+    productionStartedAt={
+      selectedProject.production_started_at
+    }
+    completedAt={
+      selectedProject.completed_at
+    }
+  />
+)}
+
+       
 <div className="admin-project-official-quote">
   <span>Official Quote</span>
 

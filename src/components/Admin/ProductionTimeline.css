@@ -1,0 +1,91 @@
+/* ======================================================
+   PRODUCTION TIMELINE
+====================================================== */
+
+.production-timeline {
+  margin-top: 24px;
+  padding: 24px;
+  background: #151515;
+  border: 1px solid #303030;
+  border-radius: 14px;
+}
+
+.production-timeline-header {
+  margin-bottom: 20px;
+}
+
+.production-timeline-header > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #f47a20;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.production-timeline-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+
+/* ======================================================
+   TIMELINE GRID
+====================================================== */
+
+.production-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.production-timeline-item {
+  padding: 18px;
+  background: #101010;
+  border: 1px solid #303030;
+  border-radius: 12px;
+}
+
+.production-timeline-item span {
+  display: block;
+  margin-bottom: 8px;
+  color: #8f8f8f;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.production-timeline-item strong {
+  display: block;
+  color: #ffffff;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.production-timeline-item:last-child strong {
+  color: #f47a20;
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 800px) {
+  .production-timeline-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .production-timeline {
+    padding: 18px;
+  }
+
+  .production-timeline-item {
+    padding: 15px;
+  }
+}
