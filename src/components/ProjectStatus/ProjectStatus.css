@@ -1,0 +1,234 @@
+/* ======================================================
+   PROJECT STATUS PAGE
+====================================================== */
+
+.project-status-page {
+  min-height: 100vh;
+  padding: 80px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: #0f0f0f;
+  color: #ffffff;
+}
+
+.project-status-card {
+  width: 100%;
+  max-width: 900px;
+  padding: 48px;
+  background: #171717;
+  border: 1px solid #303030;
+  border-radius: 24px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.project-status-header {
+  margin-bottom: 34px;
+  text-align: center;
+}
+
+.project-status-eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #f47a20;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.project-status-header h1 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.project-status-header p {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #bdbdbd;
+  line-height: 1.7;
+}
+
+
+/* ======================================================
+   PROJECT REFERENCE
+====================================================== */
+
+.project-status-reference {
+  margin-bottom: 28px;
+  padding: 22px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.project-status-reference span {
+  display: block;
+  margin-bottom: 8px;
+  color: #8f8f8f;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-status-reference strong {
+  color: #ffffff;
+  font-size: 1.15rem;
+}
+
+
+/* ======================================================
+   PROGRESS
+====================================================== */
+
+.project-status-progress {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.project-status-step {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 22px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 14px;
+}
+
+.project-status-step > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #8f8f8f;
+  background: #191919;
+  border: 1px solid #3a3a3a;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.project-status-step strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.project-status-step p {
+  margin: 0;
+  color: #999999;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+
+/* ======================================================
+   COMPLETED PROGRESS STATE
+====================================================== */
+
+.project-status-step.complete {
+  border-color: rgba(244, 122, 32, 0.35);
+  background: rgba(244, 122, 32, 0.04);
+}
+
+.project-status-step.complete > span {
+  color: #111111;
+  background: #f47a20;
+  border-color: #f47a20;
+}
+
+.project-status-step.complete strong {
+  color: #f47a20;
+}
+
+
+/* ======================================================
+   PRODUCTION DETAILS
+====================================================== */
+
+.project-status-production {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.project-status-production > div {
+  padding: 20px;
+  background: #101010;
+  border: 1px solid #303030;
+  border-radius: 12px;
+}
+
+.project-status-production span {
+  display: block;
+  margin-bottom: 8px;
+  color: #8f8f8f;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.project-status-production strong {
+  display: block;
+  color: #ffffff;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 700px) {
+  .project-status-page {
+    padding: 48px 16px;
+  }
+
+  .project-status-card {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+  .project-status-production {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .project-status-page {
+    padding: 28px 10px;
+  }
+
+  .project-status-card {
+    padding: 22px 14px;
+  }
+
+  .project-status-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .project-status-step {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 12px;
+    padding: 18px 14px;
+  }
+
+  .project-status-step > span {
+    width: 36px;
+    height: 36px;
+  }
+}

@@ -9,7 +9,7 @@ import Contact from "./sections/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import QuoteApprovalPage from "./components/QuoteApproval/QuoteApprovalPage";
-
+import ProjectStatusPage from "./components/ProjectStatus/ProjectStatusPage";
 function App() {
   const isAdminRoute =
   window.location.pathname === "/admin";
@@ -17,10 +17,16 @@ function App() {
   const isQuoteApprovalRoute =
   window.location.pathname === "/quote-approval";
 
+  const isProjectStatusRoute =
+  window.location.pathname === "/project-status";
+  
+
   if (isQuoteApprovalRoute) {
   return <QuoteApprovalPage />;
 }
-
+if (isProjectStatusRoute) {
+  return <ProjectStatusPage />;
+}
 if (isAdminRoute) {
   return <AdminDashboard />;
 }
