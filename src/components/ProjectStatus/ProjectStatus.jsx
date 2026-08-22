@@ -1,3 +1,5 @@
+import "./ProjectStatus.css";
+
 function ProjectStatus({
   projectReference,
   customerName,

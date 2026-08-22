@@ -7,6 +7,7 @@ function QuoteApproval({
   officialQuoteTotal,
   quoteNotes,
   approvalStatus,
+  approvalToken,
   onApprove,
   onRequestChanges,
 }) {
@@ -115,6 +116,15 @@ function QuoteApproval({
           approvalStatus.slice(1)}
     </strong>
   </div>
+)}
+
+{approvalStatus === "approved" && approvalToken && (
+  <a
+    className="quote-approval-status-link"
+    href={`/project-status?token=${approvalToken}`}
+  >
+    View Project Status
+  </a>
 )}
 
       </div>

@@ -221,6 +221,7 @@ function QuoteApprovalPage() {
       officialQuoteTotal={quote.official_quote_total}
       quoteNotes={quote.quote_notes}
       approvalStatus={quote.customer_approval_status}
+      approvalToken={token}
       onApprove={handleApprove}
       onRequestChanges={handleRequestChanges}
     />
