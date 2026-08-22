@@ -10,7 +10,9 @@ function QuoteApprovalPage() {
   const [quote, setQuote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-
+  
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
 
   // ======================================================
   // LOAD QUOTE
@@ -18,8 +20,7 @@ function QuoteApprovalPage() {
 
   useEffect(() => {
     const loadQuote = async () => {
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get("token");
+      
 
       if (!token) {
         setErrorMessage("This quote link is missing its approval token.");
