@@ -123,14 +123,6 @@ function QuoteApproval({
   </div>
 )}
 
-{approvalStatus === "approved" && approvalToken && (
-  <a
-    className="quote-approval-status-link"
-    href={`/project-status?token=${approvalToken}`}
-  >
-    View Project Status
-  </a>
-)}
 
 {approvalStatus === "approved" && (
   <div className="quote-approval-deposit">
@@ -169,6 +161,15 @@ function QuoteApproval({
       </strong>
     </div>
   </div>
+)}
+
+{approvalStatus === "approved" && approvalToken && (
+  <a
+    className="quote-approval-status-link"
+    href={`/project-status?token=${approvalToken}`}
+  >
+    View Project Status
+  </a>
 )}
 
       </div>

@@ -205,6 +205,70 @@
   outline-offset: 4px;
 }
 
+/* ==================================================
+   DEPOSIT SUMMARY
+================================================== */
+
+.quote-approval-deposit {
+  margin-top: 18px;
+  padding: 28px;
+  background: #111111;
+  border: 1px solid #303030;
+  border-radius: 16px;
+}
+
+.quote-approval-deposit-heading {
+  margin-bottom: 22px;
+  color: #f47a20;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.quote-approval-deposit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.quote-approval-deposit-grid > div {
+  padding: 18px;
+  background: #171717;
+  border: 1px solid #303030;
+  border-radius: 12px;
+}
+
+.quote-approval-deposit-grid span {
+  display: block;
+  margin-bottom: 8px;
+  color: #9a9a9a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.quote-approval-deposit-grid strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.quote-approval-deposit-status {
+  margin-top: 16px;
+  padding: 16px 18px;
+  background: rgba(244, 122, 32, 0.08);
+  border: 1px solid rgba(244, 122, 32, 0.4);
+  border-radius: 12px;
+  color: #bdbdbd;
+}
+
+.quote-approval-deposit-status strong {
+  color: #f47a20;
+}
+
 /* ======================================================
    STATUS
 ====================================================== */
@@ -242,6 +306,10 @@
     grid-template-columns: 1fr;
   }
 
+  .quote-approval-deposit-grid {
+    grid-template-columns: 1fr;
+  }
+
   .quote-approval-actions {
     grid-template-columns: 1fr;
   }
@@ -258,5 +326,17 @@
 
   .quote-approval-header h1 {
     font-size: 1.8rem;
+  }
+
+    .quote-approval-deposit {
+    padding: 20px 16px;
+  }
+
+  .quote-approval-deposit-grid > div {
+    padding: 16px;
+  }
+
+  .quote-approval-deposit-status {
+    padding: 14px 16px;
   }
 }
