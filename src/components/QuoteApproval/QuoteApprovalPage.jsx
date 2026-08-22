@@ -217,15 +217,20 @@ function QuoteApprovalPage() {
 
   return (
     <QuoteApproval
-      projectReference={quote.reference}
-      customerName={quote.customer_name}
-      officialQuoteTotal={quote.official_quote_total}
-      quoteNotes={quote.quote_notes}
-      approvalStatus={quote.customer_approval_status}
-      approvalToken={token}
-      onApprove={handleApprove}
-      onRequestChanges={handleRequestChanges}
-    />
+  projectReference={quote.reference}
+  customerName={quote.customer_name}
+  officialQuoteTotal={quote.official_quote_total}
+  quoteNotes={quote.quote_notes}
+  approvalStatus={quote.customer_approval_status}
+  approvalToken={token}
+  depositPercentage={quote.deposit_percentage}
+  depositAmount={quote.deposit_amount}
+  depositStatus={quote.deposit_status}
+  amountPaid={quote.amount_paid}
+  balanceDue={quote.balance_due}
+  onApprove={handleApprove}
+  onRequestChanges={handleRequestChanges}
+/>
   );
 }
 

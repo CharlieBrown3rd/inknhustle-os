@@ -8,6 +8,11 @@ function QuoteApproval({
   quoteNotes,
   approvalStatus,
   approvalToken,
+  depositPercentage,
+  depositAmount,
+  depositStatus,
+  amountPaid,
+  balanceDue,
   onApprove,
   onRequestChanges,
 }) {
@@ -125,6 +130,45 @@ function QuoteApproval({
   >
     View Project Status
   </a>
+)}
+
+{approvalStatus === "approved" && (
+  <div className="quote-approval-deposit">
+    <div className="quote-approval-deposit-heading">
+      Deposit Required
+    </div>
+
+    <div className="quote-approval-deposit-grid">
+      <div>
+        <span>Deposit Rate</span>
+        <strong>{Number(depositPercentage).toFixed(0)}%</strong>
+      </div>
+
+      <div>
+        <span>Deposit Amount</span>
+        <strong>${Number(depositAmount).toFixed(2)}</strong>
+      </div>
+
+      <div>
+        <span>Amount Paid</span>
+        <strong>${Number(amountPaid).toFixed(2)}</strong>
+      </div>
+
+      <div>
+        <span>Balance Due</span>
+        <strong>${Number(balanceDue).toFixed(2)}</strong>
+      </div>
+    </div>
+
+    <div className="quote-approval-deposit-status">
+      Deposit Status:{" "}
+      <strong>
+        {depositStatus === "deposit_paid"
+          ? "Paid"
+          : "Pending"}
+      </strong>
+    </div>
+  </div>
 )}
 
       </div>
