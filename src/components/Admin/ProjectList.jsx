@@ -400,7 +400,18 @@ const moveProjectToNextStage = async (project) => {
   if (!nextStatus) {
     return;
   }
+// Customer approval must control the quoted -> approved transition.
+if (
+  project.status === "quoted" &&
+  nextStatus === "approved" &&
+  project.customer_approval_status !== "approved"
+) {
+  window.alert(
+    "The customer must approve the official quote before this project can move to Approved."
+  );
 
+  return;
+}
   // Customer must approve before production begins.
   if (
     project.status === "approved" &&
@@ -894,7 +905,16 @@ setCustomerApprovalStatus(
 </div>
 
 
-{nextProjectStatus[selectedProject.status] && (
+{nextProjectStatus[selectedProject.status] &&
+  !(
+    selectedProject.status === "quoted" &&
+    selectedProject.customer_approval_status !== "approved"
+  ) &&
+  !(
+    selectedProject.status === "approved" &&
+    nextProjectStatus[selectedProject.status] === "production" &&
+    selectedProject.deposit_status !== "deposit_paid"
+  ) && (
   <button
     type="button"
     className="admin-project-next-stage"
