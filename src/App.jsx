@@ -9,7 +9,10 @@ import Contact from "./sections/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import QuoteApprovalPage from "./components/QuoteApproval/QuoteApprovalPage";
+
 import ProjectStatusPage from "./components/ProjectStatus/ProjectStatusPage";
+import PaymentCancelled from "./components/Payment/PaymentCancelled";
+import PaymentSuccess from "./components/Payment/PaymentSuccess";
 function App() {
   const isAdminRoute =
   window.location.pathname === "/admin";
@@ -19,13 +22,25 @@ function App() {
 
   const isProjectStatusRoute =
   window.location.pathname === "/project-status";
+
+  const isPaymentSuccessRoute =
+  window.location.pathname === "/payment-success";
   
+  const isPaymentCancelledRoute =
+  window.location.pathname === "/payment-cancelled";
 
   if (isQuoteApprovalRoute) {
   return <QuoteApprovalPage />;
 }
 if (isProjectStatusRoute) {
   return <ProjectStatusPage />;
+}
+
+if (isPaymentSuccessRoute) {
+  return <PaymentSuccess />;
+}
+if (isPaymentCancelledRoute) {
+  return <PaymentCancelled />;
 }
 if (isAdminRoute) {
   return <AdminDashboard />;

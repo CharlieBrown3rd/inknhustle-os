@@ -13,6 +13,8 @@ function QuoteApproval({
   depositStatus,
   amountPaid,
   balanceDue,
+  paymentLoading,
+  onPayDeposit,
   onApprove,
   onRequestChanges,
 }) {
@@ -160,6 +162,19 @@ function QuoteApproval({
           : "Pending"}
       </strong>
     </div>
+
+    {depositStatus === "deposit_pending" && (
+  <button
+    type="button"
+    className="quote-approval-deposit-pay"
+    onClick={onPayDeposit}
+    disabled={paymentLoading}
+  >
+    {paymentLoading
+      ? "Opening Secure Checkout..."
+      : `Pay $${Number(depositAmount).toFixed(2)} Deposit`}
+  </button>
+)}
   </div>
 )}
 

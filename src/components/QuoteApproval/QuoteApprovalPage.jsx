@@ -10,7 +10,7 @@ function QuoteApprovalPage() {
   const [quote, setQuote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  
+  const [paymentLoading, setPaymentLoading] = useState(false);
   const params = new URLSearchParams(window.location.search);
   const token = params.get("token");
 
@@ -211,6 +211,67 @@ function QuoteApprovalPage() {
   );
 };
 
+ const handlePayDeposit = async () => {
+  if (!token || paymentLoading) {
+    return;
+  }
+
+  setPaymentLoading(true);
+
+  try {
+    const { data, error } =
+      await supabase.functions.invoke(
+        "create-deposit-checkout",
+        {
+          body: {
+            token,
+          },
+        }
+      );
+
+    if (error) {
+      console.error(
+        "Failed to create deposit checkout:",
+        error
+      );
+
+      alert(
+        "We could not open the secure payment page. Please try again."
+      );
+
+      return;
+    }
+
+    if (!data?.checkoutUrl) {
+      console.error(
+        "Checkout URL was not returned:",
+        data
+      );
+
+      alert(
+        "We could not open the secure payment page. Please try again."
+      );
+
+      return;
+    }
+
+    window.location.assign(
+      data.checkoutUrl
+    );
+  } catch (error) {
+    console.error(
+      "Deposit checkout failed:",
+      error
+    );
+
+    alert(
+      "We could not open the secure payment page. Please try again."
+    );
+  } finally {
+    setPaymentLoading(false);
+  }
+};
+
   // ======================================================
   // RENDER
   // ======================================================
@@ -228,6 +289,8 @@ function QuoteApprovalPage() {
   depositStatus={quote.deposit_status}
   amountPaid={quote.amount_paid}
   balanceDue={quote.balance_due}
+  paymentLoading={paymentLoading}
+  onPayDeposit={handlePayDeposit}
   onApprove={handleApprove}
   onRequestChanges={handleRequestChanges}
 />
