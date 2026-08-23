@@ -268,6 +268,38 @@
 .quote-approval-deposit-status strong {
   color: #f47a20;
 }
+.quote-approval-deposit-pay {
+  width: 100%;
+  min-height: 54px;
+  margin-top: 16px;
+  padding: 14px 22px;
+  border: 1px solid #f47a20;
+  border-radius: 12px;
+  background: #f47a20;
+  color: #111111;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.quote-approval-deposit-pay:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.quote-approval-deposit-pay:focus-visible {
+  outline: 2px solid #f47a20;
+  outline-offset: 4px;
+}
+
+.quote-approval-deposit-pay:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
 
 /* ======================================================
    STATUS
