@@ -414,6 +414,18 @@ const moveProjectToNextStage = async (project) => {
     return;
   }
 
+  // Required deposit must be paid before production begins.
+if (
+  project.status === "approved" &&
+  nextStatus === "production" &&
+  project.deposit_status !== "deposit_paid"
+) {
+  window.alert(
+    "The required project deposit must be paid before moving this project into production."
+  );
+
+  return;
+}
   await updateProjectStatus(
     project.id,
     nextStatus
