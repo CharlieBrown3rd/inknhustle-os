@@ -579,9 +579,6 @@ const updateProjectStatus = async (
   const statusUpdates = {
     status: newStatus,
   };
-  const statusUpdates = {
-    status: newStatus,
-  };
 
   if (newStatus === "production") {
     statusUpdates.production_started_at =
