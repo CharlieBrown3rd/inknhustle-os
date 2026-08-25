@@ -12,6 +12,7 @@ import QuoteApprovalPage from "./components/QuoteApproval/QuoteApprovalPage";
 
 import ProjectStatusPage from "./components/ProjectStatus/ProjectStatusPage";
 import PaymentCancelled from "./components/Payment/PaymentCancelled";
+import PaymentPage from "./components/Payment/PaymentPage";
 import PaymentSuccess from "./components/Payment/PaymentSuccess";
 function App() {
   const isAdminRoute =
@@ -22,6 +23,9 @@ function App() {
 
   const isProjectStatusRoute =
   window.location.pathname === "/project-status";
+
+const isPaymentRoute =
+  window.location.pathname === "/payment";
 
   const isPaymentSuccessRoute =
   window.location.pathname === "/payment-success";
@@ -34,6 +38,10 @@ function App() {
 }
 if (isProjectStatusRoute) {
   return <ProjectStatusPage />;
+}
+
+if (isPaymentRoute) {
+  return <PaymentPage />;
 }
 
 if (isPaymentSuccessRoute) {
