@@ -520,10 +520,65 @@ return aDue - bDue;
   }, []);
 
 
-  const updateProjectStatus = async (
+const updateProjectStatus = async (
   projectId,
   newStatus
 ) => {
+  const project = projects.find(
+    (item) => item.id === projectId
+  );
+
+  if (!project) {
+    console.error(
+      "Could not find project for status update:",
+      projectId
+    );
+
+    return;
+  }
+
+  // A project cannot become Approved until the customer
+  // has approved the official quote.
+  if (
+    newStatus === "approved" &&
+    project.customer_approval_status !== "approved"
+  ) {
+    window.alert(
+      "The customer must approve the official quote before this project can move to Approved."
+    );
+
+    return;
+  }
+
+  // Production and completion require customer approval.
+  if (
+    (newStatus === "production" ||
+      newStatus === "completed") &&
+    project.customer_approval_status !== "approved"
+  ) {
+    window.alert(
+      "Customer approval is required before this project can enter production or be completed."
+    );
+
+    return;
+  }
+
+  // Production and completion also require the deposit.
+  if (
+    (newStatus === "production" ||
+      newStatus === "completed") &&
+    project.deposit_status !== "deposit_paid"
+  ) {
+    window.alert(
+      "The required project deposit must be paid before this project can enter production or be completed."
+    );
+
+    return;
+  }
+
+  const statusUpdates = {
+    status: newStatus,
+  };
   const statusUpdates = {
     status: newStatus,
   };

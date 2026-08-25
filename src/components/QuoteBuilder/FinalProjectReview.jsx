@@ -7,8 +7,9 @@ function FinalProjectReview({
   selectedLocations,
   estimate,
   projectReady,
-  onSubmit,
-  submittedProject,
+isSubmitting,
+onSubmit,
+submittedProject,
 }) {
     if (submittedProject) {
   return (
@@ -194,15 +195,15 @@ function FinalProjectReview({
       </div>
 
       <button
-        type="button"
-        className={`final-submit-button ${
-          projectReady ? "" : "disabled"
-        }`}
-        disabled={!projectReady}
-        onClick={onSubmit}
-      >
-        Submit Project
-      </button>
+  type="button"
+  className={`final-submit-button ${
+    projectReady && !isSubmitting ? "" : "disabled"
+  }`}
+  disabled={!projectReady || isSubmitting}
+  onClick={onSubmit}
+>
+  {isSubmitting ? "Submitting..." : "Submit Project"}
+</button>
 
       {!projectReady && (
         <p className="final-submit-message">

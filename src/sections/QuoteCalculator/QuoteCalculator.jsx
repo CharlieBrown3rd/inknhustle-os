@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import GarmentSelector from "../../components/QuoteBuilder/GarmentSelector";
 import PrintLocationSelector from "../../components/QuoteBuilder/PrintLocationSelector";
 import ProjectSummary from "../../components/QuoteBuilder/ProjectSummary";
@@ -34,7 +34,8 @@ function QuoteCalculator() {
   const [colors, setColors] = useState(1);
   const [rushOrder, setRushOrder] = useState(false);
   const [submittedProject, setSubmittedProject] = useState(null);
-  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
   const togglePrintLocation = (location) => {
     setSelectedLocations((previousLocations) => {
       if (previousLocations.includes(location)) {
@@ -145,6 +146,12 @@ const handleProjectSubmit = async () => {
   if (!projectReady) {
     return;
   }
+  if (isSubmittingRef.current) {
+    return;
+  }
+
+  isSubmittingRef.current = true;
+  setIsSubmitting(true);
 
   const projectReference = `INK-${new Date()
     .toISOString()
@@ -186,14 +193,17 @@ if (artworkFile) {
     .from("project-artwork")
     .upload(artworkPath, artworkFile);
 
-  if (artworkError) {
-    console.error(
-      "Artwork upload failed:",
-      artworkError
-    );
+ if (artworkError) {
+  console.error(
+    "Artwork upload failed:",
+    artworkError
+  );
 
-    return;
-  }
+  isSubmittingRef.current = false;
+  setIsSubmitting(false);
+
+  return;
+}
 }
   const { error } = await supabase
   .from("projects")
@@ -230,9 +240,11 @@ if (error) {
   console.error("details:", error.details);
   console.error("hint:", error.hint);
 
+  isSubmittingRef.current = false;
+  setIsSubmitting(false);
+
   return;
 }
-
   setSubmittedProject(projectData);
 
   console.log(
@@ -419,6 +431,7 @@ and receive a real-time project estimate.
   selectedLocations={selectedLocations}
   estimate={estimate}
   projectReady={projectReady}
+  isSubmitting={isSubmitting}
   onSubmit={handleProjectSubmit}
   submittedProject={submittedProject}
 />
