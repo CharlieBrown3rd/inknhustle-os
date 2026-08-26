@@ -38,10 +38,12 @@ useEffect(() => {
     );
 
     if (error) {
-      console.error(
-        "Failed to load payment details:",
-        error
-      );
+      console.error("Failed to load payment details:");
+      console.error("code:", error.code);
+      console.error("message:", error.message);
+      console.error("details:", error.details);
+      console.error("hint:", error.hint);
+      console.error("status:", error.status);
 
       setErrorMessage(
         "We could not load the payment details for this project."
@@ -72,7 +74,13 @@ useEffect(() => {
     }
 
     setPaymentDetails(project);
-    setLoading(false);
+
+sessionStorage.setItem(
+  "inknhustle_payment_token",
+  token
+);
+
+setLoading(false);
   };
 
   loadPaymentDetails();
@@ -119,6 +127,10 @@ const handlePayDeposit = async () => {
 
       return;
     }
+sessionStorage.setItem(
+  "inknhustle_payment_token",
+  token
+);
 
     window.location.assign(data.checkoutUrl);
   } catch (error) {

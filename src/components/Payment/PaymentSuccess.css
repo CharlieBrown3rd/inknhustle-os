@@ -52,7 +52,7 @@
   align-items: center;
   justify-content: center;
   min-height: 54px;
-  margin-top: 32px;
+  margin-top: 0;
   padding: 14px 22px;
   background: #f47a20;
   border: 1px solid #f47a20;
@@ -70,6 +70,57 @@
 }
 
 .payment-success-link:focus-visible {
+  outline: 2px solid #f47a20;
+  outline-offset: 4px;
+}
+.payment-success-actions {
+  display: grid;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.payment-success-secondary-link,
+.payment-success-home-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 22px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 800;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.payment-success-secondary-link {
+  border: 1px solid #f47a20;
+  background: transparent;
+  color: #f47a20;
+}
+
+.payment-success-secondary-link:hover {
+  transform: translateY(-2px);
+  background: rgba(244, 122, 32, 0.08);
+}
+
+.payment-success-home-link {
+  border: 1px solid #303030;
+  background: #111111;
+  color: #bdbdbd;
+}
+
+.payment-success-home-link:hover {
+  transform: translateY(-2px);
+  border-color: #555555;
+  color: #ffffff;
+}
+
+.payment-success-secondary-link:focus-visible,
+.payment-success-home-link:focus-visible {
   outline: 2px solid #f47a20;
   outline-offset: 4px;
 }
