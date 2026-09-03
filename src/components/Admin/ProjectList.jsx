@@ -19,6 +19,18 @@ const [
 const [quoteNotes, setQuoteNotes] =
   useState("");
 
+const syncUpdatedProject = (updatedProject) => {
+  setProjects((currentProjects) =>
+    currentProjects.map((project) =>
+      project.id === updatedProject.id
+        ? updatedProject
+        : project
+    )
+  );
+
+  setSelectedProject(updatedProject);
+};
+
 // ======================================================
 // OFFICIAL QUOTE WORKFLOW
 // ======================================================
@@ -55,16 +67,7 @@ const saveOfficialQuote = async () => {
     );
     return;
   }
-
-  setProjects((currentProjects) =>
-    currentProjects.map((project) =>
-      project.id === selectedProject.id
-        ? data
-        : project
-    )
-  );
-
-  setSelectedProject(data);
+syncUpdatedProject(data);
 
   setOfficialQuoteTotal(
     data.official_quote_total ?? ""
@@ -110,15 +113,8 @@ const saveCustomerApprovalStatus = async () => {
     return;
   }
 
-  setProjects((currentProjects) =>
-    currentProjects.map((project) =>
-      project.id === selectedProject.id
-        ? data
-        : project
-    )
-  );
+  syncUpdatedProject(data);
 
-  setSelectedProject(data);
 
   setCustomerApprovalStatus(
     data.customer_approval_status || "pending"
@@ -175,15 +171,9 @@ const issueOfficialQuote = async () => {
     return;
   }
 
-  setProjects((currentProjects) =>
-    currentProjects.map((project) =>
-      project.id === selectedProject.id
-        ? data
-        : project
-    )
-  );
+  syncUpdatedProject(data);
 
-  setSelectedProject(data);
+ 
 
   setOfficialQuoteTotal(
     data.official_quote_total ?? ""
@@ -231,15 +221,7 @@ const reviseOfficialQuote = async () => {
     return;
   }
 
-  setProjects((currentProjects) =>
-    currentProjects.map((project) =>
-      project.id === selectedProject.id
-        ? data
-        : project
-    )
-  );
-
-  setSelectedProject(data);
+  syncUpdatedProject(data);
 
   // Preserve the existing quote while revising it
   setOfficialQuoteTotal(
@@ -300,15 +282,7 @@ const saveAdminNotes = async () => {
     return;
   }
 
-  setProjects((currentProjects) =>
-    currentProjects.map((project) =>
-      project.id === selectedProject.id
-        ? data
-        : project
-    )
-  );
-
-  setSelectedProject(data);
+  syncUpdatedProject(data);
   setAdminNotes(data.admin_notes || "");
 };
 const getDueDateMessage = (project) => {
@@ -364,31 +338,16 @@ const getDueDateMessage = (project) => {
   window.open(data.signedUrl, "_blank");
 };
 
-  const statusCounts = {
-  new: projects.filter(
-    (project) => project.status === "new"
-  ).length,
+const statusCounts = projectStatuses.reduce(
+  (counts, status) => {
+    counts[status] = projects.filter(
+      (project) => project.status === status
+    ).length;
 
-  reviewing: projects.filter(
-    (project) => project.status === "reviewing"
-  ).length,
-
-  quoted: projects.filter(
-  (project) => project.status === "quoted"
-  ).length,
-
-  approved: projects.filter(
-    (project) => project.status === "approved"
-  ).length,
-
-  production: projects.filter(
-    (project) => project.status === "production"
-  ).length,
-
-  completed: projects.filter(
-    (project) => project.status === "completed"
-  ).length,
-};
+    return counts;
+  },
+  {}
+);
 
 const moveProjectToNextStage = async (project) => {
   if (!project) {
@@ -605,13 +564,7 @@ const updateProjectStatus = async (
       return;
     }
 
-    setProjects((currentProjects) =>
-      currentProjects.map((project) =>
-        project.id === projectId
-          ? data
-          : project
-      )
-    );
+    syncUpdatedProject(data);
 
     setSelectedProject(data);
   };
@@ -1080,23 +1033,7 @@ setCustomerApprovalStatus(
         {selectedProject.quote_notes ||
           "No quote notes provided."}
       </p>
-      {selectedProject.quoted_at && (
-  <div className="admin-project-issued-quote">
-    <span>Issued Quote</span>
-
-    <div className="admin-project-issued-quote-grid">
-      {/* Official Total + Issued Date */}
-    </div>
-
-    <div className="admin-project-issued-quote-notes">
-      <small>Quote Notes</small>
-      <p>
-        {selectedProject.quote_notes ||
-          "No quote notes provided."}
-      </p>
-    </div>
-  </div>
-)}
+      
     </div>
   </div>
 )}
