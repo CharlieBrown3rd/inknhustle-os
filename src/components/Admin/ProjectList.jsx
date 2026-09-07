@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import ProductionTimeline from "./ProductionTimeline";
+
+const projectStatuses = [
+    "new",
+    "reviewing",
+    "quoted",
+    "approved",
+    "production",
+    "completed",
+  ];
 function ProjectList() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +47,13 @@ const syncUpdatedProject = (updatedProject) => {
 // 1. SAVE QUOTE AS A DRAFT
 const saveOfficialQuote = async () => {
   if (!selectedProject) {
+    return;
+  }
+
+  if (selectedProject.quoted_at) {
+    window.alert(
+      "Use Revise Quote before changing an issued quote."
+    );
     return;
   }
 
@@ -206,9 +222,11 @@ const reviseOfficialQuote = async () => {
   const { data, error } = await supabase
     .from("projects")
     .update({
-      status: "reviewing",
-      quoted_at: null,
-    })
+  status: "reviewing",
+  quoted_at: null,
+  customer_approval_status: "pending",
+  approved_at: null,
+})
     .eq("id", selectedProject.id)
     .select()
     .single();
@@ -223,6 +241,10 @@ const reviseOfficialQuote = async () => {
 
   syncUpdatedProject(data);
 
+  setCustomerApprovalStatus(
+  data.customer_approval_status || "pending"
+);
+
   // Preserve the existing quote while revising it
   setOfficialQuoteTotal(
     data.official_quote_total ?? ""
@@ -234,14 +256,7 @@ const reviseOfficialQuote = async () => {
 };
 
 
-  const projectStatuses = [
-    "new",
-    "reviewing",
-    "quoted",
-    "approved",
-    "production",
-    "completed",
-  ];
+  
 
   const projectStatusLabels = {
   new: "New",
@@ -986,6 +1001,7 @@ setCustomerApprovalStatus(
   type="button"
   className="admin-project-save-quote"
   onClick={saveOfficialQuote}
+  disabled={Boolean(selectedProject.quoted_at)}
 >
   Save Official Quote
 </button>
@@ -1041,6 +1057,7 @@ setCustomerApprovalStatus(
   type="button"
   className="admin-project-revise-quote"
   onClick={reviseOfficialQuote}
+  disabled={!selectedProject.quoted_at}
 >
   Revise Quote
 </button>
@@ -1176,6 +1193,73 @@ setCustomerApprovalStatus(
               </strong>
             </div>
           </div>
+          {/* ======================================================
+    PROJECT PAYMENT SUMMARY
+====================================================== */}
+
+<div className="admin-project-official-quote">
+  <span>Project Payment</span>
+
+  <div className="admin-project-detail-grid">
+    <div>
+      <span>Deposit Status</span>
+      <strong>
+        {selectedProject.deposit_status === "deposit_paid"
+          ? "Paid"
+          : selectedProject.deposit_status === "deposit_pending"
+          ? "Pending"
+          : selectedProject.deposit_status || "Not recorded"}
+      </strong>
+    </div>
+
+    <div>
+      <span>Deposit Rate</span>
+      <strong>
+        {selectedProject.deposit_percentage != null
+          ? `${Number(selectedProject.deposit_percentage)}%`
+          : "Not recorded"}
+      </strong>
+    </div>
+
+    {[
+      ["Deposit Amount", "deposit_amount"],
+      ["Amount Paid", "amount_paid"],
+      ["Balance Due", "balance_due"],
+    ].map(([label, field]) => (
+      <div key={field}>
+        <span>{label}</span>
+        <strong>
+          {selectedProject[field] != null &&
+          selectedProject[field] !== "" &&
+          Number.isFinite(Number(selectedProject[field]))
+            ? `$${Number(selectedProject[field]).toFixed(2)}`
+            : "Not recorded"}
+        </strong>
+      </div>
+    ))}
+  </div>
+
+   {selectedProject.approval_token ? (
+  <a
+    className="admin-project-payment-link"
+    href={`/payment?token=${encodeURIComponent(
+      selectedProject.approval_token
+    )}`}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Open Customer Payment Page
+  </a>
+) : (
+  <p>No customer payment token is available for this project.</p>
+)}
+
+  {selectedProject.customer_approval_status !== "approved" && (
+    <p>
+      Customer approval is required before deposit payment.
+    </p>
+  )}
+</div>
 <div className="admin-project-artwork">
   <span>Artwork</span>
 

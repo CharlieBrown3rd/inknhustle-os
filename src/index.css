@@ -47,3 +47,125 @@ img {
   display: block;
   max-width: 100%;
 }
+
+/* ======================================================
+   ADMIN — SEARCH, QUOTES, AND CUSTOMER APPROVAL
+   ====================================================== */
+
+.admin-project-list :is(
+  .admin-project-search,
+  .admin-project-filter,
+  .admin-project-official-quote,
+  .admin-project-customer-approval
+) {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.admin-project-list :is(
+  .admin-project-official-quote,
+  .admin-project-customer-approval
+) {
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.admin-project-list .admin-project-quote-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.admin-project-list :is(
+  .admin-project-search,
+  .admin-project-filter,
+  .admin-project-quote-grid,
+  .admin-project-customer-approval
+) label {
+  display: grid;
+  gap: 8px;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.admin-project-list :is(input, select, textarea) {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  color: var(--color-text);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color-scheme: dark;
+}
+
+.admin-project-list textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.admin-project-list :is(input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.admin-project-list :is(
+  .admin-project-save-quote,
+  .admin-project-issue-quote,
+  .admin-project-revise-quote,
+  .admin-project-save-approval
+) {
+  justify-self: start;
+  max-width: 100%;
+  padding: 12px 18px;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-project-list .admin-project-revise-quote {
+  margin: 16px 0;
+}
+
+.admin-project-list button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-project-list button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .admin-project-list .admin-project-quote-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.admin-project-list .admin-project-quote-grid > label {
+  align-content: start;
+}
+.admin-project-payment-link {
+  justify-self: start;
+  padding: 12px 18px;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  color: var(--color-text);
+  background: var(--color-background);
+  font-weight: 600;
+}
+
+.admin-project-payment-link:hover {
+  background: var(--color-surface);
+}
+
+.admin-project-payment-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
