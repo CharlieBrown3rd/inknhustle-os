@@ -91,6 +91,68 @@ const handlePayDeposit = async () => {
     return;
   }
 
+  const handlePayBalance = async () => {
+  if (!token || paymentLoading) {
+    return;
+  }
+
+  setPaymentLoading(true);
+
+  try {
+    const { data, error } =
+      await supabase.functions.invoke(
+        "create-balance-checkout",
+        {
+          body: { token },
+        }
+      );
+
+    if (error) {
+      console.error(
+        "Failed to create balance checkout:",
+        error
+      );
+
+      alert(
+        "We could not open the secure balance payment page. Please try again."
+      );
+
+      return;
+    }
+
+    if (!data?.checkoutUrl) {
+      console.error(
+        "Balance checkout URL was not returned:",
+        data
+      );
+
+      alert(
+        "We could not open the secure balance payment page. Please try again."
+      );
+
+      return;
+    }
+
+    sessionStorage.setItem(
+      "inknhustle_payment_token",
+      token
+    );
+
+    window.location.assign(data.checkoutUrl);
+  } catch (error) {
+    console.error(
+      "Balance checkout failed:",
+      error
+    );
+
+    alert(
+      "We could not open the secure balance payment page. Please try again."
+    );
+  } finally {
+    setPaymentLoading(false);
+  }
+};
+
   setPaymentLoading(true);
 
   try {
@@ -267,20 +329,45 @@ return (
         </strong>
       </div>
 
-      {paymentDetails.deposit_status ===
-  "deposit_pending" && (
-  <button
-    type="button"
-    className="payment-page-pay-button"
-    onClick={handlePayDeposit}
-    disabled={paymentLoading}
-  >
-    {paymentLoading
-      ? "Opening Secure Checkout..."
-      : `Pay $${Number(
-          paymentDetails.deposit_amount
-        ).toFixed(2)} Deposit`}
-  </button>
+      {paymentDetails.deposit_status !== "deposit_paid" &&
+  Number(paymentDetails.deposit_amount) > 0 &&
+  Number(paymentDetails.amount_paid || 0) <
+    Number(paymentDetails.deposit_amount) && (
+    <button
+      type="button"
+      className="payment-page-pay-button"
+      onClick={handlePayDeposit}
+      disabled={paymentLoading}
+    >
+      {paymentLoading
+        ? "Opening Secure Checkout..."
+        : `Pay $${Number(
+            paymentDetails.deposit_amount
+          ).toFixed(2)} Deposit`}
+    </button>
+  )}
+
+{paymentDetails.deposit_status === "deposit_paid" &&
+  paymentDetails.status === "production" &&
+  Number(paymentDetails.balance_due) > 0 && (
+    <button
+      type="button"
+      className="payment-page-pay-button"
+      onClick={handlePayBalance}
+      disabled={paymentLoading}
+    >
+      {paymentLoading
+        ? "Opening Secure Checkout..."
+        : `Pay $${Number(
+            paymentDetails.balance_due
+          ).toFixed(2)} Remaining Balance`}
+    </button>
+  )}
+
+{Number(paymentDetails.balance_due) <= 0 && (
+  <div className="payment-page-deposit-status">
+    <strong>Paid in Full</strong>
+  </div>
 )}
     </section>
   </main>
