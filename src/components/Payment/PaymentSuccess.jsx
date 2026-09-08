@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../../lib/supabase";
 import "./PaymentSuccess.css";
 
 function PaymentSuccess() {
@@ -5,6 +7,38 @@ function PaymentSuccess() {
     sessionStorage.getItem(
       "inknhustle_payment_token"
     );
+
+  const [paymentDetails, setPaymentDetails] =
+    useState(null);
+
+  useEffect(() => {
+    const loadPaymentDetails = async () => {
+      if (!paymentToken) {
+        return;
+      }
+
+      const { data, error } = await supabase.rpc(
+        "get_quote_by_token",
+        {
+          p_token: paymentToken,
+        }
+      );
+
+      if (error) {
+        console.error(
+          "Failed to confirm payment details:",
+          error
+        );
+        return;
+      }
+
+      if (data && data.length > 0) {
+        setPaymentDetails(data[0]);
+      }
+    };
+
+    loadPaymentDetails();
+  }, [paymentToken]);
 
   const paymentDetailsHref =
     paymentToken
@@ -20,6 +54,40 @@ function PaymentSuccess() {
         )}`
       : null;
 
+  const paidInFull =
+    paymentDetails &&
+    Number(paymentDetails.balance_due) <= 0;
+
+  const depositPaid =
+    paymentDetails?.deposit_status ===
+    "deposit_paid";
+
+  let heading = "Payment Received";
+
+  let primaryMessage =
+    "Your project payment has been successfully processed.";
+
+  let secondaryMessage =
+    "Thank you for choosing InknHustle.";
+
+  if (paidInFull) {
+    heading = "Payment Complete";
+
+    primaryMessage =
+      "Your remaining project balance has been successfully processed.";
+
+    secondaryMessage =
+      "Your project is now paid in full. Thank you for choosing InknHustle.";
+  } else if (depositPaid) {
+    heading = "Deposit Received";
+
+    primaryMessage =
+      "Your project deposit has been successfully processed.";
+
+    secondaryMessage =
+      "InknHustle will continue preparing your project for production.";
+  }
+
   return (
     <section className="payment-success-page">
       <div className="payment-success-card">
@@ -27,17 +95,11 @@ function PaymentSuccess() {
           PAYMENT CONFIRMED
         </span>
 
-        <h1>Deposit Received</h1>
+        <h1>{heading}</h1>
 
-        <p>
-          Your project deposit has been successfully
-          processed.
-        </p>
+        <p>{primaryMessage}</p>
 
-        <p>
-          InknHustle will continue preparing your
-          project for production.
-        </p>
+        <p>{secondaryMessage}</p>
 
         <div className="payment-success-actions">
           {paymentDetailsHref && (
