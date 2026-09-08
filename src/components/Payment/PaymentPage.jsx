@@ -91,6 +91,62 @@ const handlePayDeposit = async () => {
     return;
   }
 
+
+  setPaymentLoading(true);
+
+  try {
+    const { data, error } =
+      await supabase.functions.invoke(
+        "create-deposit-checkout",
+        {
+          body: { token },
+        }
+      );
+
+    if (error) {
+      console.error(
+        "Failed to create deposit checkout:",
+        error
+      );
+
+      alert(
+        "We could not open the secure payment page. Please try again."
+      );
+
+      return;
+    }
+
+    if (!data?.checkoutUrl) {
+      console.error(
+        "Checkout URL was not returned:",
+        data
+      );
+
+      alert(
+        "We could not open the secure payment page. Please try again."
+      );
+
+      return;
+    }
+sessionStorage.setItem(
+  "inknhustle_payment_token",
+  token
+);
+
+    window.location.assign(data.checkoutUrl);
+  } catch (error) {
+    console.error(
+      "Deposit checkout failed:",
+      error
+    );
+
+    alert(
+      "We could not open the secure payment page. Please try again."
+    );
+  } finally {
+    setPaymentLoading(false);
+  }
+};
   const handlePayBalance = async () => {
   if (!token || paymentLoading) {
     return;
@@ -147,62 +203,6 @@ const handlePayDeposit = async () => {
 
     alert(
       "We could not open the secure balance payment page. Please try again."
-    );
-  } finally {
-    setPaymentLoading(false);
-  }
-};
-
-  setPaymentLoading(true);
-
-  try {
-    const { data, error } =
-      await supabase.functions.invoke(
-        "create-deposit-checkout",
-        {
-          body: { token },
-        }
-      );
-
-    if (error) {
-      console.error(
-        "Failed to create deposit checkout:",
-        error
-      );
-
-      alert(
-        "We could not open the secure payment page. Please try again."
-      );
-
-      return;
-    }
-
-    if (!data?.checkoutUrl) {
-      console.error(
-        "Checkout URL was not returned:",
-        data
-      );
-
-      alert(
-        "We could not open the secure payment page. Please try again."
-      );
-
-      return;
-    }
-sessionStorage.setItem(
-  "inknhustle_payment_token",
-  token
-);
-
-    window.location.assign(data.checkoutUrl);
-  } catch (error) {
-    console.error(
-      "Deposit checkout failed:",
-      error
-    );
-
-    alert(
-      "We could not open the secure payment page. Please try again."
     );
   } finally {
     setPaymentLoading(false);
