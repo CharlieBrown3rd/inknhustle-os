@@ -498,18 +498,27 @@ const updateProjectStatus = async (
   projectId,
   newStatus
 ) => {
-  const project = projects.find(
-    (item) => item.id === projectId
+  const { data: project, error: projectRefreshError } =
+  await supabase
+    .from("projects")
+    .select("*")
+    .eq("id", projectId)
+    .single();
+
+if (projectRefreshError || !project) {
+  console.error(
+    "Could not refresh project before status update:",
+    projectRefreshError
   );
 
-  if (!project) {
-    console.error(
-      "Could not find project for status update:",
-      projectId
-    );
+  window.alert(
+    "The latest project information could not be loaded. Please try again."
+  );
 
-    return;
-  }
+  return;
+}
+
+syncUpdatedProject(project);
 
   // A project cannot become Approved until the customer
   // has approved the official quote.
