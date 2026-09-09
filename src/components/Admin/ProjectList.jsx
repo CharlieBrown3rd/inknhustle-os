@@ -27,6 +27,8 @@ const [
 
 const [quoteNotes, setQuoteNotes] =
   useState("");
+  const [sendingPaymentEmail, setSendingPaymentEmail] =
+  useState(false);
 
 const syncUpdatedProject = (updatedProject) => {
   setProjects((currentProjects) =>
@@ -39,7 +41,48 @@ const syncUpdatedProject = (updatedProject) => {
 
   setSelectedProject(updatedProject);
 };
+const sendPaymentEmail = async () => {
+  if (!selectedProject?.approval_token) {
+    window.alert(
+      "This project does not have a payment token."
+    );
+    return;
+  }
 
+  setSendingPaymentEmail(true);
+
+  try {
+    const { data, error } =
+      await supabase.functions.invoke(
+        "send-payment-email",
+        {
+          body: {
+            token: selectedProject.approval_token,
+          },
+        }
+      );
+
+    if (error) {
+      console.error(
+        "Payment email failed:",
+        error
+      );
+
+      window.alert(
+        "The payment email could not be sent."
+      );
+
+      return;
+    }
+
+    window.alert(
+      data?.message ||
+        "Payment email sent successfully."
+    );
+  } finally {
+    setSendingPaymentEmail(false);
+  }
+};
 // ======================================================
 // OFFICIAL QUOTE WORKFLOW
 // ======================================================
@@ -1249,18 +1292,33 @@ setCustomerApprovalStatus(
   </div>
 
    {selectedProject.approval_token ? (
-  <a
-    className="admin-project-payment-link"
-    href={`/payment?token=${encodeURIComponent(
-      selectedProject.approval_token
-    )}`}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Open Customer Payment Page
-  </a>
+  <>
+    <a
+      className="admin-project-payment-link"
+      href={`/payment?token=${encodeURIComponent(
+        selectedProject.approval_token
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Open Customer Payment Page
+    </a>
+
+    <button
+      type="button"
+      className="admin-project-action"
+      onClick={sendPaymentEmail}
+      disabled={sendingPaymentEmail}
+    >
+      {sendingPaymentEmail
+        ? "Sending..."
+        : "Send Payment Link"}
+    </button>
+  </>
 ) : (
-  <p>No customer payment token is available for this project.</p>
+  <p>
+    No customer payment token is available for this project.
+  </p>
 )}
 
   {selectedProject.customer_approval_status !== "approved" && (
