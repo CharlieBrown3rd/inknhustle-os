@@ -348,7 +348,6 @@ return (
   )}
 
 {paymentDetails.deposit_status === "deposit_paid" &&
-  paymentDetails.status === "production" &&
   Number(paymentDetails.balance_due) > 0 && (
     <button
       type="button"

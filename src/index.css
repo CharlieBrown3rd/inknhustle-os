@@ -151,7 +151,8 @@ img {
 .admin-project-list .admin-project-quote-grid > label {
   align-content: start;
 }
-.admin-project-payment-link {
+.admin-project-payment-link,
+.admin-project-payment-email {
   justify-self: start;
   padding: 12px 18px;
   border: 1px solid var(--color-primary);
@@ -159,13 +160,16 @@ img {
   color: var(--color-text);
   background: var(--color-background);
   font-weight: 600;
+  cursor: pointer;
 }
 
-.admin-project-payment-link:hover {
+.admin-project-payment-link:hover,
+.admin-project-payment-email:hover:not(:disabled) {
   background: var(--color-surface);
 }
 
-.admin-project-payment-link:focus-visible {
+.admin-project-payment-link:focus-visible,
+.admin-project-payment-email:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 3px;
 }

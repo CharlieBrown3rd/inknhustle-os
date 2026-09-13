@@ -1305,15 +1305,24 @@ setCustomerApprovalStatus(
     </a>
 
     <button
-      type="button"
-      className="admin-project-action"
-      onClick={sendPaymentEmail}
-      disabled={sendingPaymentEmail}
-    >
-      {sendingPaymentEmail
-        ? "Sending..."
-        : "Send Payment Link"}
-    </button>
+  type="button"
+  className="admin-project-action admin-project-payment-email"
+  onClick={sendPaymentEmail}
+  disabled={
+    sendingPaymentEmail ||
+    Number(selectedProject?.balance_due || 0) <= 0
+  }
+>
+  {sendingPaymentEmail
+    ? "Sending..."
+    : Number(selectedProject?.balance_due || 0) <= 0
+    ? "Payment Complete"
+    : Number(selectedProject?.amount_paid || 0) >=
+        Number(selectedProject?.deposit_amount || 0) &&
+      Number(selectedProject?.deposit_amount || 0) > 0
+    ? "Send Balance Payment Link"
+    : "Send Payment Link"}
+</button>
   </>
 ) : (
   <p>
