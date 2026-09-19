@@ -412,24 +412,27 @@ const moveProjectToNextStage = async (project) => {
     return;
   }
 
-  const nextStatus = nextProjectStatus[project.status];
+  const nextStatus =
+    nextProjectStatus[project.status];
 
   if (!nextStatus) {
     return;
   }
-// Customer approval must control the quoted -> approved transition.
-if (
-  project.status === "quoted" &&
-  nextStatus === "approved" &&
-  project.customer_approval_status !== "approved"
-) {
-  window.alert(
-    "The customer must approve the official quote before this project can move to Approved."
-  );
 
-  return;
-}
-  // Customer must approve before production begins.
+  // Customer approval controls quoted -> approved.
+  if (
+    project.status === "quoted" &&
+    nextStatus === "approved" &&
+    project.customer_approval_status !== "approved"
+  ) {
+    window.alert(
+      "The customer must approve the official quote before this project can move to Approved."
+    );
+
+    return;
+  }
+
+  // Customer approval is required before production.
   if (
     project.status === "approved" &&
     nextStatus === "production" &&
@@ -442,24 +445,24 @@ if (
     return;
   }
 
-  // Required deposit must be paid before production begins.
-if (
-  project.status === "approved" &&
-  nextStatus === "production" &&
-  project.deposit_status !== "deposit_paid"
-) {
-  window.alert(
-    "The required project deposit must be paid before moving this project into production."
-  );
+  // Required deposit must be paid before production.
+  if (
+    project.status === "approved" &&
+    nextStatus === "production" &&
+    project.deposit_status !== "deposit_paid"
+  ) {
+    window.alert(
+      "The required project deposit must be paid before moving this project into production."
+    );
 
-  return;
-}
+    return;
+  }
+
   await updateProjectStatus(
     project.id,
     nextStatus
   );
 };
-
 
 const filteredProjects = projects.filter((project) => {
   const searchValue = searchTerm.toLowerCase();
@@ -605,16 +608,21 @@ syncUpdatedProject(project);
   const statusUpdates = {
     status: newStatus,
   };
+if (
+  newStatus === "production" &&
+  !project.production_started_at
+) {
+  statusUpdates.production_started_at =
+    new Date().toISOString();
+}
 
-  if (newStatus === "production") {
-    statusUpdates.production_started_at =
-      new Date().toISOString();
-  }
-
-  if (newStatus === "completed") {
-    statusUpdates.completed_at =
-      new Date().toISOString();
-  }
+if (
+  newStatus === "completed" &&
+  !project.completed_at
+) {
+  statusUpdates.completed_at =
+    new Date().toISOString();
+}
 
   const { data, error } = await supabase
     .from("projects")

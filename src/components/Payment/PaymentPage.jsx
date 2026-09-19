@@ -368,6 +368,13 @@ return (
     <strong>Paid in Full</strong>
   </div>
 )}
+
+<a
+  className="payment-page-return"
+  href={`/project-status?token=${encodeURIComponent(token)}`}
+>
+  View Project Status
+</a>
     </section>
   </main>
 );
