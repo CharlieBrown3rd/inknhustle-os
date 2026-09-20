@@ -4,6 +4,7 @@ function ProjectStatus({
   projectReference,
   customerName,
   projectStatus,
+  approvalToken,
   productionStartedAt,
   completedAt,
 }) {
@@ -187,8 +188,16 @@ function ProjectStatus({
               </strong>
             </div>
           </div>
-        )}
+                )}
 
+        {approvalToken && (
+          <a
+            className="project-status-payment-link"
+            href={`/payment?token=${encodeURIComponent(approvalToken)}`}
+          >
+            View Payment Details
+          </a>
+        )}
       </div>
     </section>
   );

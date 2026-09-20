@@ -7,6 +7,9 @@ function ProjectStatusPage() {
   // ======================================================
   // STATE
   // ======================================================
+  const token = new URLSearchParams(
+    window.location.search
+  ).get("token");
 
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,11 +22,7 @@ function ProjectStatusPage() {
 
   useEffect(() => {
     const loadProjectStatus = async () => {
-      const params = new URLSearchParams(
-        window.location.search
-      );
-
-      const token = params.get("token");
+      
 
 
       if (!token) {
@@ -75,7 +74,7 @@ function ProjectStatusPage() {
 
 
     loadProjectStatus();
-  }, []);
+    }, [token]);
 
 
   // ======================================================
@@ -119,6 +118,8 @@ function ProjectStatusPage() {
       projectReference={project.reference}
       customerName={project.customer_name}
       projectStatus={project.project_status}
+      approvalToken={token}
+    
       productionStartedAt={
         project.production_started_at
       }
