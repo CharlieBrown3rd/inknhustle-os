@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import ProductionTimeline from "./ProductionTimeline";
 
@@ -29,6 +29,95 @@ const [quoteNotes, setQuoteNotes] =
   useState("");
   const [sendingPaymentEmail, setSendingPaymentEmail] =
   useState(false);
+
+// Status changes and status emails share a lock to prevent double clicks.
+const statusOperationInFlight = useRef(false);
+const [statusOperationBusy, setStatusOperationBusy] = useState(false);
+const [statusEmailNotice, setStatusEmailNotice] = useState(null);
+const [quoteEmailNotice, setQuoteEmailNotice] = useState(null);
+
+const requestQuoteEmail = async (project) => {
+  const { data, error } = await supabase.functions.invoke(
+    "send-quote-email",
+    { body: { projectId: project.id, expectedQuotedAt: project.quoted_at } }
+  );
+  if (error) {
+    let message = "The quote email could not be confirmed.";
+    try {
+      const details = await error.context?.json();
+      if (typeof details?.error === "string") message = details.error;
+    } catch {
+      // Network errors may not contain a JSON response.
+    }
+    throw new Error(message);
+  }
+  if (!data?.ok) throw new Error(data?.error || "The quote email could not be confirmed.");
+  return data;
+};
+
+const sendCurrentQuoteEmail = async () => {
+  if (!selectedProject?.quoted_at || statusOperationInFlight.current) return;
+  const project = selectedProject;
+  statusOperationInFlight.current = true;
+  setStatusOperationBusy(true);
+  setQuoteEmailNotice({ projectId: project.id, message: "Sending quote email..." });
+  try {
+    await requestQuoteEmail(project);
+    setQuoteEmailNotice({ projectId: project.id, message: "Quote email accepted for sending. Check the customer's inbox." });
+  } catch (error) {
+    setQuoteEmailNotice({
+      projectId: project.id,
+      message: `${error instanceof Error ? error.message : "The quote email could not be confirmed."} Use Send Quote Email to retry.`,
+    });
+  } finally {
+    statusOperationInFlight.current = false;
+    setStatusOperationBusy(false);
+  }
+};
+
+const requestProjectStatusEmail = async (project) => {
+  const { data, error } = await supabase.functions.invoke(
+    "send-project-status-email",
+    { body: { projectId: project.id, expectedStatus: project.status } }
+  );
+
+  if (error) {
+    let message = "The status email could not be confirmed. Please try again.";
+    try {
+      const details = await error.context?.json();
+      if (typeof details?.error === "string") message = details.error;
+    } catch {
+      // Network and gateway failures may not include a JSON response.
+    }
+    throw new Error(message);
+  }
+  if (!data?.ok) {
+    throw new Error(data?.error || "The status email could not be confirmed.");
+  }
+  return data;
+};
+
+const sendCurrentProjectStatusEmail = async () => {
+  if (!selectedProject || statusOperationInFlight.current) return;
+  const project = selectedProject;
+  if (!["production", "completed"].includes(project.status)) return;
+
+  statusOperationInFlight.current = true;
+  setStatusOperationBusy(true);
+  setStatusEmailNotice({ projectId: project.id, message: "Sending status email..." });
+  try {
+    await requestProjectStatusEmail(project);
+    setStatusEmailNotice({ projectId: project.id, message: "Status email accepted for sending." });
+  } catch (error) {
+    setStatusEmailNotice({
+      projectId: project.id,
+      message: error instanceof Error ? error.message : "The status email could not be confirmed.",
+    });
+  } finally {
+    statusOperationInFlight.current = false;
+    setStatusOperationBusy(false);
+  }
+};
 
 const syncUpdatedProject = (updatedProject) => {
   setProjects((currentProjects) =>
@@ -89,6 +178,7 @@ const sendPaymentEmail = async () => {
 
 // 1. SAVE QUOTE AS A DRAFT
 const saveOfficialQuote = async () => {
+  if (statusOperationInFlight.current) return;
   if (!selectedProject) {
     return;
   }
@@ -137,6 +227,7 @@ syncUpdatedProject(data);
   );
 };
 const saveCustomerApprovalStatus = async () => {
+  if (statusOperationInFlight.current) return;
   if (!selectedProject) {
     return;
   }
@@ -186,61 +277,69 @@ const saveCustomerApprovalStatus = async () => {
 // ======================================================
 
 const issueOfficialQuote = async () => {
-  if (!selectedProject) {
-    return;
-  }
-
+  if (!selectedProject || selectedProject.quoted_at || statusOperationInFlight.current) return;
+  const project = selectedProject;
   const quoteTotal = Number(officialQuoteTotal);
-
-  if (!Number.isFinite(quoteTotal) || quoteTotal <= 0) {
-    console.error(
-      "Enter a valid official quote total before issuing the quote."
-    );
+  const cents = Math.round(quoteTotal * 100);
+  if (!Number.isFinite(quoteTotal) || quoteTotal <= 0 ||
+      !Number.isSafeInteger(cents) || Math.abs(quoteTotal * 100 - cents) > 0.000001) {
+    window.alert("Enter a positive quote total with no more than two decimal places.");
     return;
   }
-
-  const confirmed = window.confirm(
+  if (!window.confirm(
     `Issue official quote for $${quoteTotal.toFixed(2)}?\n\n` +
-      "This will mark the project as Quoted."
-  );
+    "This will mark the project as Quoted and email the customer their approval link."
+  )) return;
 
-  if (!confirmed) {
-    return;
+  statusOperationInFlight.current = true;
+  setStatusOperationBusy(true);
+  setQuoteEmailNotice(null);
+  try {
+    const { data, error } = await supabase
+      .from("projects")
+      .update({
+        official_quote_total: quoteTotal,
+        quote_notes: quoteNotes.trim() || null,
+        quoted_at: new Date().toISOString(),
+        status: "quoted",
+      })
+      .eq("id", project.id)
+      .eq("status", project.status)
+      .is("quoted_at", null)
+      .select()
+      .maybeSingle();
+
+    if (error || !data) {
+      setQuoteEmailNotice({
+        projectId: project.id,
+        message: "The quote could not be issued or the project changed. Refresh the project and try again. No email was requested.",
+      });
+      return;
+    }
+    syncUpdatedProject(data);
+    setOfficialQuoteTotal(data.official_quote_total ?? "");
+    setQuoteNotes(data.quote_notes || "");
+    setQuoteEmailNotice({ projectId: data.id, message: "Quote issued. Sending customer email..." });
+
+    // Email failure must not undo an issued quote.
+    try {
+      await requestQuoteEmail(data);
+      setQuoteEmailNotice({ projectId: data.id, message: "Quote issued. Customer email accepted for sending." });
+    } catch (error) {
+      setQuoteEmailNotice({
+        projectId: data.id,
+        message: `Quote issued. ${error instanceof Error ? error.message : "The quote email could not be confirmed."} Use Send Quote Email to retry.`,
+      });
+    }
+  } catch {
+    setQuoteEmailNotice({
+      projectId: project.id,
+      message: "The quote update could not be confirmed. Refresh the project; if it is issued, use Send Quote Email.",
+    });
+  } finally {
+    statusOperationInFlight.current = false;
+    setStatusOperationBusy(false);
   }
-
-  const issuedAt = new Date().toISOString();
-
-  const { data, error } = await supabase
-    .from("projects")
-    .update({
-      official_quote_total: quoteTotal,
-      quote_notes: quoteNotes.trim() || null,
-      quoted_at: issuedAt,
-      status: "quoted",
-    })
-    .eq("id", selectedProject.id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error(
-      "Failed to issue official quote:",
-      error
-    );
-    return;
-  }
-
-  syncUpdatedProject(data);
-
- 
-
-  setOfficialQuoteTotal(
-    data.official_quote_total ?? ""
-  );
-
-  setQuoteNotes(
-    data.quote_notes || ""
-  );
 };
 
 
@@ -249,6 +348,7 @@ const issueOfficialQuote = async () => {
 // ======================================================
 
 const reviseOfficialQuote = async () => {
+  if (statusOperationInFlight.current) return;
   if (!selectedProject?.quoted_at) {
     return;
   }
@@ -540,10 +640,13 @@ return aDue - bDue;
   }, []);
 
 
-const updateProjectStatus = async (
-  projectId,
-  newStatus
-) => {
+const updateProjectStatus = async (projectId, newStatus) => {
+  if (statusOperationInFlight.current || !projectStatuses.includes(newStatus)) return;
+  statusOperationInFlight.current = true;
+  setStatusOperationBusy(true);
+  setStatusEmailNotice(null);
+
+  try {
   const { data: project, error: projectRefreshError } =
   await supabase
     .from("projects")
@@ -565,6 +668,8 @@ if (projectRefreshError || !project) {
 }
 
 syncUpdatedProject(project);
+
+if (project.status === newStatus) return;
 
   // A project cannot become Approved until the customer
   // has approved the official quote.
@@ -624,25 +729,51 @@ if (
     new Date().toISOString();
 }
 
-  const { data, error } = await supabase
-    .from("projects")
-    .update(statusUpdates)
-    .eq("id", projectId)
-    .select()
-    .single();
+
+    const { data, error } = await supabase
+      .from("projects")
+      .update(statusUpdates)
+      .eq("id", projectId)
+      .eq("status", project.status)
+      .select()
+      .maybeSingle();
 
     if (error) {
-      console.error(
-        "Failed to update project status:",
-        error
-      );
+      console.error("Failed to update project status:", error);
+      window.alert("The project status could not be saved. Please try again.");
+      return;
+    }
+    if (!data) {
+      window.alert("This project changed while you were editing it. Refresh the page and try again.");
       return;
     }
 
+    // Save the updated project in the UI before attempting the email.
     syncUpdatedProject(data);
 
-    setSelectedProject(data);
-  };
+    if (["production", "completed"].includes(data.status)) {
+      setStatusEmailNotice({ projectId, message: "Status saved. Sending customer email..." });
+      try {
+        await requestProjectStatusEmail(data);
+        setStatusEmailNotice({ projectId, message: "Status saved. Customer email accepted for sending." });
+      } catch (emailError) {
+        const detail = emailError instanceof Error
+          ? emailError.message
+          : "The status email could not be confirmed.";
+        setStatusEmailNotice({
+          projectId,
+          message: `Status saved. ${detail} Use Send Status Email to retry.`,
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Project status request failed:", error);
+    window.alert("The status update could not be confirmed. Refresh the project before trying again.");
+  } finally {
+    statusOperationInFlight.current = false;
+    setStatusOperationBusy(false);
+  }
+};
 
   const getDueDateStatus = (project) => {
   if (!project.due_date || project.status === "completed") {
@@ -965,6 +1096,7 @@ setCustomerApprovalStatus(
 
   <select
     id="project-status"
+    disabled={statusOperationBusy}
     value={selectedProject.status}
     onChange={(event) =>
       updateProjectStatus(
@@ -998,6 +1130,7 @@ setCustomerApprovalStatus(
   <button
     type="button"
     className="admin-project-next-stage"
+    disabled={statusOperationBusy}
     onClick={() =>
       moveProjectToNextStage(selectedProject)
     }
@@ -1009,6 +1142,24 @@ setCustomerApprovalStatus(
       ]
     }
   </button>
+)}
+
+{["production", "completed"].includes(selectedProject.status) && (
+  <div>
+    <button
+      type="button"
+      className="admin-project-action admin-project-payment-email"
+      onClick={sendCurrentProjectStatusEmail}
+      disabled={statusOperationBusy}
+    >
+      {statusOperationBusy ? "Please wait..." : "Send Status Email"}
+    </button>
+    <p>Emails the customer their current production status and project link.</p>
+  </div>
+)}
+
+{statusEmailNotice?.projectId === selectedProject.id && (
+  <p role="status" aria-live="polite">{statusEmailNotice.message}</p>
 )}
 
 {(selectedProject.production_started_at ||
@@ -1036,6 +1187,7 @@ setCustomerApprovalStatus(
         min="0"
         step="0.01"
         value={officialQuoteTotal}
+        disabled={statusOperationBusy || Boolean(selectedProject.quoted_at)}
         onChange={(event) =>
           setOfficialQuoteTotal(event.target.value)
         }
@@ -1049,6 +1201,7 @@ setCustomerApprovalStatus(
       <textarea
         rows="4"
         value={quoteNotes}
+        disabled={statusOperationBusy || Boolean(selectedProject.quoted_at)}
         onChange={(event) =>
           setQuoteNotes(event.target.value)
         }
@@ -1061,7 +1214,7 @@ setCustomerApprovalStatus(
   type="button"
   className="admin-project-save-quote"
   onClick={saveOfficialQuote}
-  disabled={Boolean(selectedProject.quoted_at)}
+  disabled={statusOperationBusy || Boolean(selectedProject.quoted_at)}
 >
   Save Official Quote
 </button>
@@ -1070,13 +1223,29 @@ setCustomerApprovalStatus(
   type="button"
   className="admin-project-issue-quote"
   onClick={issueOfficialQuote}
-  disabled={Boolean(selectedProject.quoted_at)}
+  disabled={statusOperationBusy || Boolean(selectedProject.quoted_at)}
 >
   {selectedProject.quoted_at
     ? "Quote Issued"
     : "Issue Official Quote"}
 </button>
 </div>
+{quoteEmailNotice?.projectId === selectedProject.id && (
+  <p role="status" aria-live="polite">{quoteEmailNotice.message}</p>
+)}
+{selectedProject.quoted_at && (
+  <div>
+    <button
+      type="button"
+      className="admin-project-action admin-project-payment-email"
+      onClick={sendCurrentQuoteEmail}
+      disabled={statusOperationBusy}
+    >
+      {statusOperationBusy ? "Please wait..." : "Send Quote Email"}
+    </button>
+    <p>Emails the issued quote and secure approval link to the customer's saved email address.</p>
+  </div>
+)}
 {selectedProject.quoted_at && (
   <div className="admin-project-issued-quote">
     <span>Issued Quote</span>
@@ -1117,7 +1286,7 @@ setCustomerApprovalStatus(
   type="button"
   className="admin-project-revise-quote"
   onClick={reviseOfficialQuote}
-  disabled={!selectedProject.quoted_at}
+  disabled={statusOperationBusy || !selectedProject.quoted_at}
 >
   Revise Quote
 </button>
@@ -1147,6 +1316,7 @@ setCustomerApprovalStatus(
   type="button"
   className="admin-project-save-approval"
   onClick={saveCustomerApprovalStatus}
+  disabled={statusOperationBusy}
 >
   Save Approval Status
 </button>
