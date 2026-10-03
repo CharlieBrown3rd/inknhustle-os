@@ -2,18 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import ProductionTimeline from "./ProductionTimeline";
 import {
+  projectStatuses,
+  projectStatusLabels,
+  nextProjectStatus,
   getDueDateMessage,
   getDueDateStatus,
 } from "./projectUtils";
 
-const projectStatuses = [
-    "new",
-    "reviewing",
-    "quoted",
-    "approved",
-    "production",
-    "completed",
-  ];
+
 function ProjectList() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -402,25 +398,6 @@ const reviseOfficialQuote = async () => {
   );
 };
 
-
-  
-
-  const projectStatusLabels = {
-  new: "New",
-  reviewing: "Reviewing",
-  quoted: "Quoted",
-  approved: "Approved",
-  production: "In Production",
-  completed: "Completed",
-};
-
-const nextProjectStatus = {
-  new: "reviewing",
-  reviewing: "quoted",
-  quoted: "approved",
-  approved: "production",
-  production: "completed",
-};
 
 const saveAdminNotes = async () => {
   if (!selectedProject) {

@@ -1,3 +1,30 @@
+export const projectStatuses = [
+  "new",
+  "reviewing",
+  "quoted",
+  "approved",
+  "production",
+  "completed",
+];
+
+export const projectStatusLabels = {
+  new: "New",
+  reviewing: "Reviewing",
+  quoted: "Quoted",
+  approved: "Approved",
+  production: "In Production",
+  completed: "Completed",
+};
+
+export const nextProjectStatus = {
+  new: "reviewing",
+  reviewing: "quoted",
+  quoted: "approved",
+  approved: "production",
+  production: "completed",
+};
+
+
 export const getDueDateMessage = (project) => {
   if (!project.due_date || project.status === "completed") {
     return null;
