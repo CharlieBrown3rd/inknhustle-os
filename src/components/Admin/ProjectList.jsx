@@ -1228,103 +1228,14 @@ setCustomerApprovalStatus(
  <div className="admin-project-detail-grid">
            <ProjectCustomerDetails project={selectedProject} />
           </div>
-          {/* ======================================================
-    PROJECT PAYMENT SUMMARY
-====================================================== */}
-
-<div className="admin-project-official-quote">
-  <span>Project Payment</span>
-
-  <div className="admin-project-detail-grid">
-    <div>
-      <span>Deposit Status</span>
-      <strong>
-        {selectedProject.deposit_status === "deposit_paid"
-          ? "Paid"
-          : selectedProject.deposit_status === "deposit_pending"
-          ? "Pending"
-          : selectedProject.deposit_status || "Not recorded"}
-      </strong>
-    </div>
-
-    <div>
-      <span>Deposit Rate</span>
-      <strong>
-        {selectedProject.deposit_percentage != null
-          ? `${Number(selectedProject.deposit_percentage)}%`
-          : "Not recorded"}
-      </strong>
-    </div>
-
-    {[
-      ["Deposit Amount", "deposit_amount"],
-      ["Amount Paid", "amount_paid"],
-      ["Balance Due", "balance_due"],
-    ].map(([label, field]) => (
-      <div key={field}>
-        <span>{label}</span>
-        <strong>
-          {selectedProject[field] != null &&
-          selectedProject[field] !== "" &&
-          Number.isFinite(Number(selectedProject[field]))
-            ? `$${Number(selectedProject[field]).toFixed(2)}`
-            : "Not recorded"}
-        </strong>
-      </div>
-    ))}
-  </div>
-
-   {selectedProject.approval_token ? (
-  <>
-    <a
-      className="admin-project-payment-link"
-      href={`/payment?token=${encodeURIComponent(
-        selectedProject.approval_token
-      )}`}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Open Customer Payment Page
-    </a>
-
-    <button
-  type="button"
-  className="admin-project-action admin-project-payment-email"
-  onClick={sendPaymentEmail}
-  disabled={
-    sendingPaymentEmail ||
-    Number(selectedProject?.balance_due || 0) <= 0
-  }
->
-  {sendingPaymentEmail
-    ? "Sending..."
-    : Number(selectedProject?.balance_due || 0) <= 0
-    ? "Payment Complete"
-    : Number(selectedProject?.amount_paid || 0) >=
-        Number(selectedProject?.deposit_amount || 0) &&
-      Number(selectedProject?.deposit_amount || 0) > 0
-    ? "Send Balance Payment Link"
-    : "Send Payment Link"}
-</button>
-  </>
-) : (
-  <p>
-    No customer payment token is available for this project.
-  </p>
-)}
-
-  {selectedProject.customer_approval_status !== "approved" && (
-    <p>
-      Customer approval is required before deposit payment.
-    </p>
-  )}
-</div>
-<div className="admin-project-artwork">
-  <ProjectPaymentSummary
+       
+ <ProjectPaymentSummary
   project={selectedProject}
   onSendPaymentEmail={sendPaymentEmail}
   sendingPaymentEmail={sendingPaymentEmail}
 />
+<div className="admin-project-artwork">
+ 
 
   {selectedProject.artwork_path ? (
     <button
