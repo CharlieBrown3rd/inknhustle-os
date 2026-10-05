@@ -5,6 +5,7 @@ import ProjectStats from "./ProjectStats";
 import ProjectFilters from "./ProjectFilters";
 import ProjectCardHeader from "./ProjectCardHeader";
 import ProjectCardDetails from "./ProjectCardDetails";
+import ProjectStatusControl from "./ProjectStatusControl";
 import {
   projectStatuses,
   projectStatusLabels,
@@ -984,9 +985,15 @@ setCustomerApprovalStatus(
             </button>
           </div>
 <div className="admin-project-status-control">
-  <label htmlFor="project-status">
-    Project Status
-  </label>
+  <ProjectStatusControl
+  status={selectedProject.status}
+  disabled={statusOperationBusy}
+  projectStatuses={projectStatuses}
+  projectStatusLabels={projectStatusLabels}
+  onStatusChange={(newStatus) =>
+    updateProjectStatus(selectedProject.id, newStatus)
+  }
+/>
 
   <select
     id="project-status"
