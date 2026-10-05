@@ -7,6 +7,7 @@ import ProjectCardHeader from "./ProjectCardHeader";
 import ProjectCardDetails from "./ProjectCardDetails";
 import ProjectStatusControl from "./ProjectStatusControl";
 import ProjectCustomerDetails from "./ProjectCustomerDetails";
+import ProjectPaymentSummary from "./ProjectPaymentSummary";
 import {
   projectStatuses,
   projectStatusLabels,
@@ -1319,7 +1320,11 @@ setCustomerApprovalStatus(
   )}
 </div>
 <div className="admin-project-artwork">
-  <span>Artwork</span>
+  <ProjectPaymentSummary
+  project={selectedProject}
+  onSendPaymentEmail={sendPaymentEmail}
+  sendingPaymentEmail={sendingPaymentEmail}
+/>
 
   {selectedProject.artwork_path ? (
     <button
