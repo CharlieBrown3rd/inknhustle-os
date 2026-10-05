@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import ProductionTimeline from "./ProductionTimeline";
+import ProjectStats from "./ProjectStats";
+import ProjectFilters from "./ProjectFilters";
 import {
   projectStatuses,
   projectStatusLabels,
@@ -741,37 +743,7 @@ if (
           production details.
         </p>
       </div>
-<div className="admin-dashboard-stats">
-  <div className="admin-stat-card">
-    <span>New Projects</span>
-    <strong>{statusCounts.new}</strong>
-  </div>
-
-  <div className="admin-stat-card">
-    <span>In Review</span>
-    <strong>{statusCounts.reviewing}</strong>
-  </div>
-
-<div className="admin-stat-card">
-  <span>Quoted</span>
-  <strong>{statusCounts.quoted}</strong>
-</div>
-
-  <div className="admin-stat-card">
-    <span>Approved</span>
-    <strong>{statusCounts.approved}</strong>
-  </div>
-
-  <div className="admin-stat-card">
-    <span>In Production</span>
-    <strong>{statusCounts.production}</strong>
-  </div>
-
-  <div className="admin-stat-card">
-    <span>Completed</span>
-    <strong>{statusCounts.completed}</strong>
-  </div>
-</div>
+<ProjectStats statusCounts={statusCounts} />
       {loading && (
         <p className="admin-project-message">
           Loading projects...
@@ -779,9 +751,13 @@ if (
       )}
 
 <div className="admin-project-search">
-  <label htmlFor="project-search">
-    Search Projects
-  </label>
+  <ProjectFilters
+  searchTerm={searchTerm}
+  setSearchTerm={setSearchTerm}
+  statusFilter={statusFilter}
+  setStatusFilter={setStatusFilter}
+  projectStatuses={projectStatuses}
+/>
 
   <input
     id="project-search"
@@ -794,9 +770,13 @@ if (
   />
 </div>
 <div className="admin-project-filter">
-  <label htmlFor="status-filter">
-    Filter by Status
-  </label>
+  <ProjectFilters
+  searchTerm={searchTerm}
+  setSearchTerm={setSearchTerm}
+  statusFilter={statusFilter}
+  setStatusFilter={setStatusFilter}
+  projectStatuses={projectStatuses}
+/>
 
   <select
     id="status-filter"
