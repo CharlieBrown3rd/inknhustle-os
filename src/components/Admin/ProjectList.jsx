@@ -3,6 +3,7 @@ import { supabase } from "../../lib/supabase";
 import ProductionTimeline from "./ProductionTimeline";
 import ProjectStats from "./ProjectStats";
 import ProjectFilters from "./ProjectFilters";
+import ProjectCardHeader from "./ProjectCardHeader";
 import {
   projectStatuses,
   projectStatusLabels,
@@ -854,9 +855,7 @@ setCustomerApprovalStatus(
                 
                 <div className="admin-project-card-header">
                   <div>
-                    <span className="admin-project-reference">
-                      {project.reference}
-                    </span>
+                    <ProjectCardHeader project={project} />
 
                     <h3>{project.customer_name}</h3>
                   </div>
