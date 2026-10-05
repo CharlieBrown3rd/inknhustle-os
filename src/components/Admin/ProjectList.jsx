@@ -4,6 +4,7 @@ import ProductionTimeline from "./ProductionTimeline";
 import ProjectStats from "./ProjectStats";
 import ProjectFilters from "./ProjectFilters";
 import ProjectCardHeader from "./ProjectCardHeader";
+import ProjectCardDetails from "./ProjectCardDetails";
 import {
   projectStatuses,
   projectStatusLabels,
@@ -888,21 +889,8 @@ setCustomerApprovalStatus(
                 </div>
 
                 <div className="admin-project-details">
-                  <div>
-                    <span>Decoration</span>
-                    <strong>
-                      {project.decoration_method ||
-                        "Not provided"}
-                    </strong>
-                  </div>
-
-                  <div>
-                    <span>Garment</span>
-                    <strong>
-                      {project.garment_style ||
-                        "Not provided"}
-                    </strong>
-                  </div>
+                  
+                    <ProjectCardDetails project={project} />
 
                   <div>
                     <span>Quantity</span>
