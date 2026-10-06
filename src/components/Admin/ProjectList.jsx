@@ -9,6 +9,7 @@ import ProjectStatusControl from "./ProjectStatusControl";
 import ProjectCustomerDetails from "./ProjectCustomerDetails";
 import ProjectPaymentSummary from "./ProjectPaymentSummary";
 import ProjectArtwork from "./ProjectArtwork";
+import ProjectNotes from "./ProjectNotes";
 import {
   projectStatuses,
   projectStatusLabels,
@@ -1243,12 +1244,7 @@ setCustomerApprovalStatus(
 />
 </div>
           <div className="admin-project-notes">
-            <span>Project Notes</span>
-
-            <p>
-              {selectedProject.project_notes ||
-                "No project notes provided."}
-            </p>
+           <ProjectNotes notes={selectedProject.project_notes} />
           </div>
         </div>
             )}
