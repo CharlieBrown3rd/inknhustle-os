@@ -8,6 +8,7 @@ import ProjectCardDetails from "./ProjectCardDetails";
 import ProjectStatusControl from "./ProjectStatusControl";
 import ProjectCustomerDetails from "./ProjectCustomerDetails";
 import ProjectPaymentSummary from "./ProjectPaymentSummary";
+import ProjectArtwork from "./ProjectArtwork";
 import {
   projectStatuses,
   projectStatusLabels,
@@ -1236,20 +1237,10 @@ setCustomerApprovalStatus(
 />
 <div className="admin-project-artwork">
  
-
-  {selectedProject.artwork_path ? (
-    <button
-      type="button"
-      className="admin-project-action"
-      onClick={() =>
-        openArtwork(selectedProject.artwork_path)
-      }
-    >
-      View Artwork
-    </button>
-  ) : (
-    <p>No artwork submitted.</p>
-  )}
+<ProjectArtwork
+  artworkPath={selectedProject.artwork_path}
+  onOpenArtwork={openArtwork}
+/>
 </div>
           <div className="admin-project-notes">
             <span>Project Notes</span>
